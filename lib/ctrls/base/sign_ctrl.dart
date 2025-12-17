@@ -1,0 +1,64 @@
+
+import 'package:app/cores/bases/base_conn.dart';
+import 'package:app/cores/bases/base_ctrl.dart';
+import 'package:app/cores/toast/toast.dart';
+import 'package:app/datas/http/apis/auth_apis.dart';
+import 'package:app/route/main/main_route.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+
+/// 登录控制器
+class SignCtrl extends BaseCtrl {
+
+  /// 请求处理
+  final _apis = Get.find<AuthApis>();
+
+  /// 连接处理
+  final _conn = Get.find<BaseConn>();
+
+  /// 连接地址
+  final host = ''.obs;
+
+  /// 是否加载中
+  final loading = false.obs;
+
+  /// 用户昵称
+  final nickname = TextEditingController();
+
+  /// 账号输入
+  final username = TextEditingController();
+
+  /// 密码输入
+  final password = TextEditingController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    host.value = _apis.host;
+  }
+
+  /// 进行登录
+  Future<void> signIn() async {
+    final res = await _apis.signIn(username.text.trim(), password.text.trim());
+    if (res) {
+      _conn.star();
+      Get.offNamed(MainRoute.home);
+    }
+  }
+
+  /// 注册动作
+  Future<void> signUp() async {
+    loading.value = true;
+    final res = await _apis.signUp(
+      nickname.text.trim(),
+      username.text.trim(),
+      password.text.trim(),
+    );
+    loading.value = false;
+    if (res) {
+      Toast.error('注册成功');
+    }
+  }
+
+
+}
