@@ -21,7 +21,8 @@ class HomePage extends BaseView<HomeCtrl> {
           items: controller.pages
             .map(
               (it) => BottomNavigationBarItem(
-                icon: Icon(it.icon, size: 22),
+                icon: Icon(it.line, size: 22),
+                activeIcon: Icon(it.full, size: 22),
                 label: it.name,
               ),
             )

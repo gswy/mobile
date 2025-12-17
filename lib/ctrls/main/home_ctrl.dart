@@ -1,4 +1,3 @@
-
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/bases/base_serv.dart';
@@ -13,24 +12,34 @@ import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-
 /// 控制
 class HomeCtrl extends BaseCtrl {
-
   /// 消息通知
   final _serv = Get.find<BaseServ>();
-
-
 
   /// 选中导航
   final index = 0.obs;
 
   /// 导航列表
   final pages = [
-    Menu(name: '聊天', icon: IconUtil.chat, page: ChatPage()),
-    Menu(name: '通讯录', icon: IconUtil.mate, page: MatePage()),
-    Menu(name: '我的', icon: IconUtil.mine, page: MinePage()),
+    Menu(
+      name: '聊天',
+      line: IconUtil.chat,
+      full: IconUtil.chatFull,
+      page: ChatPage(),
+    ),
+    Menu(
+      name: '通讯录',
+      line: IconUtil.mate,
+      full: IconUtil.mateFull,
+      page: MatePage(),
+    ),
+    Menu(
+      name: '我的',
+      line: IconUtil.mine,
+      full: IconUtil.mineFull,
+      page: MinePage(),
+    ),
   ].obs;
 
   /// 获取页面
@@ -47,7 +56,6 @@ class HomeCtrl extends BaseCtrl {
   @override
   void onInit() {
     super.onInit();
-
   }
 
   ///
@@ -185,19 +193,24 @@ class HomeCtrl extends BaseCtrl {
 /// 底部菜单
 class Menu {
   final String name;
-  final IconData icon;
+  final IconData line;
+  final IconData full;
   final Widget page;
-  Menu({required this.name, required this.icon, required this.page});
+
+  Menu({
+    required this.name,
+    required this.line,
+    required this.full,
+    required this.page,
+  });
 }
 
 /// 菜单分组
 class MineMenu {
   final String title;
   final List<MenuItem> items;
-  MineMenu({
-    required this.title,
-    required this.items,
-  });
+
+  MineMenu({required this.title, required this.items});
 }
 
 /// 菜单项
@@ -205,9 +218,6 @@ class MenuItem {
   final IconData icon;
   final String title;
   final VoidCallback onTap;
-  MenuItem({
-    required this.icon,
-    required this.title,
-    required this.onTap,
-  });
+
+  MenuItem({required this.icon, required this.title, required this.onTap});
 }

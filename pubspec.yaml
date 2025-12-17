@@ -172,10 +172,11 @@ flutter:
     - family: HFIntimate
       fonts:
         - asset: fonts/HFIntimate.ttf
-    # 图标字体
-    - family: FontIcon
+    # 线性图标
+    - family: IconLine
       fonts:
-        - asset: fonts/FontLineIcon.ttf
-#    - family: FontIcon
-#      fonts:
-#        - asset: icons/Pro-Regular-400.otf
+        - asset: icons/IconLine.otf
+    # 实心图标
+    - family: IconFull
+      fonts:
+        - asset: icons/IconFull.otf
