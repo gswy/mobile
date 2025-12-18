@@ -20,6 +20,9 @@ class FindCtrl extends BaseCtrl {
   /// 是否加载中
   final loading = false.obs;
 
+  /// 是否已加载
+  final message = ''.obs;
+
   /// 是否已搜索
   final finished = false.obs;
 
@@ -62,8 +65,16 @@ class FindCtrl extends BaseCtrl {
     try {
       final page = await _resp.search(text);
       list.value = page.data;
-    } catch (_) {}
-    loading.value = false;
+      if (list.isEmpty) {
+        message.value = '暂无数据';
+      } else {
+        message.value = '';
+      }
+    } catch (_) {
+      message.value = '搜索失败';
+    } finally {
+      loading.value = false;
+    }
   }
 
   /// 绑定用户

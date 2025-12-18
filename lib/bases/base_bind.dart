@@ -16,6 +16,7 @@ import 'package:app/datas/http/apis/comm_apis.dart';
 import 'package:app/datas/http/apis/conf_apis.dart';
 import 'package:app/datas/http/apis/find_apis.dart';
 import 'package:app/datas/http/apis/host_apis.dart';
+import 'package:app/datas/http/apis/info_apis.dart';
 import 'package:app/datas/http/apis/mate_apis.dart';
 import 'package:app/datas/http/apis/mine_apis.dart';
 import 'package:app/datas/http/apis/room_apis.dart';
@@ -44,6 +45,7 @@ class BaseBind extends Bindings {
     Get.put(ConfApis(), permanent: true);
     Get.put(FindApis(), permanent: true);
     Get.put(HostApis(), permanent: true);
+    Get.put(InfoApis(), permanent: true);
     Get.put(MateApis(), permanent: true);
     Get.put(MineApis(), permanent: true);
     Get.put(RoomApis(), permanent: true);

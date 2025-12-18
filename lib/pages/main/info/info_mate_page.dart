@@ -1,10 +1,12 @@
 
-import 'package:app/pages/main/info/mate/info_mate_controller.dart';
+import 'package:app/ctrls/main/info_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 好友详情
-class InfoMatePage extends GetView<InfoMateController> {
+class InfoMatePage extends GetView<InfoCtrl> {
+  const InfoMatePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -40,6 +40,7 @@ class SignupPage extends BaseView<SignCtrl> {
               () => BaseInput(
                 controller: controller.password,
                 hint: '请输入密码',
+                obscure: true,
                 enabled: !controller.loading.value,
               ),
             ),

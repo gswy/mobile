@@ -18,15 +18,25 @@ class HomePage extends BaseView<HomeCtrl> {
           onTap: controller.select,
           elevation: 8,
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-          items: controller.pages
-            .map(
-              (it) => BottomNavigationBarItem(
-                icon: Icon(it.line, size: 22),
-                activeIcon: Icon(it.full, size: 22),
-                label: it.name,
+          items: [
+            for (int i = 0; i < controller.pages.length; i++) ...[
+              BottomNavigationBarItem(
+                icon: controller.pages[i].num > 0
+                    ? Badge(
+                        label: Text('${controller.pages[i].num.value}'),
+                        child: Icon(controller.pages[i].line, size: 22),
+                      )
+                    : Icon(controller.pages[i].line, size: 22),
+                activeIcon: controller.pages[i].num > 0
+                    ? Badge(
+                  label: Text('${controller.pages[i].num.value}'),
+                  child: Icon(controller.pages[i].full, size: 22),
+                )
+                    : Icon(controller.pages[i].full, size: 22),
+                label: controller.pages[i].name,
               ),
-            )
-            .toList(),
+            ],
+          ],
         ),
       ),
     );

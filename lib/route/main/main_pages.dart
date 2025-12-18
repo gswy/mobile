@@ -1,4 +1,5 @@
 import 'package:app/binds/main/conf_bind.dart';
+import 'package:app/binds/main/info_bind.dart';
 import 'package:app/pages/main/bind/bind_form_page.dart';
 import 'package:app/pages/main/bind/bind_news_page.dart';
 import 'package:app/binds/main/find_bind.dart';
@@ -15,6 +16,8 @@ import 'package:app/pages/main/home/home_page.dart';
 import 'package:app/binds/main/bind_bind.dart';
 import 'package:app/pages/main/bind/bind_hand_page.dart';
 import 'package:app/binds/main/room_bind.dart';
+import 'package:app/pages/main/info/info_mate_page.dart';
+import 'package:app/pages/main/info/info_team_page.dart';
 import 'package:app/pages/main/room/room_page.dart';
 import 'package:app/pages/main/conf/conf_mine_page.dart';
 import 'package:app/route/main/main_route.dart';
@@ -24,12 +27,15 @@ class MainPages {
   MainPages._();
 
   static final routes = [
+    /// --------- 公共主页 ---------
     /// 主页切换
     GetPage(
       name: MainRoute.home,
       page: () => HomePage(),
       binding: HomeBind(),
     ),
+
+    /// --------- 聊天页面 ---------
 
     /// 房间内页
     GetPage(
@@ -38,12 +44,16 @@ class MainPages {
       binding: RoomBind(),
     ),
 
+    /// --------- 搜索页面 ---------
+
     /// 搜索页面
     GetPage(
       name: MainRoute.find,
       page: () => FindPage(),
       binding: FindBind(),
     ),
+
+    /// --------- 关系绑定 ---------
 
     /// 申请添加
     GetPage(
@@ -66,6 +76,21 @@ class MainPages {
       binding: BindBind(),
     ),
 
+    /// --------- 详情相关 ---------
+
+    /// 好友详情
+    GetPage(
+      name: MainRoute.infoMate,
+      page: () => InfoMatePage(),
+      binding: InfoBind(),
+    ),
+
+    /// 群组详情
+    GetPage(
+      name: MainRoute.infoTeam,
+      page: () => InfoTeamPage(),
+      binding: InfoBind(),
+    ),
 
     /// --------- 设置相关 ---------
 
@@ -124,11 +149,6 @@ class MainPages {
       page: () => ConfAuthPage(),
       binding: ConfBind(),
     ),
-
-
-
-
-
 
   ];
 }

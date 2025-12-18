@@ -1,3 +1,4 @@
+import 'package:app/cores/widgets/load_view.dart';
 import 'package:app/ctrls/main/find_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,34 +65,47 @@ class FindPage extends GetView<FindCtrl> {
   /// 搜索结果
   Widget _result(BuildContext context) {
     return Obx(
-      () => Column(
-        children: controller.list
-            .map(
-              (it) => Card(
-                elevation: 0,
-                margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 14),
-                clipBehavior: Clip.antiAlias,
-                child: ListTile(
-                  leading: CircleAvatar(),
-                  title: Text(it.nickname),
-                  subtitle: Text('账号：${it.username}'),
-                  trailing: SizedBox(
-                    height: 28,
-                    child: OutlinedButton(
-                      onPressed: () => controller.bindUser(it.id),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 4,
+      () => LoadView(
+        loading: controller.loading.value,
+        message: controller.message.value,
+        builder: (_) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 200),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: controller.list
+                .map(
+                  (it) => Card(
+                    elevation: 0,
+                    margin: EdgeInsets.only(
+                      left: 0,
+                      right: 0,
+                      top: 0,
+                      bottom: 14,
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      leading: CircleAvatar(),
+                      title: Text(it.nickname),
+                      subtitle: Text('账号：${it.username}'),
+                      trailing: SizedBox(
+                        height: 28,
+                        child: OutlinedButton(
+                          onPressed: () => controller.bindUser(it.id),
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: 4,
+                            ),
+                          ),
+                          child: Text('添加'),
                         ),
                       ),
-                      child: Text('添加'),
                     ),
                   ),
-                ),
-              ),
-            )
-            .toList(),
+                )
+                .toList(),
+          ),
+        ),
       ),
     );
   }

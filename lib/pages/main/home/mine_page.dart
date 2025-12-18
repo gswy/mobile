@@ -65,7 +65,7 @@ class MinePage extends BaseView<HomeCtrl> {
           ),
           SliverList(
             delegate: SliverChildListDelegate(
-              controller.menus.map((it) => _group(it.title, it.items)).toList(),
+              controller.mineMenu.map((it) => _group(it.title, it.items)).toList(),
             ),
           ),
         ],

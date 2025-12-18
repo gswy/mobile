@@ -60,6 +60,7 @@ class SigninPage extends BaseView<SignCtrl> {
                 controller: controller.password,
                 hint: '请输入密码',
                 enabled: !controller.loading.value,
+                obscure: true,
                 prefix: Icon(IconUtil.pass),
               ),
             ),

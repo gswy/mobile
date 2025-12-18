@@ -26,7 +26,7 @@ class MainRoute {
   /// 审核申请
   static const String bindHand = '/bind/hand';
 
-
+  /// ------------ 详情页面 ---------------
 
   /// 好友详情
   static const String infoMate = '/info/mate';

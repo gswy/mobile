@@ -142,4 +142,10 @@ class IconUtil {
   /// 我的
   static const IconData mineFull = IconData(0xf007, fontFamily: _iconFull);
 
+  /// 新的朋友
+  static const IconData usersFull = IconData(0xf234, fontFamily: _iconFull);
+
+  /// 群组通知
+  static const IconData teamsFull = IconData(0xf0c0, fontFamily: _iconFull);
+
 }
