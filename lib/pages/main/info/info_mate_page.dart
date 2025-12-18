@@ -10,7 +10,7 @@ class InfoMatePage extends GetView<InfoCtrl> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('详情'),),
+      appBar: AppBar(title: Text('详情')),
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         children: [

@@ -9,6 +9,7 @@ import 'package:app/pages/main/conf/conf_lang_page.dart';
 import 'package:app/pages/main/conf/conf_like_page.dart';
 import 'package:app/pages/main/conf/conf_news_page.dart';
 import 'package:app/pages/main/conf/conf_safe_page.dart';
+import 'package:app/pages/main/conf/conf_serv_page.dart';
 import 'package:app/pages/main/conf/conf_view_page.dart';
 import 'package:app/pages/main/find/find_page.dart';
 import 'package:app/binds/main/home_bind.dart';
@@ -101,49 +102,56 @@ class MainPages {
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 我的收藏
     GetPage(
       name: MainRoute.confLike,
       page: () => ConfLikePage(),
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 外观设置
     GetPage(
       name: MainRoute.confView,
       page: () => ConfViewPage(),
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 语言设置
     GetPage(
       name: MainRoute.confLang,
       page: () => ConfLangPage(),
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 消息通知
     GetPage(
       name: MainRoute.confNews,
       page: () => ConfNewsPage(),
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 隐私
     GetPage(
       name: MainRoute.confSafe,
       page: () => ConfSafePage(),
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 隐私设置
+    GetPage(
+      name: MainRoute.confServ,
+      page: () => ConfServPage(),
+      binding: ConfBind(),
+    ),
+
+    /// 服务信息
     GetPage(
       name: MainRoute.confDesk,
       page: () => ConfDeskPage(),
       binding: ConfBind(),
     ),
 
-    /// 账户设置
+    /// 登录设备
     GetPage(
       name: MainRoute.confAuth,
       page: () => ConfAuthPage(),

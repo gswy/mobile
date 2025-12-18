@@ -1,3 +1,4 @@
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/ctrls/main/home_ctrl.dart';
@@ -42,13 +43,13 @@ class MinePage extends BaseView<HomeCtrl> {
                               spacing: 14,
                               children: [
                                 Text(
-                                  '我的昵称',
+                                  '${BaseAuth.mine?.nickname}',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text('账号:xxx', style: TextStyle(fontSize: 16)),
+                                Text('账号:${BaseAuth.mine?.username }', style: TextStyle(fontSize: 16)),
                               ],
                             ),
                             IconButton(onPressed: () {

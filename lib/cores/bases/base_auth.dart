@@ -1,4 +1,5 @@
 
+import 'package:app/datas/hive/entity/mate.dart';
 import 'package:app/datas/hive/entity/mine.dart';
 import 'package:app/datas/http/apis/mine_apis.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,9 @@ class BaseAuth extends GetxService {
 
   /// 用户ID（静态获取）
   static int? get id => to._mine.value?.id;
+
+  /// 用户信息
+  static Mine? get mine => to._mine.value;
 
   /// 初始获取
   Future<void> init () async {

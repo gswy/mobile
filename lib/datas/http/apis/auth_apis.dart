@@ -58,6 +58,4 @@ class AuthApis extends GetxService {
     }
   }
 
-
-
 }

@@ -19,6 +19,7 @@ class BaseServ extends GetxService {
       var route = '';
       var arguments = {};
 
+      /// 判定好友消息
       if (news.type == NewsDict.bindUserForm) {
         route = MainRoute.bindNews;
       }

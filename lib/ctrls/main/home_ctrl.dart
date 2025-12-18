@@ -1,3 +1,4 @@
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/bases/base_serv.dart';
@@ -14,6 +15,7 @@ import 'package:get/get.dart';
 
 /// 控制
 class HomeCtrl extends BaseCtrl {
+
   /// 消息通知
   final _serv = Get.find<BaseServ>();
 
@@ -225,6 +227,13 @@ class HomeCtrl extends BaseCtrl {
           title: '登录设备',
           onTap: () {
             Get.toNamed(MainRoute.confDesk);
+          },
+        ),
+        MenuItem(
+          icon: IconUtil.confServ,
+          title: '服务信息',
+          onTap: () {
+            Get.toNamed(MainRoute.confServ);
           },
         ),
         MenuItem(

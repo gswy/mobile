@@ -60,7 +60,7 @@ class MatePage extends BaseView<HomeCtrl> {
             ),
             const SizedBox(width: 6),
             Text(
-              "搜索好友 / 群聊",
+              '搜索好友',
               style: TextStyle(
                 fontSize: 16,
                 color: color.onSurfaceVariant.withValues(alpha: 0.7),

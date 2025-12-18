@@ -4,8 +4,6 @@ import 'package:app/datas/hive/entity/news.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce/hive.dart';
 
-
-
 /// 推送通知
 class NewsHive extends GetxService {
 

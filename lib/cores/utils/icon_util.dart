@@ -128,6 +128,9 @@ class IconUtil {
   /// 登录设备
   static const IconData confDesk = IconData(0xf87a, fontFamily: _iconLine);
 
+  /// 服务信息
+  static const IconData confServ = IconData(0xf233, fontFamily: _iconLine);
+
   /// 账号管理
   static const IconData confAuth = IconData(0xf08b, fontFamily: _iconLine);
 

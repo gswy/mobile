@@ -54,6 +54,9 @@ class MainRoute {
   /// 设置-隐私设置
   static const String confSafe = '/conf/safe';
 
+  /// 设置-服务信息
+  static const String confServ = '/conf/serv';
+
   /// 设置-登录设备
   static const String confDesk = '/conf/desk';
 
