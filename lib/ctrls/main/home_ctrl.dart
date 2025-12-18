@@ -110,7 +110,13 @@ class HomeCtrl extends BaseCtrl {
     ),
     MateMenu(
       num: 0,
-      name: '新的群组',
+      name: '群组通知',
+      icon: IconUtil.bellsFull,
+      route: MainRoute.bindNews,
+    ),
+    MateMenu(
+      num: 0,
+      name: '我的群组',
       icon: IconUtil.teamsFull,
       route: MainRoute.bindNews,
     ),

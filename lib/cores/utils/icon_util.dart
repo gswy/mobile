@@ -146,6 +146,9 @@ class IconUtil {
   static const IconData usersFull = IconData(0xf234, fontFamily: _iconFull);
 
   /// 群组通知
+  static const IconData bellsFull = IconData(0xf0f3, fontFamily: _iconFull);
+
+  /// 我的群组
   static const IconData teamsFull = IconData(0xf0c0, fontFamily: _iconFull);
 
 }

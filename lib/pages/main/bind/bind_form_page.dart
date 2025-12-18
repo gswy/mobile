@@ -47,10 +47,8 @@ class BindFormPage extends GetView<BindCtrl> {
               style: const TextStyle(fontSize: 14),
               decoration: InputDecoration(
                 hintText: hint,
-                // 只在未获取焦点时显示
                 hintStyle: TextStyle(color: frontColor, fontSize: 14),
                 border: InputBorder.none,
-                // 无边框
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 isCollapsed: true,
@@ -60,14 +58,9 @@ class BindFormPage extends GetView<BindCtrl> {
             ),
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            width: double.maxFinite,
-            height: 44,
-            child: ElevatedButton(
-              onPressed: controller.submit,
-              style: ElevatedButton.styleFrom(elevation: 0),
-              child: Text('申请添加'),
-            ),
+          ElevatedButton(
+            onPressed: controller.submit,
+            child: Text('申请添加'),
           )
         ],
       );

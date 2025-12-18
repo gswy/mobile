@@ -28,7 +28,7 @@ class MatePage extends BaseView<HomeCtrl> {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(14),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
         children: [_find(context), _menu(context), _mate(context)],
       ),
     );
@@ -117,39 +117,50 @@ class MatePage extends BaseView<HomeCtrl> {
     return Obx(
       () => Column(
         children: controller.mateList
-          .map((it) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
-            children: [
-              Text(' ${it.index}'),
-              Card(
-                elevation: 0,
-                clipBehavior: Clip.antiAlias,
-                margin: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 14),
-                child: Column(
-                  children: [
-                    for (var i = 0; i < it.lists.length; i++) ...[
-                      ListTile(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 10,
-                        ),
-                        leading: CircleAvatar(),
-                        title: Text(it.lists[i].nickname),
-                        onTap: () {
-                          Get.toNamed(MainRoute.infoMate, arguments: {'id': it.lists[i].id});
-                        },
-                      ),
-                      if (i != it.lists.length - 1)
-                        Divider(thickness: 0.3, height: 0.3),
-                    ],
-                  ],
-                ),
+            .map(
+              (it) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Text(' ${it.index}'),
+                  Card(
+                    elevation: 0,
+                    clipBehavior: Clip.antiAlias,
+                    margin: EdgeInsets.only(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 14,
+                    ),
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < it.lists.length; i++) ...[
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: 10,
+                            ),
+                            leading: CircleAvatar(
+                              child: Text(it.lists[i].nickname.characters.first),
+                            ),
+                            title: Text(it.lists[i].nickname),
+                            onTap: () {
+                              Get.toNamed(
+                                MainRoute.infoMate,
+                                arguments: {'id': it.lists[i].id},
+                              );
+                            },
+                          ),
+                          if (i != it.lists.length - 1)
+                            Divider(thickness: 0.3, height: 0.3),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
       ),
     );
   }

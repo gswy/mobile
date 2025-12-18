@@ -29,9 +29,9 @@ class HomePage extends BaseView<HomeCtrl> {
                     : Icon(controller.pages[i].line, size: 22),
                 activeIcon: controller.pages[i].num > 0
                     ? Badge(
-                  label: Text('${controller.pages[i].num.value}'),
-                  child: Icon(controller.pages[i].full, size: 22),
-                )
+                        label: Text('${controller.pages[i].num.value}'),
+                        child: Icon(controller.pages[i].full, size: 22),
+                      )
                     : Icon(controller.pages[i].full, size: 22),
                 label: controller.pages[i].name,
               ),
