@@ -81,7 +81,7 @@ class FindCtrl extends BaseCtrl {
   Future<void> bindUser(int id) async {
     final user = list.firstWhereOrNull((it) => it.id == id);
     if (user != null) {
-      Get.toNamed(MainRoute.bindForm, arguments: {"id": user.id, 'type': RoomConstants.roomMate});
+      Get.toNamed(MainRoute.bindUserForm, arguments: {"id": user.id});
     }
   }
 

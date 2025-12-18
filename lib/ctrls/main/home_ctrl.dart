@@ -108,19 +108,25 @@ class HomeCtrl extends BaseCtrl {
       num: 0,
       name: '新的朋友',
       icon: IconUtil.usersFull,
-      route: MainRoute.bindNews,
+      onTap: () {
+        Get.toNamed(MainRoute.bindUserList);
+      },
     ),
     MateMenu(
       num: 0,
       name: '群组通知',
       icon: IconUtil.bellsFull,
-      route: MainRoute.bindNews,
+      onTap: () {
+        Get.toNamed(MainRoute.bindTeamList);
+      },
     ),
     MateMenu(
       num: 0,
       name: '我的群组',
       icon: IconUtil.teamsFull,
-      route: MainRoute.bindNews,
+      onTap: () {
+        Get.toNamed(MainRoute.team);
+      },
     ),
   ];
 
@@ -269,7 +275,6 @@ class Menu {
 class MateList {
   final String index;
   final List<MateItem> lists;
-
   MateList({required this.index, required this.lists});
 }
 
@@ -286,13 +291,12 @@ class MateMenu {
   final RxInt num;
   final String name;
   final IconData icon;
-  final String route;
-
+  final Function() onTap;
   MateMenu({
     required int num,
     required this.name,
     required this.icon,
-    required this.route,
+    required this.onTap,
   }) : num = num.obs;
 }
 

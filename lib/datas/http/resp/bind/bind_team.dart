@@ -1,5 +1,5 @@
 
-class BindMate {
+class BindTeam {
 
   int id;
   String? avatar;
@@ -8,7 +8,7 @@ class BindMate {
   String remark;
   String createdAt;
 
-  BindMate({
+  BindTeam({
     required this.id,
     this.avatar,
     required this.nickname,
@@ -17,7 +17,7 @@ class BindMate {
     required this.createdAt,
   });
 
-  factory BindMate.fromJson(dynamic json) => BindMate(
+  factory BindTeam.fromJson(dynamic json) => BindTeam(
     id: json["id"],
     avatar: json["avatar"],
     nickname: json["nickname"],

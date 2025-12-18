@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 好友绑定
-class BindFormPage extends GetView<BindCtrl> {
-  const BindFormPage({super.key});
+class UserFormPage extends GetView<BindCtrl> {
+  const UserFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class BindFormPage extends GetView<BindCtrl> {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: controller.submit,
+            onPressed: controller.userSubmit,
             child: Text('申请添加'),
           )
         ],

@@ -99,9 +99,7 @@ class MatePage extends BaseView<HomeCtrl> {
                       ),
                 title: Text(controller.mateMenu[i].name),
                 trailing: Icon(IconUtil.commView, size: 20),
-                onTap: () {
-                  Get.toNamed(controller.mateMenu[i].route);
-                },
+                onTap: controller.mateMenu[i].onTap,
               ),
               if (i != controller.mateMenu.length - 1)
                 Divider(thickness: 0.3, height: 0.3),

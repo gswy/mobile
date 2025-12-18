@@ -20,13 +20,8 @@ class BaseServ extends GetxService {
       var arguments = {};
 
       /// 判定好友消息
-      if (news.type == NewsDict.bindUserForm) {
-        route = MainRoute.bindNews;
-      }
 
       Get.log('消息变化');
-
-
 
       /// 公共跳转
       Get.snackbar(news.title, news.message, duration: Duration(seconds: 5), onTap: (_) {

@@ -1,8 +1,13 @@
 import 'package:app/binds/main/conf_bind.dart';
 import 'package:app/binds/main/info_bind.dart';
-import 'package:app/pages/main/bind/bind_form_page.dart';
-import 'package:app/pages/main/bind/bind_news_page.dart';
+import 'package:app/binds/main/team_bind.dart';
+import 'package:app/pages/main/bind/team/team_form_page.dart';
 import 'package:app/binds/main/find_bind.dart';
+import 'package:app/pages/main/bind/team/team_hand_page.dart';
+import 'package:app/pages/main/bind/team/team_list_page.dart';
+import 'package:app/pages/main/bind/user/user_form_page.dart';
+import 'package:app/pages/main/bind/user/user_hand_page.dart';
+import 'package:app/pages/main/bind/user/user_list_page.dart';
 import 'package:app/pages/main/conf/conf_auth_page.dart';
 import 'package:app/pages/main/conf/conf_desk_page.dart';
 import 'package:app/pages/main/conf/conf_lang_page.dart';
@@ -15,8 +20,8 @@ import 'package:app/pages/main/find/find_page.dart';
 import 'package:app/binds/main/home_bind.dart';
 import 'package:app/pages/main/home/home_page.dart';
 import 'package:app/binds/main/bind_bind.dart';
-import 'package:app/pages/main/bind/bind_hand_page.dart';
 import 'package:app/binds/main/room_bind.dart';
+import 'package:app/pages/main/home/team_page.dart';
 import 'package:app/pages/main/info/info_mate_page.dart';
 import 'package:app/pages/main/info/info_team_page.dart';
 import 'package:app/pages/main/room/room_page.dart';
@@ -35,14 +40,19 @@ class MainPages {
       page: () => HomePage(),
       binding: HomeBind(),
     ),
-
-    /// --------- 聊天页面 ---------
-
-    /// 房间内页
+    /// 群组列表
     GetPage(
       name: MainRoute.room,
       page: () => RoomPage(),
       binding: RoomBind(),
+    ),
+
+    /// --------- 聊天页面 ---------
+    /// 群组列表
+    GetPage(
+      name: MainRoute.team,
+      page: () => TeamPage(),
+      binding: TeamBind(),
     ),
 
     /// --------- 搜索页面 ---------
@@ -55,30 +65,49 @@ class MainPages {
     ),
 
     /// --------- 关系绑定 ---------
-
-    /// 申请添加
+    /// 申请添加：好友表单
     GetPage(
-      name: MainRoute.bindForm,
-      page: () => BindFormPage(),
+      name: MainRoute.bindUserForm,
+      page: () => UserFormPage(),
       binding: BindBind(),
     ),
 
-    /// 审核列表
+    /// 审核列表：好友申请
     GetPage(
-      name: MainRoute.bindNews,
-      page: () => BindNewsPage(),
+      name: MainRoute.bindUserList,
+      page: () => UserListPage(),
       binding: BindBind(),
     ),
 
-    /// 审核申请
+    /// 审核申请：好友审核
     GetPage(
-      name: MainRoute.bindHand,
-      page: () => BindHandPage(),
+      name: MainRoute.bindUserHand,
+      page: () => UserHandPage(),
+      binding: BindBind(),
+    ),
+
+    /// 申请添加：群组表单
+    GetPage(
+      name: MainRoute.bindTeamForm,
+      page: () => TeamFormPage(),
+      binding: BindBind(),
+    ),
+
+    /// 审核列表：群组申请
+    GetPage(
+      name: MainRoute.bindTeamList,
+      page: () => TeamListPage(),
+      binding: BindBind(),
+    ),
+
+    /// 审核申请：群组审核
+    GetPage(
+      name: MainRoute.bindTeamHand,
+      page: () => TeamHandPage(),
       binding: BindBind(),
     ),
 
     /// --------- 详情相关 ---------
-
     /// 好友详情
     GetPage(
       name: MainRoute.infoMate,

@@ -30,9 +30,8 @@ abstract class BaseCtrl extends SuperController {
   /// final chatId = controller.id;
   /// ```
   dynamic get id {
-    if (args is Map<String, dynamic>) {
-      return args['id'];
-    }
+    final a = args;
+    if (a is Map) return a['id'];
     return null;
   }
 

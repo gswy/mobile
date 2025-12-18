@@ -29,7 +29,7 @@ class FindPage extends GetView<FindCtrl> {
       context,
     ).colorScheme.onSurfaceVariant.withValues(alpha: 0.7);
     return Obx(() {
-      final hint = controller.hasFocus.value ? null : '输入账号/邮箱/手机搜索';
+      final hint = controller.hasFocus.value ? null : '输入昵称/账号/邮箱/手机搜索';
       return Container(
         decoration: BoxDecoration(
           color: background, // 背景色
