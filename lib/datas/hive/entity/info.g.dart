@@ -24,7 +24,7 @@ class InfoAdapter extends TypeAdapter<Info> {
       status: (fields[6] as num).toInt(),
       type: (fields[5] as num).toInt(),
       content: fields[7] as String,
-      createdAt: (fields[8] as num).toInt(),
+      sourcedAt: (fields[8] as num).toInt(),
     );
   }
 
@@ -47,7 +47,7 @@ class InfoAdapter extends TypeAdapter<Info> {
       ..writeByte(7)
       ..write(obj.content)
       ..writeByte(8)
-      ..write(obj.createdAt);
+      ..write(obj.sourcedAt);
   }
 
   @override

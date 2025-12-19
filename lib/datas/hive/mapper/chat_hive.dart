@@ -32,13 +32,18 @@ class ChatHive extends GetxService {
     return _hive.get(id);
   }
 
+  /// 判断会话
+  bool has(int id, mode) {
+    return _hive.values.any((e) => e.id == id && e.mode == mode);
+  }
+
   List<Chat> getList() {
     return _hive.values.toList();
   }
 
   /// 创建群组信息
-  Future<void> add(Chat team) async {
-    await _hive.put(team.id, team);
+  Future<void> add(Chat chat) async {
+    await _hive.put(chat.id, chat);
   }
 
   /// 删除群组信息

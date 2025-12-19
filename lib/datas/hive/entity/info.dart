@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hive_ce/hive.dart';
 
 part 'info.g.dart';
@@ -8,68 +10,62 @@ class Info {
 
   /// 消息ID
   @HiveField(0)
-  final int? id;
+  int? id;
 
   /// 房间类型(0好友，1群组)
   @HiveField(2)
-  final int mode;
+  int mode;
 
   /// 消息来源
   @HiveField(3)
-  final int sourceId;
+  int sourceId;
 
   /// 消息目标
   @HiveField(4)
-  final int targetId;
+  int targetId;
 
   /// 消息类型
   @HiveField(5)
-  final int type;
+  int type;
 
   /// 消息状态
   @HiveField(6)
-  final int status;
+  int status;
 
   /// 消息内容
   @HiveField(7)
-  final String content;
+  String content;
 
   /// 发送时间
   @HiveField(8)
-  final int createdAt;
+  int sourcedAt;
 
   /// 构造函数
   Info({
-    required this.id,
+    this.id,
     required this.mode,
     required this.sourceId,
     required this.targetId,
     required this.status,
     required this.type,
     required this.content,
-    required this.createdAt,
+    required this.sourcedAt,
   });
 
-  /// 拷贝并修改部分字段
-  Info copyWith({
-    int? id,
-    int? mode,
-    int? sourceId,
-    int? targetId,
-    int? type,
-    int? status,
-    String? content,
-    int? createdAt,
-  }) {
+  factory Info.fromJson(String json) {
+    final res = jsonDecode(json);
+    final sourcedAt = DateTime
+        .parse(res['sourcedAt'])
+        .millisecondsSinceEpoch;
     return Info(
-      id: id ?? this.id,
-      mode: mode ?? this.mode,
-      sourceId: sourceId ?? this.sourceId,
-      targetId: targetId ?? this.targetId,
-      type: type ?? this.type,
-      status: status ?? this.status,
-      content: content ?? this.content,
-      createdAt: createdAt ?? this.createdAt,
+      id: res['id'],
+      mode: res['mode'],
+      sourceId: res['sourceId'],
+      targetId: res['targetId'],
+      status: 1,
+      type: res['type'],
+      content: res['content'],
+      sourcedAt: sourcedAt,
     );
   }
 

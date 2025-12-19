@@ -1,11 +1,20 @@
 
+import 'package:app/ctrls/main/chat_ctrl.dart';
 import 'package:app/ctrls/main/home_ctrl.dart';
+import 'package:app/ctrls/main/mate_ctrl.dart';
+import 'package:app/ctrls/main/mine_ctrl.dart';
 import 'package:get/get.dart';
 
 /// 主页绑定
 class HomeBind extends Bindings {
   @override
   void dependencies() {
+    /// 主页面
     Get.put(HomeCtrl(), permanent: true);
+
+    /// 子页面
+    Get.put(ChatCtrl(), permanent: true);
+    Get.put(MateCtrl(), permanent: true);
+    Get.put(MineCtrl(), permanent: true);
   }
 }

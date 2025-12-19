@@ -99,6 +99,7 @@ dependencies:
   # 网络监听: https://pub.dev/packages/internet_connection_checker_plus
   internet_connection_checker_plus: ^2.9.1+1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -110,11 +111,18 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
+  # Hive生成: https://pub.dev/packages/build_runner/install
+  build_runner: ^2.10.4
+
   # JSON转换
   json_serializable: ^6.11.2
 
   # 图标生成: https://pub.dev/packages/icons_launcher
   icons_launcher: ^3.0.3
+
+  # Hive生成: https://pub.dev/packages/hive_ce_generator
+  hive_ce_generator: ^1.11.0
+
 
 # 图标生成配置
 # 生成命令: `flutter pub run icons_launcher:create`

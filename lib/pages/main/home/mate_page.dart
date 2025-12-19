@@ -1,15 +1,13 @@
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/dicts/bind_dict.dart';
-import 'package:app/ctrls/main/home_ctrl.dart';
-import 'package:app/datas/hive/entity/mate.dart';
+import 'package:app/ctrls/main/mate_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 通讯录页面
-class MatePage extends BaseView<HomeCtrl> {
+class MatePage extends BaseView<MateCtrl> {
   const MatePage({super.key});
 
   @override
@@ -27,9 +25,12 @@ class MatePage extends BaseView<HomeCtrl> {
           ),
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
-        children: [_find(context), _menu(context), _mate(context)],
+      body: RefreshIndicator(
+        onRefresh: controller.initMateList,
+        child: ListView(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
+          children: [_find(context), _menu(context), _mate(context)],
+        ),
       ),
     );
   }
@@ -139,12 +140,14 @@ class MatePage extends BaseView<HomeCtrl> {
                               horizontal: 10,
                             ),
                             leading: CircleAvatar(
-                              child: Text(it.lists[i].nickname.characters.first),
+                              child: Text(
+                                it.lists[i].nickname.characters.first,
+                              ),
                             ),
                             title: Text(it.lists[i].nickname),
                             onTap: () {
                               Get.toNamed(
-                                MainRoute.infoMate,
+                                MainRoute.infoUser,
                                 arguments: {'id': it.lists[i].id},
                               );
                             },

@@ -1,32 +1,57 @@
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/value/room_constants.dart';
-import 'package:app/datas/hive/entity/mate.dart';
-import 'package:app/datas/hive/mapper/mate_hive.dart';
+import 'package:app/cores/dicts/room_dict.dart';
 import 'package:app/datas/http/apis/info_apis.dart';
+import 'package:app/datas/http/resp/info/info_team.dart';
+import 'package:app/datas/http/resp/info/info_user.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:get/get.dart';
 
+/// 详细信息
 class InfoCtrl extends BaseCtrl {
 
-  final _hive = Get.find<MateHive>();
-
+  /// 远程请求
   final _apis = Get.find<InfoApis>();
 
-  /// 用户信息
-  final mate = Rxn<Mate>();
+  /// -------------- 公共状态 ----------------
+  /// 加载说明
+  final message = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _initialized();
+  /// 是否加载
+  final loading = false.obs;
+
+  /// -------------- 用户信息 ----------------
+  /// 用户信息
+  final user = Rxn<InfoUser>();
+
+  /// 请求用户
+  Future<void> initInfoUser() async {
+    loading.value = true;
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
+    try {
+      user.value = await _apis.getInfoUser(id);
+    } catch (e) {
+      message.value = '信息获取失败';
+    } finally {
+      loading.value = false;
+    }
   }
 
-  /// 初始化数据
-  Future<void> _initialized() async {
+  /// -------------- 用户信息 ----------------
+  /// 用户信息
+  final team = Rxn<InfoTeam>();
+
+  /// 请求用户
+  Future<void> initInfoTeam() async {
+    loading.value = true;
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
     try {
-      mate.value = await _apis.getMate(id);
+      team.value = await _apis.getInfoTeam(id);
     } catch (_) {
-      mate.value = _hive.get(id);
+      message.value = '信息获取失败';
+    } finally {
+      loading.value = false;
     }
   }
 
@@ -34,7 +59,16 @@ class InfoCtrl extends BaseCtrl {
   void handRoom() {
     Get.toNamed(
       MainRoute.room,
-      arguments: {'id': mate.value?.id, 'mode': RoomConstants.roomMate},
+      arguments: {'id': user.value!.id, 'mode': RoomDict.mate},
     );
   }
+
+  /// 添加好友
+  void handBind() {
+    Get.toNamed(
+      MainRoute.bindUserForm,
+      arguments: {'id': user.value!.id},
+    );
+  }
+
 }

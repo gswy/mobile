@@ -22,7 +22,7 @@ import 'package:app/pages/main/home/home_page.dart';
 import 'package:app/binds/main/bind_bind.dart';
 import 'package:app/binds/main/room_bind.dart';
 import 'package:app/pages/main/home/team_page.dart';
-import 'package:app/pages/main/info/info_mate_page.dart';
+import 'package:app/pages/main/info/info_user_page.dart';
 import 'package:app/pages/main/info/info_team_page.dart';
 import 'package:app/pages/main/room/room_page.dart';
 import 'package:app/pages/main/conf/conf_mine_page.dart';
@@ -110,8 +110,8 @@ class MainPages {
     /// --------- 详情相关 ---------
     /// 好友详情
     GetPage(
-      name: MainRoute.infoMate,
-      page: () => InfoMatePage(),
+      name: MainRoute.infoUser,
+      page: () => InfoUserPage(),
       binding: InfoBind(),
     ),
 

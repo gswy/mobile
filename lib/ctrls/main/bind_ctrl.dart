@@ -31,7 +31,8 @@ class BindCtrl extends BaseCtrl {
 
   /// 进行绑定
   Future<void> userSubmit() async {
-    final id = this.id as int;
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
     final res = await _apis.bindUser(id, remark.text);
     if (res) {
       Get.back();
@@ -40,7 +41,8 @@ class BindCtrl extends BaseCtrl {
 
   /// 进行绑定
   Future<void> teamSubmit() async {
-    final id = this.id as int;
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
     final res = await _apis.bindTeam(id, remark.text);
     if (res) {
       Get.back();
@@ -133,7 +135,8 @@ class BindCtrl extends BaseCtrl {
 
   /// 加载信息
   Future<void> loadBindTeam() async {
-    final id = this.id as int;
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
     loading.value = true;
     try {
       final res = await _apis.getBindTeam(id);

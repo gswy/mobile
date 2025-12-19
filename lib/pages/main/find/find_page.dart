@@ -1,5 +1,6 @@
 import 'package:app/cores/widgets/load_view.dart';
 import 'package:app/ctrls/main/find_ctrl.dart';
+import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -87,19 +88,12 @@ class FindPage extends GetView<FindCtrl> {
                       leading: CircleAvatar(),
                       title: Text(it.nickname),
                       subtitle: Text('账号：${it.username}'),
-                      trailing: SizedBox(
-                        height: 28,
-                        child: OutlinedButton(
-                          onPressed: () => controller.bindUser(it.id),
-                          style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 4,
-                            ),
-                          ),
-                          child: Text('添加'),
-                        ),
-                      ),
+                      onTap: () {
+                        Get.toNamed(
+                          MainRoute.infoUser,
+                          arguments: {'id': it.id},
+                        );
+                      },
                     ),
                   ),
                 )

@@ -17,27 +17,32 @@ class Chat {
   @HiveField(2)
   final String name;
 
-  /// 聊天头像
+  /// 未读数量
   @HiveField(3)
+  final int unread;
+
+  /// 聊天头像
+  @HiveField(4)
   final String? avatar;
 
   /// 最后消息
-  @HiveField(4)
+  @HiveField(5)
   final String? content;
 
   /// 消息类型
-  @HiveField(5)
+  @HiveField(6)
   final int? type;
 
   /// 最后聊天时间
-  @HiveField(6)
-  final String? lastedAt;
+  @HiveField(7)
+  final int? lastedAt;
 
   /// 构造函数
   Chat({
     required this.id,
     required this.mode,
     required this.name,
+    required this.unread,
     this.avatar,
     this.content,
     this.type,

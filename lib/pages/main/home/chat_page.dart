@@ -1,5 +1,6 @@
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
+import 'package:app/ctrls/main/chat_ctrl.dart';
 import 'package:app/ctrls/main/home_ctrl.dart';
 import 'package:app/route/comm/comm_route.dart';
 import 'package:app/route/main/main_route.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 聊天页面
-class ChatPage extends BaseView<HomeCtrl> {
+class ChatPage extends BaseView<ChatCtrl> {
   const ChatPage({super.key});
 
   @override
@@ -111,7 +112,7 @@ class ChatPage extends BaseView<HomeCtrl> {
             title: Text(item.name),
             subtitle: Text(item.content ?? ''),
             trailing: Column(
-              children: [Text(item.lastedAt ?? ''), Text("zzz")],
+              children: [Text(''), Text("zzz")],
             ),
             onTap: () {
               Get.toNamed(

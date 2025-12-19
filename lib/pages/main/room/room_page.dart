@@ -2,6 +2,7 @@ import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/utils/room_util.dart';
+import 'package:app/cores/widgets/chat_view.dart';
 import 'package:app/ctrls/main/room_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 
@@ -13,20 +14,26 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Obx(() => Text(controller.name)),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(IconUtil.more), iconSize: 18),
-        ],
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          controller.hideMoreMenu();
-        },
-        child: Column(children: [_chatList(context), _menuList(context)]),
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(controller.name),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(IconUtil.more),
+              iconSize: 18,
+            ),
+          ],
+        ),
+        body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            controller.hideMoreMenu();
+          },
+          child: Column(children: [_chatList(context), _menuList(context)]),
+        ),
       ),
     );
   }
@@ -83,105 +90,24 @@ class RoomPage extends BaseView<RoomCtrl> {
           padding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
           controller: controller.listCtrl,
           itemCount: controller.infoList.length,
-          itemBuilder: _chatListItem,
+          itemBuilder: _chatItem,
         );
       }),
     );
   }
 
   /// 聊天项目
-  Widget _chatListItem(BuildContext context, int index) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      child: Obx(() {
-        final info = controller.infoList[index];
-        final sourceId = BaseAuth.id ?? 0;
-        final isMine = sourceId == info.sourceId;
-        if (isMine) {
-          // 我发送的 —— 右边气泡
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // 气泡
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 14),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  // 自己发送一般用主色
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(6),
-                    topRight: Radius.circular(0),
-                    bottomLeft: Radius.circular(6),
-                    bottomRight: Radius.circular(6),
-                  ),
-                ),
-                child: GestureDetector(
-                  onLongPress: () {},
-                  child: Text(
-                    info.content,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
-              ),
-              // 头像右侧
-              GestureDetector(
-                onLongPress: () {
-
-                },
-                child: CircleAvatar(),
-              ),
-              // 失败标识
-              if (info.status == -1)
-                IconButton(onPressed: () {}, icon: Icon(IconUtil.text))
-            ],
-          );
-        } else {
-          // 别人发送 —— 左边气泡
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // 头像在左侧
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(
-                    MainRoute.infoMate,
-                    arguments: {'id': info.targetId},
-                  );
-                },
-                onLongPress: () {
-                  controller.textCtrl.text = '@';
-                },
-                child: CircleAvatar(),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 14),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHigh,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(6),
-                    bottomLeft: Radius.circular(6),
-                    bottomRight: Radius.circular(6),
-                  ),
-                ),
-                child: GestureDetector(child: Text(info.content)),
-              ),
-            ],
-          );
-        }
-      }),
-    );
+  Widget _chatItem(BuildContext context, int index) {
+    return Obx(() {
+      final info = controller.infoList[index];
+      final mine = info.sourceId == BaseAuth.id;
+      return ChatView(
+        mine: mine,
+        type: info.type,
+        content: info.content,
+        status: info.status,
+      );
+    });
   }
 
   /// 菜单列表

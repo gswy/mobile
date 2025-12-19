@@ -1,20 +1,19 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/ctrls/main/home_ctrl.dart';
+import 'package:app/ctrls/main/mine_ctrl.dart';
 import 'package:app/route/comm/comm_route.dart';
 
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MinePage extends BaseView<HomeCtrl> {
+/// 我的页面
+class MinePage extends BaseView<MineCtrl> {
   const MinePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final height = Get.height / 6;
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [

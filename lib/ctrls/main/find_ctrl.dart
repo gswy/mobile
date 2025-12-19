@@ -1,5 +1,5 @@
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/value/room_constants.dart';
+import 'package:app/cores/dicts/room_dict.dart';
 import 'package:app/datas/http/resp/find/find_user.dart';
 import 'package:app/datas/http/apis/find_apis.dart';
 import 'package:app/route/main/main_route.dart';

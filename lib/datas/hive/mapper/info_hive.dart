@@ -25,22 +25,30 @@ class InfoHive extends GetxService {
     infos.assignAll(_hive.values.toList());
   }
 
-  /// 获取聊天
+  /// 获取消息
   Info? get(int id) {
     return _hive.get(id);
   }
 
-  /// 创建聊天
-  Future<int> add(Info chat) async {
-    return await _hive.add(chat);
+  /// 创建消息
+  Future<int> add(Info info) async {
+    return await _hive.add(info);
   }
 
-  /// 更新聊天
-  Future<void> put(int id, Info chat) async {
-    return await _hive.put(id, chat);
+  /// 插入消息
+  Future<void> and(Info info) async {
+    final res = _hive.values.any((it) => it.id == info.id);
+    if (!res) {
+      await add(info);
+    }
   }
 
-  /// 删除聊天
+  /// 更新消息
+  Future<void> put(int id, Info info) async {
+    return await _hive.put(id, info);
+  }
+
+  /// 删除消息
   Future<void> del(int id) async {
     await _hive.delete(id);
   }

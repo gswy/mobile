@@ -63,6 +63,9 @@ class IconUtil {
   /// 图片
   static const IconData image = IconData(0xf03e, fontFamily: _iconLine);
 
+  /// 重试
+  static const IconData retry = IconData(0xf01e, fontFamily: _iconLine);
+
   /// 相机
   static const IconData camera = IconData(0xf030, fontFamily: _iconLine);
 

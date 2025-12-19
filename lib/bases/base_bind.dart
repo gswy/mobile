@@ -2,7 +2,7 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_http.dart';
-import 'package:app/cores/bases/base_serv.dart';
+import 'package:app/cores/bases/base_news.dart';
 import 'package:app/datas/hive/mapper/chat_hive.dart';
 import 'package:app/datas/hive/mapper/info_hive.dart';
 import 'package:app/datas/hive/mapper/mate_hive.dart';
@@ -52,6 +52,6 @@ class BaseBind extends Bindings {
     Get.put(TeamApis(), permanent: true);
     /// 绑定服务
     Get.put(BaseAuth(), permanent: true);
-    Get.put(BaseServ(), permanent: true);
+    Get.put(BaseNews(), permanent: true);
   }
 }

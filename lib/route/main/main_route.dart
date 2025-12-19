@@ -47,7 +47,7 @@ class MainRoute {
   /// ------------ 详情页面 ---------------
 
   /// 好友详情
-  static const String infoMate = '/info/mate';
+  static const String infoUser = '/info/mate';
 
   /// 群组详情
   static const String infoTeam = '/info/team';

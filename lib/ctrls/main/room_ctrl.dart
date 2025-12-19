@@ -1,6 +1,6 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/value/room_constants.dart';
+import 'package:app/cores/dicts/room_dict.dart';
 import 'package:app/datas/hive/entity/chat.dart';
 import 'package:app/datas/hive/entity/info.dart';
 import 'package:app/datas/hive/entity/mate.dart';
@@ -42,10 +42,11 @@ class RoomCtrl extends BaseCtrl {
   final _team = Rxn<Team>();
 
   /// 聊天标题
-  String get name => _mode.value == 0 ? _mate.value!.nickname : _team.value!.name;
+  String get name =>
+      _mode.value == 0 ? _mate.value!.nickname : _team.value!.name;
 
   /// 响应聊天
-  List<Info> get infoList => _filterInfos();
+  List<Info> get infoList => _infoList();
 
   /// 是否显示键盘输入
   final showTextMode = true.obs;
@@ -71,11 +72,12 @@ class RoomCtrl extends BaseCtrl {
 
   /// 初始化聊天列表
   Future<void> _init() async {
-    /// 房间类型
-    _mode.value = args['mode'];
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
+    _mode.value = args['mode'] as int;
 
     /// 新建好友会话
-    if (_mode.value == RoomConstants.roomMate) {
+    if (_mode.value == RoomDict.mate) {
       _mate.value = _mateHive.get(id);
       if (_mate.value != null) {
         _chatHive.add(
@@ -84,13 +86,14 @@ class RoomCtrl extends BaseCtrl {
             mode: _mode.value,
             name: _mate.value!.nickname,
             avatar: _mate.value!.avatar,
+            unread: 0,
           ),
         );
       }
     }
 
     /// 新建群组会话
-    if (_mode.value == RoomConstants.roomTeam) {
+    if (_mode.value == RoomDict.team) {
       _team.value = _teamHive.get(id);
       if (_team.value != null) {
         _chatHive.add(
@@ -99,6 +102,7 @@ class RoomCtrl extends BaseCtrl {
             mode: _mode.value,
             name: _team.value!.name,
             avatar: _team.value!.avatar,
+            unread: 0,
           ),
         );
       }
@@ -107,6 +111,9 @@ class RoomCtrl extends BaseCtrl {
 
   /// 发送文字消息
   Future<void> sendText(String text) async {
+    final args = Get.arguments as Map;
+    final id = args['id'] as int;
+
     /// 清空内容 && 取消键盘
     textCtrl.clear();
     FocusScope.of(Get.context!).unfocus();
@@ -120,14 +127,13 @@ class RoomCtrl extends BaseCtrl {
 
     /// 发送消息
     final info = Info(
-      id: id,
       mode: _mode.value,
       sourceId: sourceId,
       targetId: targetId!,
       status: 0,
       type: 0,
       content: text,
-      createdAt: createdAt,
+      sourcedAt: createdAt,
     );
 
     /// 进行入库数据
@@ -135,46 +141,66 @@ class RoomCtrl extends BaseCtrl {
 
     /// 尝试发送消息
     try {
-      final res = await _apis.sendText(
-        type: 0,
-        mode: _mode.value,
-        targetId: _mate.value!.id,
-        content: text,
-        sourcedAt: sourcedAt,
-      );
-      /// 发送成功修改消息状态
-      await _infoHive.put(key, info.copyWith(id: res?.id, status: 1));
+      if (_mode.value == 0) {
+        final res = await _apis.sendMateText(
+          type: 0,
+          targetId: _mate.value!.id,
+          content: text,
+          sourcedAt: sourcedAt,
+        );
+
+        /// 发送成功修改消息状态
+        info.id = res?.id;
+        info.status = 1;
+        await _infoHive.put(key, info);
+      }
+      if (_mode.value == 1) {
+        final res = await _apis.sendTeamText(
+          type: 0,
+          targetId: _team.value!.id,
+          content: text,
+          sourcedAt: sourcedAt,
+        );
+
+        /// 发送成功修改消息状态
+        info.id = res?.id;
+        info.status = 1;
+        await _infoHive.put(key, info);
+      }
     } catch (_) {
       /// 发送失败修改消息状态
-      await _infoHive.put(key, info.copyWith(status: -1));
+      info.status = -1;
+      await _infoHive.put(key, info);
     }
   }
 
-
-
-  /// 撤回发送消息
-
+  /// 撤回消息
 
   /// 过滤数据
-  List<Info> _filterInfos() {
+  List<Info> _infoList() {
     /// 消息过滤
     final infos = _infoHive.infos;
-    if (_mode.value == RoomConstants.roomMate) {
+    if (_mode.value == RoomDict.mate) {
       final res = infos.where((it) {
-        return it.targetId == _mate.value?.id &&
-            it.mode == RoomConstants.roomMate;
+        return (it.targetId == _mate.value?.id ||
+                it.sourceId == _mate.value?.id) &&
+            it.mode == RoomDict.mate;
       }).toList();
+
       /// 排序
-      res.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      res.sort((a, b) => b.sourcedAt.compareTo(a.sourcedAt));
       return res;
     }
-    if (_mode.value == RoomConstants.roomTeam) {
+
+    if (_mode.value == RoomDict.team) {
       final res = infos.where((it) {
-        return it.targetId == _team.value?.id &&
-            it.mode == RoomConstants.roomTeam;
+        return (it.targetId == _team.value?.id ||
+                it.sourceId == _team.value?.id) &&
+            it.mode == RoomDict.team;
       }).toList();
+
       /// 排序
-      res.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      res.sort((a, b) => b.sourcedAt.compareTo(a.sourcedAt));
       return res;
     }
     return const [];

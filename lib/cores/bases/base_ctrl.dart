@@ -8,33 +8,6 @@ import 'package:get/get.dart';
 ///   - App 前后台生命周期（onDetached / onInactive / onPaused / onResumed）
 abstract class BaseCtrl extends SuperController {
 
-  /// 其他页面通过 `Get.to` / `Get.toNamed` 等方式传递过来的参数。
-  /// 
-  /// ```dart
-  /// Get.toNamed(
-  ///   Routes.chat,
-  ///   arguments: {'id': 'xxx', 'title': '会话名称'},
-  /// );
-  /// ```
-  /// 
-  /// 在目标页面对应的控制器中可以通过 [args] 或 [id] 获取。
-  final dynamic args = Get.arguments;
-
-  /// 从 [args] 中读取的通用 `id` 字段。
-  /// 
-  /// - 当 [args] 为 `Map<String, dynamic>` 时，返回 `args['id']`
-  /// - 否则返回 `null`
-  /// 
-  /// 适合大多数「详情页/会话页」这类需要单个 id 的场景：
-  /// ```dart
-  /// final chatId = controller.id;
-  /// ```
-  dynamic get id {
-    final a = args;
-    if (a is Map) return a['id'];
-    return null;
-  }
-
   /// 当控制器所在的页面/组件首次渲染完成后调用。
   ///
   /// 区别于 [onInit]：
