@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:app/cores/drift/datas/drift_model.dart';
 import 'package:app/cores/drift/enums/chat_type_enum.dart';
