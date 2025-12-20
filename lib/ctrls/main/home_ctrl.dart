@@ -1,6 +1,8 @@
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/bases/base_news.dart';
+import 'package:app/cores/drift/datas/db.dart';
+import 'package:app/cores/model/chat.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/datas/hive/entity/chat.dart';
 import 'package:app/datas/hive/mapper/chat_hive.dart';
@@ -58,8 +60,13 @@ class HomeCtrl extends BaseCtrl {
     index.value = i;
   }
 
+  /// 初始化操作
   @override
   void onInit() {
+    /// 订阅消息未读数量
+    DB.dao.selectChatUnread(100).listen((num) {
+      pages[0].num.value = num;
+    });
     super.onInit();
   }
 
@@ -69,7 +76,6 @@ class HomeCtrl extends BaseCtrl {
   }
 
   /// -------------- 聊天页面 ----------------
-
 
   /// -------------- 通讯页面 ----------------
 

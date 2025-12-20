@@ -11,9 +11,6 @@ import 'package:pinyin/pinyin.dart';
 /// 通讯页面
 class MateCtrl extends BaseCtrl {
 
-  /// 远程请求
-  final _apis = Get.find<MateApis>();
-
   /// 设置用户
   final _hive = Get.find<MateHive>();
 
@@ -93,7 +90,7 @@ class MateCtrl extends BaseCtrl {
   /// 刷新用户
   Future<void> initMateList() async {
     try {
-      final list = await _apis.getMateList();
+      final list = await MateApis.getMateList();
       _list.value = list;
       for (var it in list) {
         _hive.add(it);

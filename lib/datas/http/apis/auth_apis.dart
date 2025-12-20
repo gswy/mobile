@@ -1,31 +1,23 @@
 
 import 'package:app/cores/bases/base_http.dart';
-import 'package:app/cores/store/local_store.dart';
 import 'package:app/cores/utils/sign_util.dart';
-import 'package:app/cores/value/host_constants.dart';
 import 'package:app/datas/http/resp/auth/signin_resp.dart';
 import 'package:app/datas/http/resp/auth/signup_resp.dart';
 import 'package:get/get.dart';
 
-class AuthApis extends GetxService {
+/// 授权接口
+class AuthApis {
 
-  final _http = Get.find<BaseHttp>();
+  AuthApis._();
+
+  /// 请求实例
+  static final _http = Get.find<BaseHttp>();
 
   /// 获取地址
-  String get host => _http.baseUrl;
-
-  @override
-  void onInit() {
-    super.onInit();
-    /// 初始化地址
-    final host = LocalStore.getString(HostConstants.hostKey);
-    if (host != null) {
-      _http.setBaseURL('https://$host');
-    }
-  }
+  static String get host => _http.baseUrl;
 
   /// 登录操作
-  Future<bool> signIn(String username, String password) async {
+  static Future<bool> signIn(String username, String password) async {
     try {
       final res = await _http.post<SigninResp>('/sign/in', data: {
         'username': username,
@@ -40,7 +32,7 @@ class AuthApis extends GetxService {
   }
 
   /// 登录操作
-  Future<bool> signUp(String nickname, String username, String password) async {
+  static Future<bool> signUp(String nickname, String username, String password) async {
     try {
       final res = await _http.post<SignupResp>(
         '/sign/up',

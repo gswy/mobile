@@ -10,9 +10,6 @@ import 'package:get/get.dart';
 /// 登录控制器
 class SignCtrl extends BaseCtrl {
 
-  /// 请求处理
-  final _apis = Get.find<AuthApis>();
-
   /// 连接处理
   final _conn = Get.find<BaseConn>();
 
@@ -34,12 +31,12 @@ class SignCtrl extends BaseCtrl {
   @override
   void onInit() {
     super.onInit();
-    host.value = _apis.host;
+    host.value = AuthApis.host;
   }
 
   /// 进行登录
   Future<void> signIn() async {
-    final res = await _apis.signIn(username.text.trim(), password.text.trim());
+    final res = await AuthApis.signIn(username.text.trim(), password.text.trim());
     if (res) {
       _conn.star();
       Get.offNamed(MainRoute.home);
@@ -49,7 +46,7 @@ class SignCtrl extends BaseCtrl {
   /// 注册动作
   Future<void> signUp() async {
     loading.value = true;
-    final res = await _apis.signUp(
+    final res = await AuthApis.signUp(
       nickname.text.trim(),
       username.text.trim(),
       password.text.trim(),

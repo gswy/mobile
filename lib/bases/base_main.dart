@@ -1,4 +1,5 @@
 
+import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/store/local_store.dart';
 import 'package:app/cores/utils/desk_util.dart';
 import 'package:app/datas/hive/entity/chat.dart';
@@ -35,6 +36,9 @@ class BaseMain {
 
     /// 初始化存储
     await _initHive();
+
+    /// 测试
+    DB.test();
 
     /// 设置系统样式
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);

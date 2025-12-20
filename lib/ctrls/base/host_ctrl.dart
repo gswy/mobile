@@ -12,9 +12,6 @@ import 'package:get/get.dart';
 /// 地址服务
 class HostCtrl extends BaseCtrl {
 
-  /// 请求数据
-  final _apis = Get.find<HostApis>();
-
   /// 输入控制
   final host = TextEditingController();
 
@@ -31,7 +28,7 @@ class HostCtrl extends BaseCtrl {
     }
     // 测试请求
     loading.value = true;
-    final res = await _apis.test(text);
+    final res = await HostApis.test(text);
     loading.value = false;
     if (res) {
       LocalStore.setString(HostConstants.hostKey, text);

@@ -1,0 +1,8 @@
+
+class Mine {
+
+}
+
+class MineInfo {
+
+}

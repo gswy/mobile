@@ -4,18 +4,19 @@ import 'package:app/datas/http/resp/info/info_team.dart';
 import 'package:app/datas/http/resp/info/info_user.dart';
 import 'package:get/get.dart';
 
-///
-class InfoApis extends GetxService {
+/// 详情获取
+class InfoApis {
 
-  final _http = Get.find<BaseHttp>();
+  /// 请求实例
+  static final _http = Get.find<BaseHttp>();
 
   /// 获取用户信息
-  Future<InfoUser?> getInfoUser(int id) async {
+  static Future<InfoUser?> getInfoUser(int id) async {
     return await _http.get<InfoUser>('/info/$id/user', fromJson: InfoUser.fromJson);
   }
 
   /// 获取群组信息
-  Future<InfoTeam?> getInfoTeam(int id) async {
+  static Future<InfoTeam?> getInfoTeam(int id) async {
     return await _http.get<InfoTeam>('/info/$id/team', fromJson: InfoTeam.fromJson);
   }
 

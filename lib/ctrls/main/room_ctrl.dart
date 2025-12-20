@@ -142,7 +142,7 @@ class RoomCtrl extends BaseCtrl {
     /// 尝试发送消息
     try {
       if (_mode.value == 0) {
-        final res = await _apis.sendMateText(
+        final res = await RoomApis.sendMateText(
           type: 0,
           targetId: _mate.value!.id,
           content: text,
@@ -155,7 +155,7 @@ class RoomCtrl extends BaseCtrl {
         await _infoHive.put(key, info);
       }
       if (_mode.value == 1) {
-        final res = await _apis.sendTeamText(
+        final res = await RoomApis.sendTeamText(
           type: 0,
           targetId: _team.value!.id,
           content: text,

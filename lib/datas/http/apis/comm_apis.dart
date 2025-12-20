@@ -2,6 +2,12 @@
 import 'package:app/cores/bases/base_http.dart';
 import 'package:get/get.dart';
 
-class CommApis extends GetxService {
-  final _http = Get.find<BaseHttp>();
+/// 公共请求
+class CommApis {
+  CommApis._();
+
+  /// 请求实例
+  static final _http = Get.find<BaseHttp>();
+
+
 }

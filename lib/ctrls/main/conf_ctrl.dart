@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 
 /// 公共配置
 class ConfCtrl extends BaseCtrl {
-  /// 远程请求
-  final _http = Get.find<ConfApis>();
 
   /// 是否加载
   final message = ''.obs;
@@ -41,7 +39,7 @@ class ConfCtrl extends BaseCtrl {
   Future<void> initDesk() async {
     loading.value = true;
     try {
-      safe.value = await _http.getSafe();
+      safe.value = await ConfApis.getSafe();
       message.value = '';
     } catch (e) {
       safe.value = null;
@@ -82,7 +80,7 @@ class ConfCtrl extends BaseCtrl {
   Future<void> initSafe() async {
     loading.value = true;
     try {
-      safe.value = await _http.getSafe();
+      safe.value = await ConfApis.getSafe();
       message.value = '';
     } catch (e) {
       safe.value = null;

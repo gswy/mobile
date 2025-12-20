@@ -2,10 +2,13 @@ import 'package:app/cores/bases/base_http.dart';
 import 'package:app/datas/http/resp/room/info_resp.dart';
 import 'package:get/get.dart';
 
-class RoomApis extends GetxService {
-  final _http = Get.find<BaseHttp>();
+class RoomApis {
+  RoomApis._();
 
-  Future<InfoResp?> sendMateText({
+  /// 请求实例
+  static final _http = Get.find<BaseHttp>();
+
+  static Future<InfoResp?> sendMateText({
     required int type,
     required int targetId,
     int? parentId,
@@ -25,7 +28,7 @@ class RoomApis extends GetxService {
     );
   }
 
-  Future<InfoResp?> sendTeamText({
+  static Future<InfoResp?> sendTeamText({
     required int type,
     required int targetId,
     int? parentId,

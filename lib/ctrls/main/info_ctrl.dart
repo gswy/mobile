@@ -9,9 +9,6 @@ import 'package:get/get.dart';
 /// 详细信息
 class InfoCtrl extends BaseCtrl {
 
-  /// 远程请求
-  final _apis = Get.find<InfoApis>();
-
   /// -------------- 公共状态 ----------------
   /// 加载说明
   final message = ''.obs;
@@ -29,7 +26,7 @@ class InfoCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      user.value = await _apis.getInfoUser(id);
+      user.value = await InfoApis.getInfoUser(id);
     } catch (e) {
       message.value = '信息获取失败';
     } finally {
@@ -47,7 +44,7 @@ class InfoCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      team.value = await _apis.getInfoTeam(id);
+      team.value = await InfoApis.getInfoTeam(id);
     } catch (_) {
       message.value = '信息获取失败';
     } finally {

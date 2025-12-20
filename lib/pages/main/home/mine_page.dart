@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 class MinePage extends BaseView<MineCtrl> {
   const MinePage({super.key});
 
+  /// 页面渲染
   @override
   Widget build(BuildContext context) {
     final height = Get.height / 6;

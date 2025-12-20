@@ -1,5 +1,4 @@
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/dicts/room_dict.dart';
 import 'package:app/datas/http/resp/find/find_user.dart';
 import 'package:app/datas/http/apis/find_apis.dart';
 import 'package:app/route/main/main_route.dart';
@@ -8,8 +7,6 @@ import 'package:get/get.dart';
 
 /// 搜索控制
 class FindCtrl extends BaseCtrl {
-  /// 远程请求
-  final _resp = Get.find<FindApis>();
 
   /// 输入焦点
   final focus = FocusNode();
@@ -63,7 +60,7 @@ class FindCtrl extends BaseCtrl {
     if (search.isEmpty) return;
     loading.value = true;
     try {
-      final page = await _resp.search(text);
+      final page = await FindApis.search(text);
       list.value = page.data;
       if (list.isEmpty) {
         message.value = '暂无数据';

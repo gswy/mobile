@@ -9,8 +9,6 @@ import 'package:get/get.dart';
 
 /// 关系绑定
 class BindCtrl extends BaseCtrl {
-  /// 远程请求
-  final _apis = Get.find<BindApis>();
 
   /// ------------ 公共信息 -------------
   /// 提示信息
@@ -33,7 +31,7 @@ class BindCtrl extends BaseCtrl {
   Future<void> userSubmit() async {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
-    final res = await _apis.bindUser(id, remark.text);
+    final res = await BindApis.bindUser(id, remark.text);
     if (res) {
       Get.back();
     }
@@ -43,7 +41,7 @@ class BindCtrl extends BaseCtrl {
   Future<void> teamSubmit() async {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
-    final res = await _apis.bindTeam(id, remark.text);
+    final res = await BindApis.bindTeam(id, remark.text);
     if (res) {
       Get.back();
     }
@@ -63,7 +61,7 @@ class BindCtrl extends BaseCtrl {
   Future<void> initUserList() async {
     loading.value = true;
     try {
-      final res = await _apis.getBindUserList();
+      final res = await BindApis.getBindUserList();
       userList.value = res.data;
       if (userList.isEmpty) {
         message.value = '暂无数据';
@@ -91,7 +89,7 @@ class BindCtrl extends BaseCtrl {
   Future<void> initTeamList() async {
     loading.value = true;
     try {
-      final res = await _apis.getBindTeamList();
+      final res = await BindApis.getBindTeamList();
       teamList.value = res.data;
       if (teamList.isEmpty) {
         message.value = '暂无数据';
@@ -115,7 +113,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      final res = await _apis.getBindUser(id);
+      final res = await BindApis.getBindUser(id);
       if (res != null) {
         user.value = res;
         message.value = '';
@@ -139,7 +137,7 @@ class BindCtrl extends BaseCtrl {
     final id = args['id'] as int;
     loading.value = true;
     try {
-      final res = await _apis.getBindTeam(id);
+      final res = await BindApis.getBindTeam(id);
       if (res != null) {
         team.value = res;
         message.value = '';
@@ -159,7 +157,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      final res = await _apis.handBindUser(id, 1);
+      final res = await BindApis.handBindUser(id, 1);
       if (res) {
         Get.back();
       } else {
@@ -178,7 +176,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      await _apis.handBindTeam(id, 1);
+      await BindApis.handBindTeam(id, 1);
       Get.back();
     } catch (_) {
     } finally {
@@ -192,7 +190,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      await _apis.handBindUser(id, -1);
+      await BindApis.handBindUser(id, -1);
       Get.back();
     } catch (_) {
     } finally {
@@ -206,7 +204,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      await _apis.handBindTeam(id, -1);
+      await BindApis.handBindTeam(id, -1);
       Get.back();
     } catch (_) {
     } finally {
@@ -220,7 +218,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      await _apis.handBindUser(id, 0);
+      await BindApis.handBindUser(id, 0);
       Get.back();
     } catch (_) {
     } finally {
@@ -234,7 +232,7 @@ class BindCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      await _apis.handBindTeam(id, 0);
+      await BindApis.handBindTeam(id, 0);
       Get.back();
     } catch (_) {
     } finally {

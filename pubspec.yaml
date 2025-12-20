@@ -63,6 +63,9 @@ dependencies:
   # 路径提供: https://pub.dev/packages/path_provider
   path_provider: ^2.1.5
 
+  # 路径支持: https://pub.dev/packages/path/install
+  path: ^1.9.1
+
   # 网络图片: https://pub.dev/packages/extended_image
   extended_image: ^10.0.1
 
@@ -99,7 +102,13 @@ dependencies:
   # 网络监听: https://pub.dev/packages/internet_connection_checker_plus
   internet_connection_checker_plus: ^2.9.1+1
 
+  # 数据库ORM: https://pub.dev/packages/drift/install
+  drift: ^2.30.0
+  drift_flutter: ^0.2.8
 
+
+
+# 开发所需
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -113,6 +122,9 @@ dev_dependencies:
 
   # Hive生成: https://pub.dev/packages/build_runner/install
   build_runner: ^2.10.4
+
+  # drift 开发支持: https://pub.dev/packages/drift_dev
+  drift_dev: ^2.30.0
 
   # JSON转换
   json_serializable: ^6.11.2

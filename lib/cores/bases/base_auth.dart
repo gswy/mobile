@@ -9,9 +9,6 @@ class BaseAuth extends GetxService {
   /// 全局单例
   static BaseAuth get to => Get.find<BaseAuth>();
 
-  /// 请求服务
-  final _apis = Get.find<MineApis>();
-
   /// 用户信息
   final _mine = Rxn<Mine>(null);
 
@@ -23,7 +20,7 @@ class BaseAuth extends GetxService {
 
   /// 初始获取
   Future<void> init () async {
-    _mine.value = await _apis.getMine();
+    _mine.value = await MineApis.getMine();
   }
 
 }
