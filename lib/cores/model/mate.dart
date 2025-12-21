@@ -1,3 +1,4 @@
+import 'package:app/cores/model/user.dart';
 
 /// 好友详情
 class Mate {
@@ -31,13 +32,27 @@ class MateList {
   /// 好友标识
   final int id;
 
-  /// 好友头像
-  final String avatar;
+  /// 好友索引
+  final String index;
+
+  /// 我的标识
+  final String? avatar;
 
   /// 好友昵称
   final String nickname;
 
-  MateList({required this.id, required this.avatar, required this.nickname});
+  MateList({
+    required this.id,
+    required this.index,
+    required this.avatar,
+    required this.nickname,
+  });
+
+  /// json转换
+  factory MateList.fromJson(Map<String, dynamic> json) => MateList(
+    id: json["id"],
+    index: json["index"],
+    avatar: json["avatar"],
+    nickname: json["nickname"],
+  );
 }
-
-

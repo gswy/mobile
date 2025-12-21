@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 /// 会话类型
-enum UserRoleEnum {
+enum RoleType {
   /// 群主
   owner(0),
 
@@ -15,13 +15,13 @@ enum UserRoleEnum {
   final int code;
 
   /// 构造函数
-  const UserRoleEnum(this.code);
+  const RoleType(this.code);
 
   /// 数字转枚举
-  static UserRoleEnum fromCode(int code) {
-    return UserRoleEnum.values.firstWhere(
+  static RoleType fromCode(int code) {
+    return RoleType.values.firstWhere(
           (it) => it.code == code,
-      orElse: () => UserRoleEnum.other,
+      orElse: () => RoleType.other,
     );
   }
 }

@@ -18,7 +18,7 @@ class RoomPage extends BaseView<RoomCtrl> {
       () => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(controller.name),
+          title: Text(controller.title.value),
           actions: [
             IconButton(
               onPressed: () {},
@@ -98,16 +98,17 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   /// 聊天项目
   Widget _chatItem(BuildContext context, int index) {
-    return Obx(() {
-      final info = controller.infoList[index];
-      final mine = info.sourceId == BaseAuth.id;
-      return ChatView(
-        mine: mine,
-        type: info.type,
-        content: info.content,
-        status: info.status,
-      );
-    });
+    return Placeholder();
+    // return Obx(() {
+    //   final info = controller.infoList[index];
+    //   final mine = info.sourceId == BaseAuth.id;
+    //   return ChatView(
+    //     mine: mine,
+    //     type: info.type,
+    //     content: info.content,
+    //     status: info.status,
+    //   );
+    // });
   }
 
   /// 菜单列表

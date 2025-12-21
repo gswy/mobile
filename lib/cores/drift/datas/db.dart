@@ -1,7 +1,7 @@
 
 import 'package:app/cores/drift/datas/drift_datas.dart';
 import 'package:app/cores/drift/datas/drift_model.dart';
-import 'package:app/cores/drift/enums/chat_type_enum.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
 
 import 'package:drift/drift.dart';
 
@@ -18,7 +18,7 @@ class DB {
   static final dao = DriftModel(_db);
 
   static void test() {
-    Future.delayed(const Duration(seconds: 10), () async {
+    Future.delayed(const Duration(seconds: 60), () async {
       await _db.transaction(() async {
         // ========= 1) users（目标用户） =========
         await DB.dao.into(DB.dao.usersTable).insertOnConflictUpdate(
@@ -92,7 +92,7 @@ class DB {
         // 所以 mate 会话这里要写 mates.id（9001/9002），team 会话写 teams.id（7001/7002）
         await DB.dao.insertChat(
           ChatsTableCompanion.insert(
-            type: ChatTypeEnum.mate,
+            type: ChatType.mate,
             sourceId: 9001,
             targetId: 9001,
             unread: const Value(1),
@@ -104,7 +104,7 @@ class DB {
 
         await DB.dao.insertChat(
           ChatsTableCompanion.insert(
-            type: ChatTypeEnum.mate,
+            type: ChatType.mate,
             sourceId: 9002,
             targetId: 9002,
             unread: const Value(3),
@@ -116,7 +116,7 @@ class DB {
 
         await DB.dao.insertChat(
           ChatsTableCompanion.insert(
-            type: ChatTypeEnum.team,
+            type: ChatType.team,
             sourceId: 7001,
             targetId: 7001,
             unread: const Value(9),
@@ -128,7 +128,7 @@ class DB {
 
         await DB.dao.insertChat(
           ChatsTableCompanion.insert(
-            type: ChatTypeEnum.team,
+            type: ChatType.team,
             sourceId: 7002,
             targetId: 7002,
             unread: const Value(0),

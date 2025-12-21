@@ -1,5 +1,5 @@
 
-import 'package:app/cores/drift/enums/user_role_enum.dart';
+import 'package:app/cores/drift/enums/role_type.dart';
 import 'package:drift/drift.dart';
 
 /// 群组管理
@@ -43,7 +43,7 @@ class TeamsUsersTable extends Table {
   IntColumn get userId => integer()();
 
   /// 成员角色
-  IntColumn get role => intEnum<UserRoleEnum>()();
+  IntColumn get role => intEnum<RoleType>()();
 
   /// 群员头像
   TextColumn get avatar => text()();

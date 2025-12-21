@@ -1,12 +1,6 @@
-import 'package:app/cores/bases/base_conn.dart';
+
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/bases/base_news.dart';
-import 'package:app/cores/drift/datas/db.dart';
-import 'package:app/cores/model/chat.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/datas/hive/entity/chat.dart';
-import 'package:app/datas/hive/mapper/chat_hive.dart';
-import 'package:app/datas/hive/mapper/mate_hive.dart';
 import 'package:app/pages/main/home/chat_page.dart';
 import 'package:app/pages/main/home/mate_page.dart';
 import 'package:app/pages/main/home/mine_page.dart';
@@ -15,11 +9,6 @@ import 'package:get/get.dart';
 
 /// 控制
 class HomeCtrl extends BaseCtrl {
-  /// 消息通知
-  final _news = Get.find<BaseNews>();
-
-  /// 通讯通知
-  final _mate = Get.find<MateHive>();
 
   /// -------------- 公共底部 ----------------
   /// 选中导航
@@ -63,10 +52,12 @@ class HomeCtrl extends BaseCtrl {
   /// 初始化操作
   @override
   void onInit() {
-    /// 订阅消息未读数量
-    DB.dao.selectChatUnread(100).listen((num) {
-      pages[0].num.value = num;
-    });
+    /// 测试
+    // DB.test();
+    // /// 订阅消息未读数量
+    // DB.dao.selectChatUnread(100).listen((num) {
+    //   pages[0].num.value = num;
+    // });
     super.onInit();
   }
 

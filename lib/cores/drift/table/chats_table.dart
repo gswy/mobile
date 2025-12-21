@@ -1,6 +1,6 @@
 
-import 'package:app/cores/drift/enums/chat_type_enum.dart';
-import 'package:app/cores/drift/enums/info_type_enum.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
+import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:drift/drift.dart';
 
 /// 会话管理
@@ -14,7 +14,7 @@ class ChatsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   /// 会话类型
-  IntColumn get type => intEnum<ChatTypeEnum>()();
+  IntColumn get type => intEnum<ChatType>()();
 
   /// 会话发起：用户标识/群组标识
   IntColumn get sourceId => integer()();
@@ -51,7 +51,7 @@ class ChatsInfosTable extends Table {
   IntColumn get chatId => integer()();
 
   /// 消息类型
-  IntColumn get type => intEnum<InfoTypeEnum>()();
+  IntColumn get type => intEnum<InfoType>()();
 
   /// 发送人员
   IntColumn get sourceId => integer()();

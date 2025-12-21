@@ -23,14 +23,14 @@ class $ChatsTableTable extends ChatsTable
     ),
   );
   @override
-  late final GeneratedColumnWithTypeConverter<ChatTypeEnum, int> type =
+  late final GeneratedColumnWithTypeConverter<ChatType, int> type =
       GeneratedColumn<int>(
         'type',
         aliasedName,
         false,
         type: DriftSqlType.int,
         requiredDuringInsert: true,
-      ).withConverter<ChatTypeEnum>($ChatsTableTable.$convertertype);
+      ).withConverter<ChatType>($ChatsTableTable.$convertertype);
   static const VerificationMeta _sourceIdMeta = const VerificationMeta(
     'sourceId',
   );
@@ -216,8 +216,8 @@ class $ChatsTableTable extends ChatsTable
     return $ChatsTableTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<ChatTypeEnum, int, int> $convertertype =
-      const EnumIndexConverter<ChatTypeEnum>(ChatTypeEnum.values);
+  static JsonTypeConverter2<ChatType, int, int> $convertertype =
+      const EnumIndexConverter<ChatType>(ChatType.values);
 }
 
 class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
@@ -225,7 +225,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   final int id;
 
   /// 会话类型
-  final ChatTypeEnum type;
+  final ChatType type;
 
   /// 会话发起：用户标识/群组标识
   final int sourceId;
@@ -324,7 +324,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
 
   ChatsTableData copyWith({
     int? id,
-    ChatTypeEnum? type,
+    ChatType? type,
     int? sourceId,
     int? targetId,
     int? unread,
@@ -396,7 +396,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
 
 class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   final Value<int> id;
-  final Value<ChatTypeEnum> type;
+  final Value<ChatType> type;
   final Value<int> sourceId;
   final Value<int> targetId;
   final Value<int> unread;
@@ -415,7 +415,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   });
   ChatsTableCompanion.insert({
     this.id = const Value.absent(),
-    required ChatTypeEnum type,
+    required ChatType type,
     required int sourceId,
     required int targetId,
     this.unread = const Value.absent(),
@@ -450,7 +450,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
 
   ChatsTableCompanion copyWith({
     Value<int>? id,
-    Value<ChatTypeEnum>? type,
+    Value<ChatType>? type,
     Value<int>? sourceId,
     Value<int>? targetId,
     Value<int>? unread,
@@ -547,14 +547,14 @@ class $ChatsInfosTableTable extends ChatsInfosTable
     requiredDuringInsert: true,
   );
   @override
-  late final GeneratedColumnWithTypeConverter<InfoTypeEnum, int> type =
+  late final GeneratedColumnWithTypeConverter<InfoType, int> type =
       GeneratedColumn<int>(
         'type',
         aliasedName,
         false,
         type: DriftSqlType.int,
         requiredDuringInsert: true,
-      ).withConverter<InfoTypeEnum>($ChatsInfosTableTable.$convertertype);
+      ).withConverter<InfoType>($ChatsInfosTableTable.$convertertype);
   static const VerificationMeta _sourceIdMeta = const VerificationMeta(
     'sourceId',
   );
@@ -779,8 +779,8 @@ class $ChatsInfosTableTable extends ChatsInfosTable
     return $ChatsInfosTableTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<InfoTypeEnum, int, int> $convertertype =
-      const EnumIndexConverter<InfoTypeEnum>(InfoTypeEnum.values);
+  static JsonTypeConverter2<InfoType, int, int> $convertertype =
+      const EnumIndexConverter<InfoType>(InfoType.values);
 }
 
 class ChatsInfosTableData extends DataClass
@@ -792,7 +792,7 @@ class ChatsInfosTableData extends DataClass
   final int chatId;
 
   /// 消息类型
-  final InfoTypeEnum type;
+  final InfoType type;
 
   /// 发送人员
   final int sourceId;
@@ -911,7 +911,7 @@ class ChatsInfosTableData extends DataClass
   ChatsInfosTableData copyWith({
     int? id,
     int? chatId,
-    InfoTypeEnum? type,
+    InfoType? type,
     int? sourceId,
     int? targetId,
     String? content,
@@ -995,7 +995,7 @@ class ChatsInfosTableData extends DataClass
 class ChatsInfosTableCompanion extends UpdateCompanion<ChatsInfosTableData> {
   final Value<int> id;
   final Value<int> chatId;
-  final Value<InfoTypeEnum> type;
+  final Value<InfoType> type;
   final Value<int> sourceId;
   final Value<int> targetId;
   final Value<String> content;
@@ -1018,7 +1018,7 @@ class ChatsInfosTableCompanion extends UpdateCompanion<ChatsInfosTableData> {
   ChatsInfosTableCompanion.insert({
     this.id = const Value.absent(),
     required int chatId,
-    required InfoTypeEnum type,
+    required InfoType type,
     required int sourceId,
     required int targetId,
     required String content,
@@ -1061,7 +1061,7 @@ class ChatsInfosTableCompanion extends UpdateCompanion<ChatsInfosTableData> {
   ChatsInfosTableCompanion copyWith({
     Value<int>? id,
     Value<int>? chatId,
-    Value<InfoTypeEnum>? type,
+    Value<InfoType>? type,
     Value<int>? sourceId,
     Value<int>? targetId,
     Value<String>? content,
@@ -2238,14 +2238,14 @@ class $TeamsUsersTableTable extends TeamsUsersTable
     requiredDuringInsert: true,
   );
   @override
-  late final GeneratedColumnWithTypeConverter<UserRoleEnum, int> role =
+  late final GeneratedColumnWithTypeConverter<RoleType, int> role =
       GeneratedColumn<int>(
         'role',
         aliasedName,
         false,
         type: DriftSqlType.int,
         requiredDuringInsert: true,
-      ).withConverter<UserRoleEnum>($TeamsUsersTableTable.$converterrole);
+      ).withConverter<RoleType>($TeamsUsersTableTable.$converterrole);
   static const VerificationMeta _avatarMeta = const VerificationMeta('avatar');
   @override
   late final GeneratedColumn<String> avatar = GeneratedColumn<String>(
@@ -2411,8 +2411,8 @@ class $TeamsUsersTableTable extends TeamsUsersTable
     return $TeamsUsersTableTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<UserRoleEnum, int, int> $converterrole =
-      const EnumIndexConverter<UserRoleEnum>(UserRoleEnum.values);
+  static JsonTypeConverter2<RoleType, int, int> $converterrole =
+      const EnumIndexConverter<RoleType>(RoleType.values);
 }
 
 class TeamsUsersTableData extends DataClass
@@ -2427,7 +2427,7 @@ class TeamsUsersTableData extends DataClass
   final int userId;
 
   /// 成员角色
-  final UserRoleEnum role;
+  final RoleType role;
 
   /// 群员头像
   final String avatar;
@@ -2524,7 +2524,7 @@ class TeamsUsersTableData extends DataClass
     int? id,
     int? teamId,
     int? userId,
-    UserRoleEnum? role,
+    RoleType? role,
     String? avatar,
     String? nickname,
     int? createdAt,
@@ -2596,7 +2596,7 @@ class TeamsUsersTableCompanion extends UpdateCompanion<TeamsUsersTableData> {
   final Value<int> id;
   final Value<int> teamId;
   final Value<int> userId;
-  final Value<UserRoleEnum> role;
+  final Value<RoleType> role;
   final Value<String> avatar;
   final Value<String> nickname;
   final Value<int> createdAt;
@@ -2615,7 +2615,7 @@ class TeamsUsersTableCompanion extends UpdateCompanion<TeamsUsersTableData> {
     this.id = const Value.absent(),
     required int teamId,
     required int userId,
-    required UserRoleEnum role,
+    required RoleType role,
     required String avatar,
     required String nickname,
     required int createdAt,
@@ -2652,7 +2652,7 @@ class TeamsUsersTableCompanion extends UpdateCompanion<TeamsUsersTableData> {
     Value<int>? id,
     Value<int>? teamId,
     Value<int>? userId,
-    Value<UserRoleEnum>? role,
+    Value<RoleType>? role,
     Value<String>? avatar,
     Value<String>? nickname,
     Value<int>? createdAt,
@@ -3204,7 +3204,7 @@ abstract class _$DriftDatas extends GeneratedDatabase {
 typedef $$ChatsTableTableCreateCompanionBuilder =
     ChatsTableCompanion Function({
       Value<int> id,
-      required ChatTypeEnum type,
+      required ChatType type,
       required int sourceId,
       required int targetId,
       Value<int> unread,
@@ -3215,7 +3215,7 @@ typedef $$ChatsTableTableCreateCompanionBuilder =
 typedef $$ChatsTableTableUpdateCompanionBuilder =
     ChatsTableCompanion Function({
       Value<int> id,
-      Value<ChatTypeEnum> type,
+      Value<ChatType> type,
       Value<int> sourceId,
       Value<int> targetId,
       Value<int> unread,
@@ -3238,7 +3238,7 @@ class $$ChatsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnWithTypeConverterFilters<ChatTypeEnum, ChatTypeEnum, int> get type =>
+  ColumnWithTypeConverterFilters<ChatType, ChatType, int> get type =>
       $composableBuilder(
         column: $table.type,
         builder: (column) => ColumnWithTypeConverterFilters(column),
@@ -3337,7 +3337,7 @@ class $$ChatsTableTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<ChatTypeEnum, int> get type =>
+  GeneratedColumnWithTypeConverter<ChatType, int> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
 
   GeneratedColumn<int> get sourceId =>
@@ -3391,7 +3391,7 @@ class $$ChatsTableTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<ChatTypeEnum> type = const Value.absent(),
+                Value<ChatType> type = const Value.absent(),
                 Value<int> sourceId = const Value.absent(),
                 Value<int> targetId = const Value.absent(),
                 Value<int> unread = const Value.absent(),
@@ -3411,7 +3411,7 @@ class $$ChatsTableTableTableManager
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required ChatTypeEnum type,
+                required ChatType type,
                 required int sourceId,
                 required int targetId,
                 Value<int> unread = const Value.absent(),
@@ -3457,7 +3457,7 @@ typedef $$ChatsInfosTableTableCreateCompanionBuilder =
     ChatsInfosTableCompanion Function({
       Value<int> id,
       required int chatId,
-      required InfoTypeEnum type,
+      required InfoType type,
       required int sourceId,
       required int targetId,
       required String content,
@@ -3470,7 +3470,7 @@ typedef $$ChatsInfosTableTableUpdateCompanionBuilder =
     ChatsInfosTableCompanion Function({
       Value<int> id,
       Value<int> chatId,
-      Value<InfoTypeEnum> type,
+      Value<InfoType> type,
       Value<int> sourceId,
       Value<int> targetId,
       Value<String> content,
@@ -3499,7 +3499,7 @@ class $$ChatsInfosTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnWithTypeConverterFilters<InfoTypeEnum, InfoTypeEnum, int> get type =>
+  ColumnWithTypeConverterFilters<InfoType, InfoType, int> get type =>
       $composableBuilder(
         column: $table.type,
         builder: (column) => ColumnWithTypeConverterFilters(column),
@@ -3616,7 +3616,7 @@ class $$ChatsInfosTableTableAnnotationComposer
   GeneratedColumn<int> get chatId =>
       $composableBuilder(column: $table.chatId, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<InfoTypeEnum, int> get type =>
+  GeneratedColumnWithTypeConverter<InfoType, int> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
 
   GeneratedColumn<int> get sourceId =>
@@ -3680,7 +3680,7 @@ class $$ChatsInfosTableTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<int> chatId = const Value.absent(),
-                Value<InfoTypeEnum> type = const Value.absent(),
+                Value<InfoType> type = const Value.absent(),
                 Value<int> sourceId = const Value.absent(),
                 Value<int> targetId = const Value.absent(),
                 Value<String> content = const Value.absent(),
@@ -3704,7 +3704,7 @@ class $$ChatsInfosTableTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 required int chatId,
-                required InfoTypeEnum type,
+                required InfoType type,
                 required int sourceId,
                 required int targetId,
                 required String content,
@@ -4340,7 +4340,7 @@ typedef $$TeamsUsersTableTableCreateCompanionBuilder =
       Value<int> id,
       required int teamId,
       required int userId,
-      required UserRoleEnum role,
+      required RoleType role,
       required String avatar,
       required String nickname,
       required int createdAt,
@@ -4351,7 +4351,7 @@ typedef $$TeamsUsersTableTableUpdateCompanionBuilder =
       Value<int> id,
       Value<int> teamId,
       Value<int> userId,
-      Value<UserRoleEnum> role,
+      Value<RoleType> role,
       Value<String> avatar,
       Value<String> nickname,
       Value<int> createdAt,
@@ -4382,7 +4382,7 @@ class $$TeamsUsersTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnWithTypeConverterFilters<UserRoleEnum, UserRoleEnum, int> get role =>
+  ColumnWithTypeConverterFilters<RoleType, RoleType, int> get role =>
       $composableBuilder(
         column: $table.role,
         builder: (column) => ColumnWithTypeConverterFilters(column),
@@ -4477,7 +4477,7 @@ class $$TeamsUsersTableTableAnnotationComposer
   GeneratedColumn<int> get userId =>
       $composableBuilder(column: $table.userId, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<UserRoleEnum, int> get role =>
+  GeneratedColumnWithTypeConverter<RoleType, int> get role =>
       $composableBuilder(column: $table.role, builder: (column) => column);
 
   GeneratedColumn<String> get avatar =>
@@ -4533,7 +4533,7 @@ class $$TeamsUsersTableTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<int> teamId = const Value.absent(),
                 Value<int> userId = const Value.absent(),
-                Value<UserRoleEnum> role = const Value.absent(),
+                Value<RoleType> role = const Value.absent(),
                 Value<String> avatar = const Value.absent(),
                 Value<String> nickname = const Value.absent(),
                 Value<int> createdAt = const Value.absent(),
@@ -4553,7 +4553,7 @@ class $$TeamsUsersTableTableTableManager
                 Value<int> id = const Value.absent(),
                 required int teamId,
                 required int userId,
-                required UserRoleEnum role,
+                required RoleType role,
                 required String avatar,
                 required String nickname,
                 required int createdAt,

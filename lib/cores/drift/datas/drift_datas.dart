@@ -1,8 +1,8 @@
 
 import 'package:app/cores/drift/datas/drift_model.dart';
-import 'package:app/cores/drift/enums/chat_type_enum.dart';
-import 'package:app/cores/drift/enums/info_type_enum.dart';
-import 'package:app/cores/drift/enums/user_role_enum.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
+import 'package:app/cores/drift/enums/info_type.dart';
+import 'package:app/cores/drift/enums/role_type.dart';
 
 import 'package:app/cores/drift/table/chats_table.dart';
 import 'package:app/cores/drift/table/mates_table.dart';

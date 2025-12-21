@@ -43,13 +43,13 @@ class MinePage extends BaseView<MineCtrl> {
                               spacing: 14,
                               children: [
                                 Text(
-                                  '${BaseAuth.mine?.nickname}',
+                                  '测试',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text('账号:${BaseAuth.mine?.username }', style: TextStyle(fontSize: 16)),
+                                Text('账号:测试', style: TextStyle(fontSize: 16)),
                               ],
                             ),
                             IconButton(onPressed: () {

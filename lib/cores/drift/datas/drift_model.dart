@@ -1,6 +1,6 @@
-import 'package:app/cores/drift/enums/chat_type_enum.dart';
-import 'package:app/cores/drift/enums/info_type_enum.dart';
-import 'package:app/cores/drift/enums/user_role_enum.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
+import 'package:app/cores/drift/enums/info_type.dart';
+import 'package:app/cores/drift/enums/role_type.dart';
 
 import 'package:app/cores/drift/datas/drift_datas.dart';
 import 'package:app/cores/drift/table/chats_table.dart';
@@ -9,6 +9,7 @@ import 'package:app/cores/drift/table/mines_table.dart';
 import 'package:app/cores/drift/table/teams_table.dart';
 import 'package:app/cores/drift/table/users_table.dart';
 import 'package:app/cores/model/chat.dart';
+import 'package:app/cores/model/mate.dart';
 import 'package:drift/drift.dart';
 
 part 'drift_model.g.dart';
@@ -50,6 +51,33 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   /// ==========================================================================
   /// 好友操作
   /// ==========================================================================
+  /// 插入好友列表（业务）
+  // Future<void> saveMateList(List<MateList> lists) async {
+  //   /// 批量入库好友
+  //   await batch((b) {
+  //     final mates = lists.map((mate) => MatesTableCompanion(
+  //         id: Value(mate.id),
+  //         nickname: Value(mate.nickname),
+  //         sourceId: Value(mate.sourceId),
+  //         targetId: Value(mate.targetId),
+  //         createdAt: Value(mate.createdAt)
+  //     )).toList();
+  //     b.insertAllOnConflictUpdate(matesTable, mates);
+  //   });
+  //   /// 批量入库用户
+  //   await batch((b) {
+  //     final users = lists.map((mate) => UsersTableCompanion(
+  //         id: Value(mate.user.id),
+  //         avatar: Value(mate.user.avatar),
+  //         nickname: Value(mate.user.nickname),
+  //         username: Value(mate.user.username),
+  //         phone: Value(mate.user.phone),
+  //         email: Value(mate.user.email),
+  //         createdAt: Value(mate.user.createdAt)
+  //     )).toList();
+  //     b.insertAllOnConflictUpdate(usersTable, users);
+  //   });
+  // }
 
   /// 插入好友
   Future<int> insertMate(MatesTableCompanion info) async {
@@ -68,7 +96,7 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   //
   // }
 
-  // /// 好友分页
+  /// 好友分页
   // Future<Page<MateInfo>> selectMateList() async {
   //
   // }
@@ -125,84 +153,9 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   }
 
   /// 会话列表：
-  Stream<List<ChatList>> selectChatList(int currentUserId) {
-    final c = chatsTable;
-
-    // alias：同表 join 两次
-    final tSource = alias(teamsTable, 't_source');
-    final tTarget = alias(teamsTable, 't_target');
-
-    final mSource = alias(matesTable, 'm_source');
-    final mTarget = alias(matesTable, 'm_target');
-
-    final uFromSourceMate = alias(usersTable, 'u_from_source_mate');
-    final uFromTargetMate = alias(usersTable, 'u_from_target_mate');
-
-    // 排序：updatedAt desc，null 用 createdAt 兜底
-    final base = select(c)
-      ..orderBy([
-            (t) => OrderingTerm.desc(t.updatedAt),
-            (t) => OrderingTerm.desc(t.createdAt),
-      ]);
-
-    final joined = base.join([
-      // team：source/target -> teams.id
-      leftOuterJoin(tSource, tSource.id.equalsExp(c.sourceId)),
-      leftOuterJoin(tTarget, tTarget.id.equalsExp(c.targetId)),
-
-      // mate：source/target -> mates.id
-      leftOuterJoin(mSource, mSource.id.equalsExp(c.sourceId)),
-      leftOuterJoin(mTarget, mTarget.id.equalsExp(c.targetId)),
-
-      // mate -> users：用 mates.targetId 指向 users.id（目标用户）
-      leftOuterJoin(uFromSourceMate, uFromSourceMate.id.equalsExp(mSource.targetId)),
-      leftOuterJoin(uFromTargetMate, uFromTargetMate.id.equalsExp(mTarget.targetId)),
-    ])
-    // ✅ 与我有关的过滤
-      ..where(
-        (c.type.equals(ChatTypeEnum.team.code) &
-        (tSource.currentId.equals(currentUserId) |
-        tTarget.currentId.equals(currentUserId))) |
-        (c.type.equals(ChatTypeEnum.team.code) &
-        (mSource.sourceId.equals(currentUserId) |
-        mTarget.sourceId.equals(currentUserId))),
-      );
-
-    return joined.watch().map((rows) {
-      return rows.map((row) {
-        final chat = row.readTable(c);
-        final updatedAt = chat.updatedAt ?? chat.createdAt;
-
-        String name = '';
-        String? avatar;
-
-        if (chat.type == ChatTypeEnum.team) {
-          final team = row.readTableOrNull(tSource) ?? row.readTableOrNull(tTarget);
-          name = team?.name ?? '';
-          avatar = team?.avatar;
-        } else if (chat.type == ChatTypeEnum.mate) {
-          final mate = row.readTableOrNull(mSource) ?? row.readTableOrNull(mTarget);
-          final user = row.readTableOrNull(uFromSourceMate) ?? row.readTableOrNull(uFromTargetMate);
-
-          // 名称：优先 users.nickname，其次 mates.nickname
-          name = user?.nickname ?? mate?.nickname ?? '';
-
-          // 头像：优先 users.avatar
-          avatar = user?.avatar;
-        }
-
-        return ChatList(
-          id: chat.id,
-          type: chat.type,
-          name: name,
-          avatar: avatar,
-          content: chat.content,
-          unread: chat.unread,
-          updatedAt: updatedAt,
-        );
-      }).toList();
-    });
-  }
+  // Stream<List<ChatList>> selectChatList(int currentUserId) {
+  //   return
+  // }
 
   /// ==========================================================================
   /// 消息操作

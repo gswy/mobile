@@ -1,5 +1,5 @@
 /// 消息类型
-enum InfoTypeEnum {
+enum InfoType {
   /// 消息类型
   text(0),
 
@@ -22,13 +22,13 @@ enum InfoTypeEnum {
   final int code;
 
   /// 构造函数
-  const InfoTypeEnum(this.code);
+  const InfoType(this.code);
 
   /// 数字转枚举
-  static InfoTypeEnum fromCode(int code) {
-    return InfoTypeEnum.values.firstWhere(
+  static InfoType fromCode(int code) {
+    return InfoType.values.firstWhere(
       (it) => it.code == code,
-      orElse: () => InfoTypeEnum.text,
+      orElse: () => InfoType.text,
     );
   }
 }

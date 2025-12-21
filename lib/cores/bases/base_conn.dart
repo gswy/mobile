@@ -6,8 +6,6 @@ import 'package:app/cores/store/local_store.dart';
 import 'package:app/cores/utils/desk_util.dart';
 import 'package:app/cores/utils/sign_util.dart';
 import 'package:app/cores/value/host_constants.dart';
-import 'package:app/datas/hive/entity/news.dart';
-import 'package:app/datas/hive/mapper/news_hive.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
@@ -20,9 +18,6 @@ class BaseConn extends GetxService with WidgetsBindingObserver {
   final loading = false.obs;
   final connect = false.obs;
   final reading = false.obs;
-
-  /// 消息数据
-  final _news = Get.find<NewsHive>();
 
   bool _enabled = false;
   bool _foreground = true;
@@ -262,7 +257,7 @@ class BaseConn extends GetxService with WidgetsBindingObserver {
     }
     try {
       final res = jsonDecode(data);
-      _news.add(News.fromJson(res));
+
     } catch (e) {
       return;
     }

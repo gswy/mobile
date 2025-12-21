@@ -54,18 +54,11 @@ class ChatPage extends BaseView<ChatCtrl> {
         slivers: [
           // 通栏搜索框（作为滚动内容的一部分）
           SliverToBoxAdapter(child: _search(context)),
-          StreamBuilder<List<ChatList>>(
-            stream: controller.list,
-            builder: (context, datas) {
-              final chats = datas.data ?? const <ChatList>[];
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => _chatItem(context, chats, index),
-                  childCount: chats.length,
-                ),
-              );
-            },
-          ),
+          Obx(() => SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) => _chatItem(context, index),
+              childCount: controller.chatList.length,
+            ),
+          ))
         ],
       ),
     );
@@ -109,14 +102,14 @@ class ChatPage extends BaseView<ChatCtrl> {
   }
 
   /// 聊天项目
-  Widget _chatItem(BuildContext context, List<ChatList> chats, int index) {
-    final chat = chats[index];
+  Widget _chatItem(BuildContext context, int index) {
+    final chat = controller.chatList[index];
     return Column(
       children: [
         ListTile(
-          leading: CircleAvatar(child: Text(chat.name.substring(0, 1))),
-          title: Text(chat.name),
-          subtitle: Text(chat.content),
+          leading: CircleAvatar(child: Text(chat.title.substring(0, 1))),
+          title: Text(chat.title),
+          subtitle: Text(chat.message),
           trailing: Column(children: [Text(''), Text("zzz")]),
           onTap: () {
             Get.toNamed(
@@ -125,7 +118,7 @@ class ChatPage extends BaseView<ChatCtrl> {
             );
           },
         ),
-        if (index < chats.length)
+        if (index < controller.chatList.length - 1)
           Divider(height: 0.1, thickness: 0.1, color: Colors.grey),
       ],
     );

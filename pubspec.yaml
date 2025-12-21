@@ -50,10 +50,6 @@ dependencies:
   # 动画库: https://pub.dev/packages/animations
   animations: ^2.1.1
 
-  # 数据存储: https://pub.dev/packages/hive_ce
-  hive_ce: ^2.15.1
-  hive_ce_flutter: ^2.3.3
-
   # 下拉上拉: https://pub.dev/packages/easy_refresh
   easy_refresh: ^3.4.0
 
@@ -131,9 +127,6 @@ dev_dependencies:
 
   # 图标生成: https://pub.dev/packages/icons_launcher
   icons_launcher: ^3.0.3
-
-  # Hive生成: https://pub.dev/packages/hive_ce_generator
-  hive_ce_generator: ^1.11.0
 
 
 # 图标生成配置

@@ -26,8 +26,11 @@ class MatePage extends BaseView<MateCtrl> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: controller.initMateList,
+        onRefresh: () async {
+          controller.loadMatePage(refresh: true);
+        },
         child: ListView(
+          controller: controller.scroll,
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
           children: [_find(context), _menu(context), _mate(context)],
         ),
@@ -73,7 +76,7 @@ class MatePage extends BaseView<MateCtrl> {
     );
   }
 
-  /// 菜单
+  /// 菜单列表
   Widget _menu(BuildContext context) {
     return Card(
       elevation: 0,

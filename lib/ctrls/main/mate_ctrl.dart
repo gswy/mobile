@@ -1,18 +1,21 @@
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/datas/hive/entity/mate.dart';
-import 'package:app/datas/hive/mapper/mate_hive.dart';
 import 'package:app/datas/http/apis/mate_apis.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pinyin/pinyin.dart';
 
 /// 通讯页面
 class MateCtrl extends BaseCtrl {
 
-  /// 设置用户
-  final _hive = Get.find<MateHive>();
+  /// 页面滚动
+  final scroll = ScrollController();
+
+  /// 加载状态
+  final loading = false.obs;
+
+  /// 加载结果
+  final message = ''.obs;
 
   /// 通讯菜单
   final mateMenu = <MateMenu>[
@@ -42,60 +45,90 @@ class MateCtrl extends BaseCtrl {
     ),
   ];
 
-  /// 请求列表
-  final _list = <Mate>[].obs;
+  /// 用户列表
+  final mateList = <MateList>[].obs;
 
-  /// 好友列表
-  List<MateList> get mateList {
-    /// 0. 定义处理结构
-    final Map<String, List<MateItem>> group = {};
+  /// 当前页数
+  final _mateCurr = 1.obs;
 
-    /// 1. 遍历处理数据
-    for (var m in _list) {
-      final first = m.nickname.trim().characters.first;
+  /// 全部页数
+  final _matePage = 1.obs;
 
-      /// 1.1. 转换索引
-      String index = '#';
-      try {
-        final short = PinyinHelper.getShortPinyin(first);
-        index = short[0].toUpperCase();
-      } catch (_) {}
+  @override
+  void onInit() {
+    super.onInit();
+    loadMatePage();
+    scroll.addListener(() {
+      final pos = scroll.position;
+      if (pos.pixels >= pos.maxScrollExtent - 200) {
+        loadMatePage(page: _mateCurr.value + 1);
+      }
+    });
+  }
 
-      /// 1.2. 转换类型
-      (group[index] ??= <MateItem>[]).add(
-        MateItem(id: m.id, avatar: m.avatar, nickname: m.nickname),
+  /// 刷新用户
+  Future<void> loadMatePage({int page = 1, bool refresh = false}) async {
+    if (loading.value) return;
+
+    /// 没有更多页就不请求（可选）
+    if (!refresh && _matePage.value != 0 && page > _matePage.value) {
+      return;
+    }
+
+    loading.value = true;
+    message.value = '';
+
+    final res = await MateApis.getMatePage(page: page);
+    if (res == null) {
+      loading.value = false;
+      message.value = '加载失败';
+      return;
+    }
+
+    /// 设置分页
+    _mateCurr.value = res.page;       // 当前页
+    _matePage.value = res.pageNum;    // 总页数
+
+    /// 把现有数据（或空）转成 map，方便分组/合并
+    final Map<String, List<MateItem>> map = {};
+
+    if (!refresh) {
+      for (final g in mateList) {
+        map[g.index] = List<MateItem>.from(g.lists);
+      }
+    }
+
+    /// 合并本页数据
+    for (final m in res.data) {
+      final key = (m.index.isEmpty ? '#' : m.index).toUpperCase();
+      (map[key] ??= <MateItem>[]).add(
+        MateItem(
+          id: m.id,
+          avatar: m.avatar,
+          nickname: m.nickname,
+        ),
       );
     }
 
-    /// 2. 排序所有数据
-    final keys = group.keys.toList()
+    /// 组内去重
+    for (final entry in map.entries) {
+      final seen = <int>{};
+      entry.value.retainWhere((e) => seen.add(e.id));
+      entry.value.sort((a, b) => a.nickname.compareTo(b.nickname));
+    }
+
+    /// key 排序：A-Z，# 最后
+    final keys = map.keys.toList()
       ..sort((a, b) {
         if (a == '#') return 1;
         if (b == '#') return -1;
         return a.compareTo(b);
       });
 
-    /// 3. 最终处理分组
-    return keys
-        .map((index) => MateList(index: index, lists: group[index]!))
-        .toList();
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    initMateList();
-  }
-
-  /// 刷新用户
-  Future<void> initMateList() async {
-    try {
-      final list = await MateApis.getMateList();
-      _list.value = list;
-      for (var it in list) {
-        _hive.add(it);
-      }
-    } catch (_) {}
+    mateList.assignAll(
+      keys.map((k) => MateList(index: k, lists: map[k]!)).toList(),
+    );
+    loading.value = false;
   }
 }
 
