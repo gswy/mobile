@@ -2,13 +2,14 @@ import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/utils/room_util.dart';
-import 'package:app/cores/widgets/chat_view.dart';
+import 'package:app/cores/widgets/info_view.dart';
 import 'package:app/ctrls/main/room_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// 聊天页面
 class RoomPage extends BaseView<RoomCtrl> {
   const RoomPage({super.key});
 
@@ -18,7 +19,7 @@ class RoomPage extends BaseView<RoomCtrl> {
       () => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(controller.title.value),
+          title: Text('${controller.chat.value?.title}'),
           actions: [
             IconButton(
               onPressed: () {},
@@ -50,7 +51,7 @@ class RoomPage extends BaseView<RoomCtrl> {
         decoration: InputDecoration(
           filled: true,
           isDense: true,
-          fillColor: Color(0x0f000000),
+          fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
@@ -86,7 +87,6 @@ class RoomPage extends BaseView<RoomCtrl> {
       child: Obx(() {
         return ListView.builder(
           reverse: true,
-          // 反向：最新的在最下面
           padding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
           controller: controller.listCtrl,
           itemCount: controller.infoList.length,
@@ -98,27 +98,29 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   /// 聊天项目
   Widget _chatItem(BuildContext context, int index) {
-    return Placeholder();
-    // return Obx(() {
-    //   final info = controller.infoList[index];
-    //   final mine = info.sourceId == BaseAuth.id;
-    //   return ChatView(
-    //     mine: mine,
-    //     type: info.type,
-    //     content: info.content,
-    //     status: info.status,
-    //   );
-    // });
+    return Obx(() {
+      final info = controller.infoList[index];
+      final isMe = info.userId == BaseAuth.id;
+      return InfoView(
+        isMe: isMe,
+        type: info.type.code,
+        name: info.nickname,
+        message: info.message,
+        status: info.status,
+      );
+    });
   }
 
   /// 菜单列表
   Widget _menuList(BuildContext context) {
     final bottomSafe = MediaQuery.of(context).padding.bottom;
+    final borderColor = Theme.of(context).colorScheme.surfaceContainerHighest;
+
     return Container(
       padding: EdgeInsets.only(bottom: bottomSafe + 8, top: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
-        border: Border(top: BorderSide(color: Colors.grey, width: 0.2)),
+        border: Border(top: BorderSide(color: borderColor, width: 0.2)),
       ),
       child: Column(
         children: [

@@ -4,7 +4,7 @@ import 'package:app/cores/model/mate.dart';
 import 'package:get/get.dart';
 
 /// 好友接口
-class MateApis extends GetxService {
+class MateApis {
   MateApis._();
 
   static final _http = Get.find<BaseHttp>();

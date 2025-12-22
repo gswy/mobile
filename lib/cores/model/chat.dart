@@ -1,37 +1,19 @@
 
-
 import 'package:app/cores/drift/enums/chat_type.dart';
 
-/// 会话字段
-class Chat {
-  final int id;
-  final ChatType type;
-  final int sourceId;
-  final int targetId;
-  final int unread;
-  final String content;
-  final int createdAt;
-  final int updatedAt;
-
-  Chat({
-    required this.id,
-    required this.type,
-    required this.sourceId,
-    required this.targetId,
-    required this.unread,
-    required this.content,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-}
-
 /// 会话列表
-class ChatList {
+class Chat {
   /// 会话标识
   final int id;
 
   /// 会话类型
   final ChatType type;
+
+  /// 对方标识
+  final int targetId;
+
+  /// 我的标识
+  final int sourceId;
 
   /// 会话名称
   final String title;
@@ -48,9 +30,11 @@ class ChatList {
   /// 消息时间
   final int messageAt;
 
-  ChatList({
+  Chat({
     required this.id,
     required this.type,
+    required this.targetId,
+    required this.sourceId,
     required this.title,
     required this.avatar,
     required this.unread,
@@ -60,9 +44,11 @@ class ChatList {
 
 
   /// json转换
-  factory ChatList.fromJson(Map<String, dynamic> json) => ChatList(
+  factory Chat.fromJson(Map<String, dynamic> json) => Chat(
     id: json["id"],
-    type: json["type"],
+    type: ChatType.fromCode(json["type"]),
+    targetId: json["targetId"],
+    sourceId: json["sourceId"],
     title: json["title"],
     avatar: json["avatar"],
     unread: 1,
@@ -71,7 +57,3 @@ class ChatList {
   );
 }
 
-/// 消息列表
-class InfoList {
-
-}

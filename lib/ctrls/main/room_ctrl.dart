@@ -1,18 +1,22 @@
-
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
+import 'package:app/cores/drift/datas/db.dart';
+import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:app/cores/model/chat.dart';
+import 'package:app/cores/model/info.dart';
+import 'package:app/cores/utils/uuid_util.dart';
+import 'package:app/datas/http/apis/info_apis.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-/// 房间数据
+/// 聊天数据
 class RoomCtrl extends BaseCtrl {
-
-  /// 房间标题
-  final title = ''.obs;
+  /// 会话数据
+  final chat = Rxn<Chat>();
 
   /// 响应聊天
-  List<InfoList> get infoList => _infoList();
+  final infoList = <Info>[].obs;
 
   /// 是否显示键盘输入
   final showTextMode = true.obs;
@@ -32,25 +36,51 @@ class RoomCtrl extends BaseCtrl {
 
   @override
   void onInit() {
-    final args = Get.arguments;
+    chat.value = Get.arguments as Chat;
+    DB.dao.listInfo(chat.value!.id).listen((data) {
+      infoList.assignAll(data);
+    });
     super.onInit();
   }
 
-  /// 初始化聊天列表
-  Future<void> _init() async {
-
-  }
-
   /// 发送文字消息
-  Future<void> sendText(String text) async {
-
-  }
-
-  /// 撤回消息
-
-  /// 过滤数据
-  List<InfoList> _infoList() {
-    return [];
+  Future<void> sendText(String message) async {
+    textCtrl.clear();
+    final c = chat.value!;
+    /// 构造发送信息
+    final clientId = UuidUtil.id;
+    final messageAt = DateTime.now().millisecondsSinceEpoch;
+    /// 先存储到本地库中
+    final info = Info(
+      clientId: clientId,
+      type: InfoType.text,
+      chatId: c.id,
+      userId: BaseAuth.id!,
+      avatar: BaseAuth.avatar,
+      nickname: BaseAuth.nickname!,
+      unread: true,
+      status: 0,
+      message: message,
+      messageAt: messageAt,
+    );
+    DB.dao.saveInfo(info);
+    /// 开始云端发送消息
+    final res = await InfoApis.send(
+      chat: chat.value!.type.code,
+      info: InfoType.text.code,
+      clientId: clientId,
+      targetId: chat.value!.targetId,
+      message: message,
+      messageAt: messageAt,
+    );
+    if (res != null) {
+      info.id = res.id;
+      info.status = 1;
+    } else {
+      info.status = -1;
+    }
+    /// 保存发送状态
+    DB.dao.saveInfo(info);
   }
 
   /// 切换显示/隐藏九宫格菜单

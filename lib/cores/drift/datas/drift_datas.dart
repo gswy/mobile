@@ -5,10 +5,7 @@ import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:app/cores/drift/enums/role_type.dart';
 
 import 'package:app/cores/drift/table/chats_table.dart';
-import 'package:app/cores/drift/table/mates_table.dart';
-import 'package:app/cores/drift/table/mines_table.dart';
-import 'package:app/cores/drift/table/teams_table.dart';
-import 'package:app/cores/drift/table/users_table.dart';
+import 'package:app/cores/drift/table/infos_table.dart';
 
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
@@ -19,12 +16,7 @@ part 'drift_datas.g.dart';
 @DriftDatabase(
   tables: [
     ChatsTable,
-    ChatsInfosTable,
-    MatesTable,
-    MinesTable,
-    TeamsTable,
-    TeamsUsersTable,
-    UsersTable,
+    InfosTable,
   ],
   daos: [
     DriftModel
@@ -51,7 +43,7 @@ class DriftDatas extends _$DriftDatas {
   /// 数据库配置地址
   static QueryExecutor _executor() {
     return driftDatabase(
-      name: 'chat',
+      name: 'data',
       native: const DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory
       )

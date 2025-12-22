@@ -1,16 +1,20 @@
 
+/// 云端消息
 class InfoResp {
 
+  /// 消息标识
   final int id;
 
-  InfoResp({required this.id});
+  /// 消息标识（本地）
+  final String clientId;
 
-  factory InfoResp.fromJson(dynamic json) => InfoResp(
+  InfoResp({
+    required this.id,
+    required this.clientId
+  });
+
+  factory InfoResp.fromJson(Map<String, dynamic> json) => InfoResp(
     id: json["id"],
+    clientId: json["clientId"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-  };
-
 }

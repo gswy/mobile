@@ -5,24 +5,25 @@ import 'package:get/get.dart';
 
 class BaseAuth extends GetxService {
 
-  /// 全局单例
-  static BaseAuth get to => Get.find<BaseAuth>();
+  /// 用户信息
+  static final _mine = Rxn<Mine>(null);
+
+  /// 用户标识
+  static int? get id => _mine.value?.id;
 
   /// 用户信息
-  final _mine = Rxn<Mine>(null);
+  static Mine? get mine => _mine.value;
 
-  /// 用户ID（静态获取）
-  static int? get id => null;
-
-  /// 用户信息
-  static Mine? get mine => to._mine.value;
+  /// 用户头像
+  static String? get avatar => _mine.value?.avatar;
 
   /// 用户昵称
-
+  static String? get nickname => _mine.value?.nickname;
 
   /// 初始获取
   Future<void> init () async {
-    _mine.value = await MineApis.getMine();
+    final mine = await MineApis.getMine();
+    _mine.value = mine;
   }
 
 }

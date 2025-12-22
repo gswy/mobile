@@ -4,151 +4,63 @@ import 'package:app/cores/drift/enums/role_type.dart';
 
 import 'package:app/cores/drift/datas/drift_datas.dart';
 import 'package:app/cores/drift/table/chats_table.dart';
-import 'package:app/cores/drift/table/mates_table.dart';
-import 'package:app/cores/drift/table/mines_table.dart';
-import 'package:app/cores/drift/table/teams_table.dart';
-import 'package:app/cores/drift/table/users_table.dart';
+import 'package:app/cores/drift/table/infos_table.dart';
 import 'package:app/cores/model/chat.dart';
-import 'package:app/cores/model/mate.dart';
+import 'package:app/cores/model/info.dart';
 import 'package:drift/drift.dart';
 
 part 'drift_model.g.dart';
 
 /// 数据库访问层（DAO）
-@DriftAccessor(
-  tables: [
-    ChatsTable,
-    ChatsInfosTable,
-    MatesTable,
-    MinesTable,
-    TeamsTable,
-    TeamsUsersTable,
-    UsersTable,
-  ],
-)
+@DriftAccessor(tables: [ChatsTable, InfosTable])
 class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   DriftModel(super.db);
-
-  /// ==========================================================================
-  /// 用户操作
-  /// ==========================================================================
-
-  /// 插入用户
-  Future<int> insertUser(UsersTableCompanion info) async {
-    return into(usersTable).insert(info);
-  }
-
-  /// 批量插入
-  // Future<bool> insertUserList(List<UserInfo> lists) async {
-  //
-  // }
-
-  /// 查询详情
-  // Future<UserInfo> selectUser(int id) async {
-  //
-  // }
-
-  /// ==========================================================================
-  /// 好友操作
-  /// ==========================================================================
-  /// 插入好友列表（业务）
-  // Future<void> saveMateList(List<MateList> lists) async {
-  //   /// 批量入库好友
-  //   await batch((b) {
-  //     final mates = lists.map((mate) => MatesTableCompanion(
-  //         id: Value(mate.id),
-  //         nickname: Value(mate.nickname),
-  //         sourceId: Value(mate.sourceId),
-  //         targetId: Value(mate.targetId),
-  //         createdAt: Value(mate.createdAt)
-  //     )).toList();
-  //     b.insertAllOnConflictUpdate(matesTable, mates);
-  //   });
-  //   /// 批量入库用户
-  //   await batch((b) {
-  //     final users = lists.map((mate) => UsersTableCompanion(
-  //         id: Value(mate.user.id),
-  //         avatar: Value(mate.user.avatar),
-  //         nickname: Value(mate.user.nickname),
-  //         username: Value(mate.user.username),
-  //         phone: Value(mate.user.phone),
-  //         email: Value(mate.user.email),
-  //         createdAt: Value(mate.user.createdAt)
-  //     )).toList();
-  //     b.insertAllOnConflictUpdate(usersTable, users);
-  //   });
-  // }
-
-  /// 插入好友
-  Future<int> insertMate(MatesTableCompanion info) async {
-    return into(matesTable).insert(info);
-  }
-
-  /// 查询好友
-
-  /// 修改好友：全量修改
-  Future<bool> updateMate(MatesTableCompanion info) async {
-    return update(matesTable).replace(info);
-  }
-
-  /// 批量插入：
-  // Future<bool> insertMateList(List<MateInfo> lists) async {
-  //
-  // }
-
-  /// 好友分页
-  // Future<Page<MateInfo>> selectMateList() async {
-  //
-  // }
-
-  /// ==========================================================================
-  /// 群组操作
-  /// ==========================================================================
-
-  /// 插入群组
-  Future<int> insertTeam(TeamsTableCompanion info) async {
-    return into(teamsTable).insert(info);
-  }
-
-  // /// 查询群组详情：
-  // Future<TeamInfo> selectTeam(int id) async {
-  //
-  // }
-
-  /// 查询群组分页
-  /// [userId] 代表当前登录用户，[page] 代表当前当前第几页
-  // Future<Page<TeamList>> selectTeamList(int userId, int page) async {
-  //
-  // }
 
   /// ==========================================================================
   /// 会话操作
   /// ==========================================================================
 
   /// 插入会话：
-  Future<int> insertChat(ChatsTableCompanion data) async {
-    return into(chatsTable).insert(data);
+  Future<int> saveChat(Chat chat) async {
+    final data = ChatsTableCompanion.insert(
+      id: chat.id,
+      type: chat.type,
+      sourceId: chat.sourceId,
+      targetId: chat.targetId,
+      title: chat.title,
+      message: chat.message,
+      messageAt: chat.messageAt,
+    );
+    return await into(chatsTable).insertOnConflictUpdate(data);
   }
 
-  // /// 会话详情
-  // Future<ChatInfo> selectChat(int id) async {
-  //
-  // }
+  /// 批量插入:
+  Future<void> saveChatList(List<Chat> chats) async {
+    final lists = chats
+        .map(
+          (chat) => ChatsTableCompanion.insert(
+            id: chat.id,
+            type: chat.type,
+            sourceId: chat.sourceId,
+            targetId: chat.targetId,
+            title: chat.title,
+            message: chat.message,
+            messageAt: chat.messageAt,
+          ),
+        )
+        .toList();
+    return await batch((bt) {
+      bt.insertAllOnConflictUpdate(chatsTable, lists);
+    });
+  }
 
   /// 会话未读
-  Stream<int> selectChatUnread(int userId) {
-    /// 会话表信息
+  Stream<int> selectChatUnread(int sourceId) {
     final c = chatsTable;
-
-    /// SUM(unread)
     final sumUnread = c.unread.sum();
-
-    /// 查询数量
     final q = selectOnly(c)
       ..addColumns([sumUnread])
-      ..where(c.sourceId.equals(userId) | c.targetId.equals(userId));
-
-    /// 响应处理
+      ..where(c.sourceId.equals(sourceId) & c.unread.isBiggerThanValue(0));
     return q.watchSingle().map((row) => row.read(sumUnread) ?? 0);
   }
 
@@ -162,8 +74,67 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   /// ==========================================================================
 
   /// 插入消息
-  Future<int> insertChatInfo(ChatsInfosTableCompanion data) async {
-    return into(chatsInfosTable).insert(data);
+  Future<int> saveInfo(Info info) async {
+    final data = InfosTableCompanion.insert(
+      id: Value(info.id),
+      clientId: info.clientId,
+      type: info.type,
+      chatId: info.chatId,
+      userId: info.userId,
+      nickname: info.nickname,
+      unread: info.unread,
+      status: info.status,
+      message: info.message,
+      messageAt: info.messageAt,
+    );
+    return await into(infosTable).insertOnConflictUpdate(data);
+  }
+
+  /// 批量插入:
+  Future<void> saveInfoList(List<Info> infos) async {
+    final lists = infos
+        .map(
+          (info) => InfosTableCompanion.insert(
+            id: Value(info.id),
+            clientId: info.clientId,
+            type: info.type,
+            chatId: info.chatId,
+            userId: info.userId,
+            nickname: info.nickname,
+            unread: info.unread,
+            status: info.status,
+            message: info.message,
+            messageAt: info.messageAt,
+          ),
+        )
+        .toList();
+    return await batch((bt) {
+      bt.insertAllOnConflictUpdate(infosTable, lists);
+    });
+  }
+
+  /// 监听变化
+  Stream<List<Info>> listInfo(int chatId) {
+    final i = infosTable;
+    final query = (select(i)
+      ..where((t) => t.chatId.equals(chatId))
+      ..orderBy([(t) => OrderingTerm.desc(t.messageAt)]));
+
+    return query.watch().map((rows) {
+      return rows.map((it) => Info(
+        id: it.id,
+        clientId: it.clientId,
+        type: it.type,
+        chatId: it.chatId,
+        userId: it.userId,
+        avatar: it.avatar,
+        nickname: it.nickname,
+        unread: it.unread,
+        status: it.status,
+        message: it.message,
+        messageAt: it.messageAt,
+      )).toList();
+    });
   }
 
   // /// 消息列表：包含用户头像、用户昵称，消息类型，消息内容；

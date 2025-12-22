@@ -1,4 +1,5 @@
 
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/toast/toast.dart';
@@ -12,6 +13,8 @@ class SignCtrl extends BaseCtrl {
 
   /// 连接处理
   final _conn = Get.find<BaseConn>();
+
+  final _auth = Get.find<BaseAuth>();
 
   /// 连接地址
   final host = ''.obs;
@@ -38,6 +41,7 @@ class SignCtrl extends BaseCtrl {
   Future<void> signIn() async {
     final res = await AuthApis.signIn(username.text.trim(), password.text.trim());
     if (res) {
+      _auth.init();
       _conn.star();
       Get.offNamed(MainRoute.home);
     }
