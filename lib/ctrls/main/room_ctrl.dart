@@ -38,6 +38,10 @@ class RoomCtrl extends BaseCtrl {
   @override
   void onInit() {
     chat.value = Get.arguments as Chat;
+    /// 进入页面则标记已读
+    chat.value?.unread = 0;
+    DB.dao.saveChat(chat.value!);
+    /// 监听数据变化
     DB.dao.listInfo(chat.value!.sn).listen((data) {
       infoList.assignAll(data);
     });

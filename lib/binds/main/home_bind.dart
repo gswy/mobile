@@ -10,11 +10,11 @@ class HomeBind extends Bindings {
   @override
   void dependencies() {
     /// 主页面
-    Get.put(HomeCtrl(), permanent: true);
+    Get.put(HomeCtrl());
 
     /// 子页面
-    Get.put(ChatCtrl(), permanent: true);
-    Get.put(MateCtrl(), permanent: true);
-    Get.put(MineCtrl(), permanent: true);
+    Get.put(ChatCtrl());
+    Get.put(MateCtrl());
+    Get.put(MineCtrl());
   }
 }

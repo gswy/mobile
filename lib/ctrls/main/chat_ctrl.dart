@@ -1,6 +1,8 @@
 
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
+import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/model/chat.dart';
 import 'package:app/datas/http/apis/chat_apis.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,13 +14,17 @@ class ChatCtrl extends BaseCtrl {
   /// 页面滚动
   final scroll = ScrollController();
 
-  ///
+  /// 加载结果
   final message = ''.obs;
 
+  /// 加载状态
   final loading = false.obs;
 
   /// 连接状态
   final _conn = Get.find<BaseConn>();
+
+  ///
+  final subtitle = ''.obs;
 
   /// 是否连接
   RxBool get connect => _conn.connect;
@@ -35,13 +41,20 @@ class ChatCtrl extends BaseCtrl {
   /// 加载会话
   @override void onInit() {
     super.onInit();
-    loadChatPage();
+    /// 监听变化
+    DB.dao.listChat(BaseAuth.id!).listen((data) {
+      chatList.assignAll(data);
+    });
     scroll.addListener(() {
       final pos = scroll.position;
       if (pos.pixels >= pos.maxScrollExtent - 200) {
         loadChatPage(page: _chatCurr.value + 1);
       }
     });
+  }
+
+  Future<void> remove(String sn) async {
+    DB.dao.omitChat(sn);
   }
 
   /// 刷新用户
@@ -68,11 +81,7 @@ class ChatCtrl extends BaseCtrl {
     _chatPage.value = res.pageNum;    // 总页数
 
     /// 数据展示
-    if (refresh) {
-      chatList.value = res.data;
-    } else {
-      chatList.addAll(res.data);
-    }
+    DB.dao.saveChatList(res.data);
 
     loading.value = false;
   }

@@ -104,6 +104,7 @@ dependencies:
 
   # TDesign: https://pub.dev/packages/tdesign_flutter/
   tdesign_flutter: ^0.2.6
+  flutter_slidable: ^3.1.2
 
 
 

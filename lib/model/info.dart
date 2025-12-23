@@ -50,7 +50,20 @@ class Info {
     required this.messageAt,
   });
 
-
+  /// json转换
+  factory Info.fromJson(Map<String, dynamic> json) => Info(
+    id: json["id"],
+    sn: json["sn"],
+    clientId: json['clientId'],
+    type: InfoType.fromCode(json["type"]),
+    userId: json["userId"],
+    avatar: json["avatar"],
+    nickname: json["nickname"],
+    unread: true,
+    status: 1,
+    message: json["message"],
+    messageAt: json["messageAt"],
+  );
 
 
 }

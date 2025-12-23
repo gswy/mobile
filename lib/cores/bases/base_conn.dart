@@ -2,10 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/cores/dicts/news_dict.dart';
+import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/store/local_store.dart';
 import 'package:app/cores/utils/desk_util.dart';
 import 'package:app/cores/utils/sign_util.dart';
 import 'package:app/cores/value/host_constants.dart';
+import 'package:app/model/chat.dart';
+import 'package:app/model/info.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
@@ -257,7 +261,17 @@ class BaseConn extends GetxService with WidgetsBindingObserver {
     }
     try {
       final res = jsonDecode(data);
-
+      /// 入库聊天数据
+      if (res['type'] == NewsDict.chatInfoBody) {
+        final info = Info.fromJson(res['payload']);
+        DB.dao.saveInfo(info);
+        final chat = await DB.dao.findChat(info.sn);
+        if (chat != null) {
+          chat.message = info.message;
+          chat.messageAt = info.messageAt;
+          await DB.dao.saveChat(chat);
+        }
+      }
     } catch (e) {
       return;
     }
