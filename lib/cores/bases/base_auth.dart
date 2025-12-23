@@ -1,5 +1,5 @@
 
-import 'package:app/cores/model/mine.dart';
+import 'package:app/model/mine.dart';
 import 'package:app/datas/http/apis/mine_apis.dart';
 import 'package:get/get.dart';
 

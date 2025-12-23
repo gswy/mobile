@@ -1,6 +1,6 @@
 
 import 'package:app/cores/bases/base_http.dart';
-import 'package:app/cores/model/mine.dart';
+import 'package:app/model/mine.dart';
 import 'package:get/get.dart';
 
 class MineApis {

@@ -1,5 +1,5 @@
 import 'package:app/cores/bases/base_view.dart';
-import 'package:app/cores/model/chat.dart';
+import 'package:app/model/chat.dart';
 import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/ctrls/main/chat_ctrl.dart';

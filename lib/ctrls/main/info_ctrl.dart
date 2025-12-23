@@ -1,7 +1,7 @@
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/dicts/room_dict.dart';
 import 'package:app/cores/drift/datas/db.dart';
-import 'package:app/cores/model/chat.dart';
+import 'package:app/model/chat.dart';
 import 'package:app/datas/http/apis/team_apis.dart';
 import 'package:app/datas/http/apis/user_apis.dart';
 import 'package:app/datas/http/resp/team/team_info.dart';

@@ -1,6 +1,6 @@
 
 import 'package:app/cores/bases/base_http.dart';
-import 'package:app/cores/model/mate.dart';
+import 'package:app/model/mate.dart';
 import 'package:get/get.dart';
 
 /// 好友接口

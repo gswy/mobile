@@ -1,4 +1,3 @@
-import 'package:app/cores/model/user.dart';
 
 /// 好友详情
 class Mate {

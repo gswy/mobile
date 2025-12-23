@@ -1,7 +1,7 @@
 
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/model/chat.dart';
+import 'package:app/model/chat.dart';
 import 'package:app/datas/http/apis/chat_apis.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';

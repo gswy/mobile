@@ -2,8 +2,8 @@ import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
-import 'package:app/cores/model/chat.dart';
-import 'package:app/cores/model/info.dart';
+import 'package:app/model/chat.dart';
+import 'package:app/model/info.dart';
 import 'package:app/cores/utils/uuid_util.dart';
 import 'package:app/datas/http/apis/info_apis.dart';
 

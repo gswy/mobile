@@ -5,8 +5,8 @@ import 'package:app/cores/drift/enums/role_type.dart';
 import 'package:app/cores/drift/datas/drift_datas.dart';
 import 'package:app/cores/drift/table/chats_table.dart';
 import 'package:app/cores/drift/table/infos_table.dart';
-import 'package:app/cores/model/chat.dart';
-import 'package:app/cores/model/info.dart';
+import 'package:app/model/chat.dart';
+import 'package:app/model/info.dart';
 import 'package:drift/drift.dart';
 
 part 'drift_model.g.dart';
