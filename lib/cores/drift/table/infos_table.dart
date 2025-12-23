@@ -12,14 +12,14 @@ class InfosTable extends Table {
   /// 消息标识（云端）
   IntColumn get id => integer().nullable()();
 
+  /// 会话标识
+  TextColumn get sn => text()();
+
   /// 消息标识（本地）
   TextColumn get clientId => text()();
 
   /// 消息类型
   IntColumn get type => intEnum<InfoType>()();
-
-  /// 会话标识
-  IntColumn get chatId => integer()();
 
   /// 发送用户
   IntColumn get userId => integer()();

@@ -1,8 +1,11 @@
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/dicts/room_dict.dart';
-import 'package:app/datas/http/apis/info_apis.dart';
-import 'package:app/datas/http/resp/info/info_team.dart';
-import 'package:app/datas/http/resp/info/info_user.dart';
+import 'package:app/cores/drift/datas/db.dart';
+import 'package:app/cores/model/chat.dart';
+import 'package:app/datas/http/apis/team_apis.dart';
+import 'package:app/datas/http/apis/user_apis.dart';
+import 'package:app/datas/http/resp/team/team_info.dart';
+import 'package:app/datas/http/resp/user/user_info.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +21,7 @@ class InfoCtrl extends BaseCtrl {
 
   /// -------------- 用户信息 ----------------
   /// 用户信息
-  final user = Rxn<InfoUser>();
+  final user = Rxn<UserInfo>();
 
   /// 请求用户
   Future<void> initInfoUser() async {
@@ -26,7 +29,7 @@ class InfoCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      user.value = await InfoApis.getInfoUser(id);
+      user.value = await UserApis.getUserInfo(id);
     } catch (e) {
       message.value = '信息获取失败';
     } finally {
@@ -34,9 +37,9 @@ class InfoCtrl extends BaseCtrl {
     }
   }
 
-  /// -------------- 用户信息 ----------------
+  /// -------------- 群组信息 ----------------
   /// 用户信息
-  final team = Rxn<InfoTeam>();
+  final team = Rxn<TeamInfo>();
 
   /// 请求用户
   Future<void> initInfoTeam() async {
@@ -44,7 +47,7 @@ class InfoCtrl extends BaseCtrl {
     final args = Get.arguments as Map;
     final id = args['id'] as int;
     try {
-      team.value = await InfoApis.getInfoTeam(id);
+      team.value = await TeamApis.getTeamInfo(id);
     } catch (_) {
       message.value = '信息获取失败';
     } finally {
@@ -56,7 +59,7 @@ class InfoCtrl extends BaseCtrl {
   void handRoom() {
     Get.toNamed(
       MainRoute.room,
-      arguments: {'id': user.value!.id, 'mode': RoomDict.mate},
+      arguments: '',
     );
   }
 

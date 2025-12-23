@@ -22,10 +22,10 @@ import 'package:app/pages/main/home/home_page.dart';
 import 'package:app/binds/main/bind_bind.dart';
 import 'package:app/binds/main/room_bind.dart';
 import 'package:app/pages/main/home/team_page.dart';
-import 'package:app/pages/main/info/info_user_page.dart';
-import 'package:app/pages/main/info/info_team_page.dart';
+import 'package:app/pages/main/team/team_info_page.dart';
 import 'package:app/pages/main/room/room_page.dart';
 import 'package:app/pages/main/conf/conf_mine_page.dart';
+import 'package:app/pages/main/user/user_info_page.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:get/get.dart';
 
@@ -110,15 +110,15 @@ class MainPages {
     /// --------- 详情相关 ---------
     /// 好友详情
     GetPage(
-      name: MainRoute.infoUser,
-      page: () => InfoUserPage(),
+      name: MainRoute.userInfo,
+      page: () => UserInfoPage(),
       binding: InfoBind(),
     ),
 
     /// 群组详情
     GetPage(
-      name: MainRoute.infoTeam,
-      page: () => InfoTeamPage(),
+      name: MainRoute.teamInfo,
+      page: () => TeamInfoPage(),
       binding: InfoBind(),
     ),
 

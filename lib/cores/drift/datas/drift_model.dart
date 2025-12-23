@@ -23,7 +23,8 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   /// 插入会话：
   Future<int> saveChat(Chat chat) async {
     final data = ChatsTableCompanion.insert(
-      id: chat.id,
+      sn: chat.sn,
+      id: Value(chat.id),
       type: chat.type,
       sourceId: chat.sourceId,
       targetId: chat.targetId,
@@ -39,7 +40,8 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
     final lists = chats
         .map(
           (chat) => ChatsTableCompanion.insert(
-            id: chat.id,
+            sn: chat.sn,
+            id: Value(chat.id),
             type: chat.type,
             sourceId: chat.sourceId,
             targetId: chat.targetId,
@@ -77,9 +79,9 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   Future<int> saveInfo(Info info) async {
     final data = InfosTableCompanion.insert(
       id: Value(info.id),
+      sn: info.sn,
       clientId: info.clientId,
       type: info.type,
-      chatId: info.chatId,
       userId: info.userId,
       nickname: info.nickname,
       unread: info.unread,
@@ -96,9 +98,9 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
         .map(
           (info) => InfosTableCompanion.insert(
             id: Value(info.id),
+            sn: info.sn,
             clientId: info.clientId,
             type: info.type,
-            chatId: info.chatId,
             userId: info.userId,
             nickname: info.nickname,
             unread: info.unread,
@@ -114,18 +116,18 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   }
 
   /// 监听变化
-  Stream<List<Info>> listInfo(int chatId) {
+  Stream<List<Info>> listInfo(String sn) {
     final i = infosTable;
     final query = (select(i)
-      ..where((t) => t.chatId.equals(chatId))
+      ..where((t) => t.sn.equals(sn))
       ..orderBy([(t) => OrderingTerm.desc(t.messageAt)]));
 
     return query.watch().map((rows) {
       return rows.map((it) => Info(
         id: it.id,
+        sn: it.sn,
         clientId: it.clientId,
         type: it.type,
-        chatId: it.chatId,
         userId: it.userId,
         avatar: it.avatar,
         nickname: it.nickname,

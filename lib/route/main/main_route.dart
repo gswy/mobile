@@ -47,10 +47,10 @@ class MainRoute {
   /// ------------ 详情页面 ---------------
 
   /// 好友详情
-  static const String infoUser = '/info/mate';
+  static const String userInfo = '/user/info';
 
   /// 群组详情
-  static const String infoTeam = '/info/team';
+  static const String teamInfo = '/team/info';
 
   /// ------------ 我的设置 ---------------
 

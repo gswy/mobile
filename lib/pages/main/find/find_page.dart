@@ -90,7 +90,7 @@ class FindPage extends GetView<FindCtrl> {
                       subtitle: Text('账号：${it.username}'),
                       onTap: () {
                         Get.toNamed(
-                          MainRoute.infoUser,
+                          MainRoute.userInfo,
                           arguments: {'id': it.id},
                         );
                       },

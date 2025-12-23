@@ -1,12 +1,12 @@
 
-class InfoUser {
+class UserInfo {
   final int id;
   final String? avatar;
   final String nickname;
   final String username;
   final bool isFriend;
 
-  InfoUser({
+  UserInfo({
     required this.id,
     required this.avatar,
     required this.nickname,
@@ -14,7 +14,7 @@ class InfoUser {
     required this.isFriend,
   });
 
-  factory InfoUser.fromJson(dynamic json) => InfoUser(
+  factory UserInfo.fromJson(dynamic json) => UserInfo(
     id: json["id"],
     avatar: json["avatar"],
     nickname: json["nickname"],

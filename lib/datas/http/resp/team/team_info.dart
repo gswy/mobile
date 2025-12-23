@@ -1,12 +1,13 @@
 
-class InfoTeam {
+
+class TeamInfo {
   final int id;
   final String name;
   final String? avatar;
   final bool isJoined;
   final bool isManage;
 
-  InfoTeam({
+  TeamInfo({
     required this.id,
     required this.name,
     required this.avatar,
@@ -14,7 +15,7 @@ class InfoTeam {
     required this.isManage,
   });
 
-  factory InfoTeam.fromJson(dynamic json) => InfoTeam(
+  factory TeamInfo.fromJson(dynamic json) => TeamInfo(
     id: json["id"],
     name: json["name"],
     avatar: json["avatar"],

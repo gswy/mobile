@@ -13,9 +13,9 @@ class ConfAuthPage extends GetView<ConfCtrl> {
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
-          ElevatedButton(onPressed: () {}, child: Text('退出登录')),
+          ElevatedButton(onPressed: controller.signExit, child: Text('退出登录')),
           SizedBox(height: 14),
-          ElevatedButton(onPressed: () {}, child: Text('切换服务')),
+          ElevatedButton(onPressed: controller.hostExit, child: Text('切换服务')),
         ],
       ),
     );

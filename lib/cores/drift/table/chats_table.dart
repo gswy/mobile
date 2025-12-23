@@ -8,8 +8,11 @@ class ChatsTable extends Table {
   @override
   String get tableName => 'chats';
 
-  /// 消息标识
-  IntColumn get id => integer()();
+  /// 会话标识
+  TextColumn get sn => text()();
+
+  /// 自增标识
+  IntColumn  get id => integer().nullable()();
 
   /// 会话类型
   IntColumn get type => intEnum<ChatType>()();
@@ -34,4 +37,8 @@ class ChatsTable extends Table {
 
   /// 最后时间
   IntColumn get messageAt => integer()();
+
+  /// 唯一标识
+  @override
+  Set<Column> get primaryKey => {sn};
 }

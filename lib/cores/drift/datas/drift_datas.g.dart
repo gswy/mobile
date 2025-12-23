@@ -9,14 +9,23 @@ class $ChatsTableTable extends ChatsTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $ChatsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _snMeta = const VerificationMeta('sn');
+  @override
+  late final GeneratedColumn<String> sn = GeneratedColumn<String>(
+    'sn',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
     'id',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.int,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   @override
   late final GeneratedColumnWithTypeConverter<ChatType, int> type =
@@ -101,6 +110,7 @@ class $ChatsTableTable extends ChatsTable
   );
   @override
   List<GeneratedColumn> get $columns => [
+    sn,
     id,
     type,
     sourceId,
@@ -123,10 +133,13 @@ class $ChatsTableTable extends ChatsTable
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('sn')) {
+      context.handle(_snMeta, sn.isAcceptableOrUnknown(data['sn']!, _snMeta));
+    } else if (isInserting) {
+      context.missing(_snMeta);
+    }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('source_id')) {
       context.handle(
@@ -184,15 +197,19 @@ class $ChatsTableTable extends ChatsTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {sn};
   @override
   ChatsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ChatsTableData(
+      sn: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sn'],
+      )!,
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
-      )!,
+      ),
       type: $ChatsTableTable.$convertertype.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.int,
@@ -240,8 +257,11 @@ class $ChatsTableTable extends ChatsTable
 }
 
 class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
-  /// 消息标识
-  final int id;
+  /// 会话标识
+  final String sn;
+
+  /// 自增标识
+  final int? id;
 
   /// 会话类型
   final ChatType type;
@@ -267,7 +287,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   /// 最后时间
   final int messageAt;
   const ChatsTableData({
-    required this.id,
+    required this.sn,
+    this.id,
     required this.type,
     required this.sourceId,
     required this.targetId,
@@ -280,7 +301,10 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['sn'] = Variable<String>(sn);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
     {
       map['type'] = Variable<int>($ChatsTableTable.$convertertype.toSql(type));
     }
@@ -298,7 +322,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
 
   ChatsTableCompanion toCompanion(bool nullToAbsent) {
     return ChatsTableCompanion(
-      id: Value(id),
+      sn: Value(sn),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       type: Value(type),
       sourceId: Value(sourceId),
       targetId: Value(targetId),
@@ -318,7 +343,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ChatsTableData(
-      id: serializer.fromJson<int>(json['id']),
+      sn: serializer.fromJson<String>(json['sn']),
+      id: serializer.fromJson<int?>(json['id']),
       type: $ChatsTableTable.$convertertype.fromJson(
         serializer.fromJson<int>(json['type']),
       ),
@@ -335,7 +361,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'sn': serializer.toJson<String>(sn),
+      'id': serializer.toJson<int?>(id),
       'type': serializer.toJson<int>(
         $ChatsTableTable.$convertertype.toJson(type),
       ),
@@ -350,7 +377,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   }
 
   ChatsTableData copyWith({
-    int? id,
+    String? sn,
+    Value<int?> id = const Value.absent(),
     ChatType? type,
     int? sourceId,
     int? targetId,
@@ -360,7 +388,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
     String? message,
     int? messageAt,
   }) => ChatsTableData(
-    id: id ?? this.id,
+    sn: sn ?? this.sn,
+    id: id.present ? id.value : this.id,
     type: type ?? this.type,
     sourceId: sourceId ?? this.sourceId,
     targetId: targetId ?? this.targetId,
@@ -372,6 +401,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   );
   ChatsTableData copyWithCompanion(ChatsTableCompanion data) {
     return ChatsTableData(
+      sn: data.sn.present ? data.sn.value : this.sn,
       id: data.id.present ? data.id.value : this.id,
       type: data.type.present ? data.type.value : this.type,
       sourceId: data.sourceId.present ? data.sourceId.value : this.sourceId,
@@ -387,6 +417,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   @override
   String toString() {
     return (StringBuffer('ChatsTableData(')
+          ..write('sn: $sn, ')
           ..write('id: $id, ')
           ..write('type: $type, ')
           ..write('sourceId: $sourceId, ')
@@ -402,6 +433,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
 
   @override
   int get hashCode => Object.hash(
+    sn,
     id,
     type,
     sourceId,
@@ -416,6 +448,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ChatsTableData &&
+          other.sn == this.sn &&
           other.id == this.id &&
           other.type == this.type &&
           other.sourceId == this.sourceId &&
@@ -428,7 +461,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
 }
 
 class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
-  final Value<int> id;
+  final Value<String> sn;
+  final Value<int?> id;
   final Value<ChatType> type;
   final Value<int> sourceId;
   final Value<int> targetId;
@@ -439,6 +473,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   final Value<int> messageAt;
   final Value<int> rowid;
   const ChatsTableCompanion({
+    this.sn = const Value.absent(),
     this.id = const Value.absent(),
     this.type = const Value.absent(),
     this.sourceId = const Value.absent(),
@@ -451,7 +486,8 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     this.rowid = const Value.absent(),
   });
   ChatsTableCompanion.insert({
-    required int id,
+    required String sn,
+    this.id = const Value.absent(),
     required ChatType type,
     required int sourceId,
     required int targetId,
@@ -461,7 +497,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     required String message,
     required int messageAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
+  }) : sn = Value(sn),
        type = Value(type),
        sourceId = Value(sourceId),
        targetId = Value(targetId),
@@ -469,6 +505,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
        message = Value(message),
        messageAt = Value(messageAt);
   static Insertable<ChatsTableData> custom({
+    Expression<String>? sn,
     Expression<int>? id,
     Expression<int>? type,
     Expression<int>? sourceId,
@@ -481,6 +518,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (sn != null) 'sn': sn,
       if (id != null) 'id': id,
       if (type != null) 'type': type,
       if (sourceId != null) 'source_id': sourceId,
@@ -495,7 +533,8 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   }
 
   ChatsTableCompanion copyWith({
-    Value<int>? id,
+    Value<String>? sn,
+    Value<int?>? id,
     Value<ChatType>? type,
     Value<int>? sourceId,
     Value<int>? targetId,
@@ -507,6 +546,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     Value<int>? rowid,
   }) {
     return ChatsTableCompanion(
+      sn: sn ?? this.sn,
       id: id ?? this.id,
       type: type ?? this.type,
       sourceId: sourceId ?? this.sourceId,
@@ -523,6 +563,9 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (sn.present) {
+      map['sn'] = Variable<String>(sn.value);
+    }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
@@ -561,6 +604,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   @override
   String toString() {
     return (StringBuffer('ChatsTableCompanion(')
+          ..write('sn: $sn, ')
           ..write('id: $id, ')
           ..write('type: $type, ')
           ..write('sourceId: $sourceId, ')
@@ -591,6 +635,15 @@ class $InfosTableTable extends InfosTable
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _snMeta = const VerificationMeta('sn');
+  @override
+  late final GeneratedColumn<String> sn = GeneratedColumn<String>(
+    'sn',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _clientIdMeta = const VerificationMeta(
     'clientId',
   );
@@ -611,15 +664,6 @@ class $InfosTableTable extends InfosTable
         type: DriftSqlType.int,
         requiredDuringInsert: true,
       ).withConverter<InfoType>($InfosTableTable.$convertertype);
-  static const VerificationMeta _chatIdMeta = const VerificationMeta('chatId');
-  @override
-  late final GeneratedColumn<int> chatId = GeneratedColumn<int>(
-    'chat_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
   static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
   @override
   late final GeneratedColumn<int> userId = GeneratedColumn<int>(
@@ -695,9 +739,9 @@ class $InfosTableTable extends InfosTable
   @override
   List<GeneratedColumn> get $columns => [
     id,
+    sn,
     clientId,
     type,
-    chatId,
     userId,
     avatar,
     nickname,
@@ -721,6 +765,11 @@ class $InfosTableTable extends InfosTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('sn')) {
+      context.handle(_snMeta, sn.isAcceptableOrUnknown(data['sn']!, _snMeta));
+    } else if (isInserting) {
+      context.missing(_snMeta);
+    }
     if (data.containsKey('client_id')) {
       context.handle(
         _clientIdMeta,
@@ -728,14 +777,6 @@ class $InfosTableTable extends InfosTable
       );
     } else if (isInserting) {
       context.missing(_clientIdMeta);
-    }
-    if (data.containsKey('chat_id')) {
-      context.handle(
-        _chatIdMeta,
-        chatId.isAcceptableOrUnknown(data['chat_id']!, _chatIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_chatIdMeta);
     }
     if (data.containsKey('user_id')) {
       context.handle(
@@ -804,6 +845,10 @@ class $InfosTableTable extends InfosTable
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       ),
+      sn: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sn'],
+      )!,
       clientId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}client_id'],
@@ -814,10 +859,6 @@ class $InfosTableTable extends InfosTable
           data['${effectivePrefix}type'],
         )!,
       ),
-      chatId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}chat_id'],
-      )!,
       userId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}user_id'],
@@ -862,14 +903,14 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   /// 消息标识（云端）
   final int? id;
 
+  /// 会话标识
+  final String sn;
+
   /// 消息标识（本地）
   final String clientId;
 
   /// 消息类型
   final InfoType type;
-
-  /// 会话标识
-  final int chatId;
 
   /// 发送用户
   final int userId;
@@ -893,9 +934,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   final int messageAt;
   const InfosTableData({
     this.id,
+    required this.sn,
     required this.clientId,
     required this.type,
-    required this.chatId,
     required this.userId,
     this.avatar,
     required this.nickname,
@@ -910,11 +951,11 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
     }
+    map['sn'] = Variable<String>(sn);
     map['client_id'] = Variable<String>(clientId);
     {
       map['type'] = Variable<int>($InfosTableTable.$convertertype.toSql(type));
     }
-    map['chat_id'] = Variable<int>(chatId);
     map['user_id'] = Variable<int>(userId);
     if (!nullToAbsent || avatar != null) {
       map['avatar'] = Variable<String>(avatar);
@@ -930,9 +971,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   InfosTableCompanion toCompanion(bool nullToAbsent) {
     return InfosTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      sn: Value(sn),
       clientId: Value(clientId),
       type: Value(type),
-      chatId: Value(chatId),
       userId: Value(userId),
       avatar: avatar == null && nullToAbsent
           ? const Value.absent()
@@ -952,11 +993,11 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InfosTableData(
       id: serializer.fromJson<int?>(json['id']),
+      sn: serializer.fromJson<String>(json['sn']),
       clientId: serializer.fromJson<String>(json['clientId']),
       type: $InfosTableTable.$convertertype.fromJson(
         serializer.fromJson<int>(json['type']),
       ),
-      chatId: serializer.fromJson<int>(json['chatId']),
       userId: serializer.fromJson<int>(json['userId']),
       avatar: serializer.fromJson<String?>(json['avatar']),
       nickname: serializer.fromJson<String>(json['nickname']),
@@ -971,11 +1012,11 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
+      'sn': serializer.toJson<String>(sn),
       'clientId': serializer.toJson<String>(clientId),
       'type': serializer.toJson<int>(
         $InfosTableTable.$convertertype.toJson(type),
       ),
-      'chatId': serializer.toJson<int>(chatId),
       'userId': serializer.toJson<int>(userId),
       'avatar': serializer.toJson<String?>(avatar),
       'nickname': serializer.toJson<String>(nickname),
@@ -988,9 +1029,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
 
   InfosTableData copyWith({
     Value<int?> id = const Value.absent(),
+    String? sn,
     String? clientId,
     InfoType? type,
-    int? chatId,
     int? userId,
     Value<String?> avatar = const Value.absent(),
     String? nickname,
@@ -1000,9 +1041,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     int? messageAt,
   }) => InfosTableData(
     id: id.present ? id.value : this.id,
+    sn: sn ?? this.sn,
     clientId: clientId ?? this.clientId,
     type: type ?? this.type,
-    chatId: chatId ?? this.chatId,
     userId: userId ?? this.userId,
     avatar: avatar.present ? avatar.value : this.avatar,
     nickname: nickname ?? this.nickname,
@@ -1014,9 +1055,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   InfosTableData copyWithCompanion(InfosTableCompanion data) {
     return InfosTableData(
       id: data.id.present ? data.id.value : this.id,
+      sn: data.sn.present ? data.sn.value : this.sn,
       clientId: data.clientId.present ? data.clientId.value : this.clientId,
       type: data.type.present ? data.type.value : this.type,
-      chatId: data.chatId.present ? data.chatId.value : this.chatId,
       userId: data.userId.present ? data.userId.value : this.userId,
       avatar: data.avatar.present ? data.avatar.value : this.avatar,
       nickname: data.nickname.present ? data.nickname.value : this.nickname,
@@ -1031,9 +1072,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   String toString() {
     return (StringBuffer('InfosTableData(')
           ..write('id: $id, ')
+          ..write('sn: $sn, ')
           ..write('clientId: $clientId, ')
           ..write('type: $type, ')
-          ..write('chatId: $chatId, ')
           ..write('userId: $userId, ')
           ..write('avatar: $avatar, ')
           ..write('nickname: $nickname, ')
@@ -1048,9 +1089,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   @override
   int get hashCode => Object.hash(
     id,
+    sn,
     clientId,
     type,
-    chatId,
     userId,
     avatar,
     nickname,
@@ -1064,9 +1105,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
       identical(this, other) ||
       (other is InfosTableData &&
           other.id == this.id &&
+          other.sn == this.sn &&
           other.clientId == this.clientId &&
           other.type == this.type &&
-          other.chatId == this.chatId &&
           other.userId == this.userId &&
           other.avatar == this.avatar &&
           other.nickname == this.nickname &&
@@ -1078,9 +1119,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
 
 class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   final Value<int?> id;
+  final Value<String> sn;
   final Value<String> clientId;
   final Value<InfoType> type;
-  final Value<int> chatId;
   final Value<int> userId;
   final Value<String?> avatar;
   final Value<String> nickname;
@@ -1091,9 +1132,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   final Value<int> rowid;
   const InfosTableCompanion({
     this.id = const Value.absent(),
+    this.sn = const Value.absent(),
     this.clientId = const Value.absent(),
     this.type = const Value.absent(),
-    this.chatId = const Value.absent(),
     this.userId = const Value.absent(),
     this.avatar = const Value.absent(),
     this.nickname = const Value.absent(),
@@ -1105,9 +1146,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   });
   InfosTableCompanion.insert({
     this.id = const Value.absent(),
+    required String sn,
     required String clientId,
     required InfoType type,
-    required int chatId,
     required int userId,
     this.avatar = const Value.absent(),
     required String nickname,
@@ -1116,9 +1157,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     required String message,
     required int messageAt,
     this.rowid = const Value.absent(),
-  }) : clientId = Value(clientId),
+  }) : sn = Value(sn),
+       clientId = Value(clientId),
        type = Value(type),
-       chatId = Value(chatId),
        userId = Value(userId),
        nickname = Value(nickname),
        unread = Value(unread),
@@ -1127,9 +1168,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
        messageAt = Value(messageAt);
   static Insertable<InfosTableData> custom({
     Expression<int>? id,
+    Expression<String>? sn,
     Expression<String>? clientId,
     Expression<int>? type,
-    Expression<int>? chatId,
     Expression<int>? userId,
     Expression<String>? avatar,
     Expression<String>? nickname,
@@ -1141,9 +1182,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (sn != null) 'sn': sn,
       if (clientId != null) 'client_id': clientId,
       if (type != null) 'type': type,
-      if (chatId != null) 'chat_id': chatId,
       if (userId != null) 'user_id': userId,
       if (avatar != null) 'avatar': avatar,
       if (nickname != null) 'nickname': nickname,
@@ -1157,9 +1198,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
 
   InfosTableCompanion copyWith({
     Value<int?>? id,
+    Value<String>? sn,
     Value<String>? clientId,
     Value<InfoType>? type,
-    Value<int>? chatId,
     Value<int>? userId,
     Value<String?>? avatar,
     Value<String>? nickname,
@@ -1171,9 +1212,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   }) {
     return InfosTableCompanion(
       id: id ?? this.id,
+      sn: sn ?? this.sn,
       clientId: clientId ?? this.clientId,
       type: type ?? this.type,
-      chatId: chatId ?? this.chatId,
       userId: userId ?? this.userId,
       avatar: avatar ?? this.avatar,
       nickname: nickname ?? this.nickname,
@@ -1191,6 +1232,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
+    if (sn.present) {
+      map['sn'] = Variable<String>(sn.value);
+    }
     if (clientId.present) {
       map['client_id'] = Variable<String>(clientId.value);
     }
@@ -1198,9 +1242,6 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
       map['type'] = Variable<int>(
         $InfosTableTable.$convertertype.toSql(type.value),
       );
-    }
-    if (chatId.present) {
-      map['chat_id'] = Variable<int>(chatId.value);
     }
     if (userId.present) {
       map['user_id'] = Variable<int>(userId.value);
@@ -1233,9 +1274,9 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   String toString() {
     return (StringBuffer('InfosTableCompanion(')
           ..write('id: $id, ')
+          ..write('sn: $sn, ')
           ..write('clientId: $clientId, ')
           ..write('type: $type, ')
-          ..write('chatId: $chatId, ')
           ..write('userId: $userId, ')
           ..write('avatar: $avatar, ')
           ..write('nickname: $nickname, ')
@@ -1264,7 +1305,8 @@ abstract class _$DriftDatas extends GeneratedDatabase {
 
 typedef $$ChatsTableTableCreateCompanionBuilder =
     ChatsTableCompanion Function({
-      required int id,
+      required String sn,
+      Value<int?> id,
       required ChatType type,
       required int sourceId,
       required int targetId,
@@ -1277,7 +1319,8 @@ typedef $$ChatsTableTableCreateCompanionBuilder =
     });
 typedef $$ChatsTableTableUpdateCompanionBuilder =
     ChatsTableCompanion Function({
-      Value<int> id,
+      Value<String> sn,
+      Value<int?> id,
       Value<ChatType> type,
       Value<int> sourceId,
       Value<int> targetId,
@@ -1298,6 +1341,11 @@ class $$ChatsTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnFilters<String> get sn => $composableBuilder(
+    column: $table.sn,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<int> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
@@ -1354,6 +1402,11 @@ class $$ChatsTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<String> get sn => $composableBuilder(
+    column: $table.sn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
@@ -1409,6 +1462,9 @@ class $$ChatsTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumn<String> get sn =>
+      $composableBuilder(column: $table.sn, builder: (column) => column);
+
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -1468,7 +1524,8 @@ class $$ChatsTableTableTableManager
               $$ChatsTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> sn = const Value.absent(),
+                Value<int?> id = const Value.absent(),
                 Value<ChatType> type = const Value.absent(),
                 Value<int> sourceId = const Value.absent(),
                 Value<int> targetId = const Value.absent(),
@@ -1479,6 +1536,7 @@ class $$ChatsTableTableTableManager
                 Value<int> messageAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ChatsTableCompanion(
+                sn: sn,
                 id: id,
                 type: type,
                 sourceId: sourceId,
@@ -1492,7 +1550,8 @@ class $$ChatsTableTableTableManager
               ),
           createCompanionCallback:
               ({
-                required int id,
+                required String sn,
+                Value<int?> id = const Value.absent(),
                 required ChatType type,
                 required int sourceId,
                 required int targetId,
@@ -1503,6 +1562,7 @@ class $$ChatsTableTableTableManager
                 required int messageAt,
                 Value<int> rowid = const Value.absent(),
               }) => ChatsTableCompanion.insert(
+                sn: sn,
                 id: id,
                 type: type,
                 sourceId: sourceId,
@@ -1542,9 +1602,9 @@ typedef $$ChatsTableTableProcessedTableManager =
 typedef $$InfosTableTableCreateCompanionBuilder =
     InfosTableCompanion Function({
       Value<int?> id,
+      required String sn,
       required String clientId,
       required InfoType type,
-      required int chatId,
       required int userId,
       Value<String?> avatar,
       required String nickname,
@@ -1557,9 +1617,9 @@ typedef $$InfosTableTableCreateCompanionBuilder =
 typedef $$InfosTableTableUpdateCompanionBuilder =
     InfosTableCompanion Function({
       Value<int?> id,
+      Value<String> sn,
       Value<String> clientId,
       Value<InfoType> type,
-      Value<int> chatId,
       Value<int> userId,
       Value<String?> avatar,
       Value<String> nickname,
@@ -1584,6 +1644,11 @@ class $$InfosTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get sn => $composableBuilder(
+    column: $table.sn,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get clientId => $composableBuilder(
     column: $table.clientId,
     builder: (column) => ColumnFilters(column),
@@ -1594,11 +1659,6 @@ class $$InfosTableTableFilterComposer
         column: $table.type,
         builder: (column) => ColumnWithTypeConverterFilters(column),
       );
-
-  ColumnFilters<int> get chatId => $composableBuilder(
-    column: $table.chatId,
-    builder: (column) => ColumnFilters(column),
-  );
 
   ColumnFilters<int> get userId => $composableBuilder(
     column: $table.userId,
@@ -1650,6 +1710,11 @@ class $$InfosTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get sn => $composableBuilder(
+    column: $table.sn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get clientId => $composableBuilder(
     column: $table.clientId,
     builder: (column) => ColumnOrderings(column),
@@ -1657,11 +1722,6 @@ class $$InfosTableTableOrderingComposer
 
   ColumnOrderings<int> get type => $composableBuilder(
     column: $table.type,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get chatId => $composableBuilder(
-    column: $table.chatId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1713,14 +1773,14 @@ class $$InfosTableTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
+  GeneratedColumn<String> get sn =>
+      $composableBuilder(column: $table.sn, builder: (column) => column);
+
   GeneratedColumn<String> get clientId =>
       $composableBuilder(column: $table.clientId, builder: (column) => column);
 
   GeneratedColumnWithTypeConverter<InfoType, int> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
-
-  GeneratedColumn<int> get chatId =>
-      $composableBuilder(column: $table.chatId, builder: (column) => column);
 
   GeneratedColumn<int> get userId =>
       $composableBuilder(column: $table.userId, builder: (column) => column);
@@ -1776,9 +1836,9 @@ class $$InfosTableTableTableManager
           updateCompanionCallback:
               ({
                 Value<int?> id = const Value.absent(),
+                Value<String> sn = const Value.absent(),
                 Value<String> clientId = const Value.absent(),
                 Value<InfoType> type = const Value.absent(),
-                Value<int> chatId = const Value.absent(),
                 Value<int> userId = const Value.absent(),
                 Value<String?> avatar = const Value.absent(),
                 Value<String> nickname = const Value.absent(),
@@ -1789,9 +1849,9 @@ class $$InfosTableTableTableManager
                 Value<int> rowid = const Value.absent(),
               }) => InfosTableCompanion(
                 id: id,
+                sn: sn,
                 clientId: clientId,
                 type: type,
-                chatId: chatId,
                 userId: userId,
                 avatar: avatar,
                 nickname: nickname,
@@ -1804,9 +1864,9 @@ class $$InfosTableTableTableManager
           createCompanionCallback:
               ({
                 Value<int?> id = const Value.absent(),
+                required String sn,
                 required String clientId,
                 required InfoType type,
-                required int chatId,
                 required int userId,
                 Value<String?> avatar = const Value.absent(),
                 required String nickname,
@@ -1817,9 +1877,9 @@ class $$InfosTableTableTableManager
                 Value<int> rowid = const Value.absent(),
               }) => InfosTableCompanion.insert(
                 id: id,
+                sn: sn,
                 clientId: clientId,
                 type: type,
-                chatId: chatId,
                 userId: userId,
                 avatar: avatar,
                 nickname: nickname,

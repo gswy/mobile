@@ -150,7 +150,7 @@ class MatePage extends BaseView<MateCtrl> {
                             title: Text(it.lists[i].nickname),
                             onTap: () {
                               Get.toNamed(
-                                MainRoute.infoUser,
+                                MainRoute.userInfo,
                                 arguments: {'id': it.lists[i].id},
                               );
                             },

@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 
 /// 聊天数据
 class RoomCtrl extends BaseCtrl {
+
   /// 会话数据
   final chat = Rxn<Chat>();
 
@@ -37,7 +38,7 @@ class RoomCtrl extends BaseCtrl {
   @override
   void onInit() {
     chat.value = Get.arguments as Chat;
-    DB.dao.listInfo(chat.value!.id).listen((data) {
+    DB.dao.listInfo(chat.value!.sn).listen((data) {
       infoList.assignAll(data);
     });
     super.onInit();
@@ -52,10 +53,10 @@ class RoomCtrl extends BaseCtrl {
     final messageAt = DateTime.now().millisecondsSinceEpoch;
     /// 先存储到本地库中
     final info = Info(
-      clientId: clientId,
+      sn: c.sn,
       type: InfoType.text,
-      chatId: c.id,
       userId: BaseAuth.id!,
+      clientId: clientId,
       avatar: BaseAuth.avatar,
       nickname: BaseAuth.nickname!,
       unread: true,

@@ -3,8 +3,12 @@ import 'package:app/cores/drift/enums/chat_type.dart';
 
 /// 会话列表
 class Chat {
+
+  /// 自增标识
+  final int? id;
+
   /// 会话标识
-  final int id;
+  final String sn;
 
   /// 会话类型
   final ChatType type;
@@ -32,6 +36,7 @@ class Chat {
 
   Chat({
     required this.id,
+    required this.sn,
     required this.type,
     required this.targetId,
     required this.sourceId,
@@ -46,6 +51,7 @@ class Chat {
   /// json转换
   factory Chat.fromJson(Map<String, dynamic> json) => Chat(
     id: json["id"],
+    sn: json["sn"],
     type: ChatType.fromCode(json["type"]),
     targetId: json["targetId"],
     sourceId: json["sourceId"],

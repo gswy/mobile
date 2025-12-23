@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 群组详情
-class InfoTeamPage extends GetView<InfoCtrl> {
-  const InfoTeamPage({super.key});
+class TeamInfoPage extends GetView<InfoCtrl> {
+  const TeamInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {

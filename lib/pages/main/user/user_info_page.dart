@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 好友详情
-class InfoUserPage extends GetView<InfoCtrl> {
-  const InfoUserPage({super.key});
-
+class UserInfoPage extends GetView<InfoCtrl> {
+  const UserInfoPage({super.key});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<InfoCtrl>(

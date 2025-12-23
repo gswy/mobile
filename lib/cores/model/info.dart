@@ -5,14 +5,14 @@ class Info {
   /// 消息标识（云端）
   int? id;
 
+  /// 会话标识
+  String sn;
+
   /// 消息标识（本地）
   String clientId;
 
   /// 消息类型
   InfoType type;
-
-  /// 会话标识
-  int chatId;
 
   /// 发送标识
   int userId;
@@ -38,9 +38,9 @@ class Info {
   /// 消息构造
   Info({
     this.id,
+    required this.sn,
     required this.clientId,
     required this.type,
-    required this.chatId,
     required this.userId,
     required this.avatar,
     required this.nickname,
