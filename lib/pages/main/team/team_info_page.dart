@@ -57,7 +57,7 @@ class TeamInfoPage extends GetView<InfoCtrl> {
                   spacing: 4,
                   children: [
                     Text(
-                      '${team == null ? '' : team.name}',
+                      team == null ? '' : team.name,
                       style: TextStyle(fontSize: 16),
                     ),
                     Text(

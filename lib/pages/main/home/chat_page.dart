@@ -43,7 +43,7 @@ class ChatPage extends BaseView<ChatCtrl> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          controller.loadChatPage(refresh: true);
+          await controller.loadChatPage(refresh: true);
         },
         child: CustomScrollView(
           slivers: [

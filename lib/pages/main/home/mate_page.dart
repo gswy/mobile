@@ -27,9 +27,10 @@ class MatePage extends BaseView<MateCtrl> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          controller.loadMatePage(refresh: true);
+          await controller.loadMatePage(refresh: true);
         },
         child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
           controller: controller.scroll,
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
           children: [_find(context), _menu(context), _mate(context)],
