@@ -11,28 +11,25 @@ class TeamApis {
   static final _http = Get.find<BaseHttp>();
 
   /// 获取群组列表
-  static Future<Page<TeamList>?> getTeamPage({int page = 1}) async {
+  static Future<Page<Team>?> getTeamPage({int page = 1}) async {
     try {
-      return await _http.getPage<TeamList>(
+      return await _http.getPage<Team>(
         '/teams',
         query: {'page': page},
-        fromJson: TeamList.fromJson,
+        fromJson: Team.fromJson,
       );
-    } catch (_) {
+    } catch (e) {
       return null;
     }
   }
 
   /// 创建群组
-  static Future<TeamList?> addTeam(List<int> userIds) async {
+  static Future<bool> addTeam(List<int> userIds) async {
     try {
-      return await _http.post<TeamList>(
-        '/team',
-        data: {'userIds': userIds},
-        fromJson: TeamList.fromJson,
-      );
+      await _http.post('/team', data: {'userIds': userIds});
+      return true;
     } catch (_) {
-      return null;
+      return false;
     }
   }
 

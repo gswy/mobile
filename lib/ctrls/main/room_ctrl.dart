@@ -65,6 +65,7 @@ class RoomCtrl extends BaseCtrl {
 
   /// 发送文字消息
   Future<void> sendText(String message) async {
+    if (message.trim().isEmpty) return;
     textCtrl.clear();
     /// 构造发送信息
     final clientId = UuidUtil.id;

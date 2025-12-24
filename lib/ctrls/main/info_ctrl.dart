@@ -11,8 +11,8 @@ import 'package:get/get.dart';
 
 /// 详细信息
 class InfoCtrl extends BaseCtrl {
-
   /// -------------- 公共状态 ----------------
+
   /// 加载说明
   final message = ''.obs;
 
@@ -58,25 +58,30 @@ class InfoCtrl extends BaseCtrl {
 
   /// 跳转聊天
   void handRoom() {
-    final sn = ChatUtil.getSN(BaseAuth.id!, user.value!.id);
+    String sn = '';
+    String name = '';
+    int targetId = 0;
+    ChatType type = ChatType.mate;
+    if (user.value != null) {
+      sn = ChatUtil.getSN(BaseAuth.id!, user.value!.id);
+      name = user.value!.nickname;
+      targetId = user.value!.id;
+      type = ChatType.mate;
+    }
+    if (team.value != null) {
+      sn = ChatUtil.getSN(BaseAuth.id!, team.value!.id);
+      name = team.value!.name;
+      targetId = team.value!.id;
+      type = ChatType.team;
+    }
     Get.toNamed(
       MainRoute.room,
-      arguments: {
-        'sn': sn,
-        'type': ChatType.mate,
-        'title': user.value!.nickname,
-        'targetId': user.value!.id,
-      },
+      arguments: {'sn': sn, 'type': type, 'title': name, 'targetId': targetId},
     );
-
   }
 
   /// 添加好友
   void handBind() {
-    Get.toNamed(
-      MainRoute.bindUserForm,
-      arguments: {'id': user.value!.id},
-    );
+    Get.toNamed(MainRoute.bindUserForm, arguments: {'id': user.value!.id});
   }
-
 }

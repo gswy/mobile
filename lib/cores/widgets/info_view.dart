@@ -81,6 +81,7 @@ class InfoView extends GetView {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 6,
       children: [
         if (status == -1)
           GestureDetector(

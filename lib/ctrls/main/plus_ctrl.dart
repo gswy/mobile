@@ -9,8 +9,10 @@ import 'package:get/get.dart';
 /// 添加群组
 class PlusCtrl extends BaseCtrl {
 
+  /// 消息状态
   final message = ''.obs;
 
+  /// 加载状态
   final loading = false.obs;
 
   /// 页面滚动
@@ -63,7 +65,7 @@ class PlusCtrl extends BaseCtrl {
   /// 创建并进入会话
   Future<void> submit() async {
     final res = await TeamApis.addTeam(selected);
-    if (res != null) {
+    if (res) {
       Get.back();
     }
   }
