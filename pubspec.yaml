@@ -102,12 +102,6 @@ dependencies:
   drift: ^2.30.0
   drift_flutter: ^0.2.8
 
-  # TDesign: https://pub.dev/packages/tdesign_flutter/
-  tdesign_flutter: ^0.2.6
-  flutter_slidable: ^3.1.2
-
-
-
 # 开发所需
 dev_dependencies:
   flutter_test:

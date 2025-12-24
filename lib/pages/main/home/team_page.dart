@@ -1,6 +1,7 @@
 
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/ctrls/main/team_ctrl.dart';
+import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +14,6 @@ class TeamPage extends GetView<TeamCtrl> {
     return Scaffold(
       appBar: AppBar(
         title: Text('我的群组'),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(IconUtil.plus))
-        ],
       ),
       body: ListView(
         children: [

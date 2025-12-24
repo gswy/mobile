@@ -37,6 +37,12 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
     return await into(chatsTable).insertOnConflictUpdate(data);
   }
 
+  /// 会话已读
+  Future<int> readChat(String sn) async {
+    return (update(chatsTable)..where((t) => t.sn.equals(sn)))
+        .write(const ChatsTableCompanion(unread: Value(0)));
+  }
+
   /// 批量插入:
   Future<void> saveChatList(List<Chat> chats) async {
     final lists = chats

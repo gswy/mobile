@@ -15,26 +15,24 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('${controller.chat.value?.title}'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(IconUtil.more),
-              iconSize: 18,
-            ),
-          ],
-        ),
-        body: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            controller.hideMoreMenu();
-          },
-          child: Column(children: [_chatList(context), _menuList(context)]),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(controller.title),
+        actions: [
+          IconButton(
+            onPressed: controller.more,
+            icon: Icon(IconUtil.more),
+            iconSize: 18,
+          ),
+        ],
+      ),
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          controller.hideMoreMenu();
+        },
+        child: Column(children: [_chatList(context), _menuList(context)]),
       ),
     );
   }

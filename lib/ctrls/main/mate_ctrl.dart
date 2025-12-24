@@ -37,6 +37,14 @@ class MateCtrl extends BaseCtrl {
     ),
     MateMenu(
       num: 0,
+      name: '创建群组',
+      icon: IconUtil.plusFull,
+      onTap: () {
+        Get.toNamed(MainRoute.plus);
+      },
+    ),
+    MateMenu(
+      num: 0,
       name: '我的群组',
       icon: IconUtil.teamsFull,
       onTap: () {

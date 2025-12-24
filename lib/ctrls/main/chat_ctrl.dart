@@ -40,7 +40,6 @@ class ChatCtrl extends BaseCtrl {
 
   /// 加载会话
   @override void onInit() {
-    super.onInit();
     /// 监听变化
     DB.dao.listChat(BaseAuth.id!).listen((data) {
       chatList.assignAll(data);
@@ -51,10 +50,8 @@ class ChatCtrl extends BaseCtrl {
         loadChatPage(page: _chatCurr.value + 1);
       }
     });
-  }
-
-  Future<void> remove(String sn) async {
-    DB.dao.omitChat(sn);
+    super.onInit();
+    loadChatPage();
   }
 
   /// 刷新用户

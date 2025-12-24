@@ -41,8 +41,8 @@ class SignCtrl extends BaseCtrl {
   Future<void> signIn() async {
     final res = await AuthApis.signIn(username.text.trim(), password.text.trim());
     if (res) {
-      _auth.init();
-      _conn.star();
+      await _auth.init();
+      await _conn.star();
       Get.offNamed(MainRoute.home);
     }
   }

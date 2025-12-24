@@ -1,11 +1,12 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
-import 'package:app/model/chat.dart';
 import 'package:app/model/info.dart';
 import 'package:app/cores/utils/uuid_util.dart';
 import 'package:app/datas/http/apis/info_apis.dart';
+import 'package:app/route/main/main_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,8 +14,17 @@ import 'package:get/get.dart';
 /// 聊天数据
 class RoomCtrl extends BaseCtrl {
 
-  /// 会话数据
-  final chat = Rxn<Chat>();
+  /// 会话标识
+  String sn = '';
+
+  /// 会话类型
+  ChatType type = ChatType.mate;
+
+  /// 会话名称
+  String title = '';
+
+  /// 会话对方
+  int targetId = 0;
 
   /// 响应聊天
   final infoList = <Info>[].obs;
@@ -37,12 +47,17 @@ class RoomCtrl extends BaseCtrl {
 
   @override
   void onInit() {
-    chat.value = Get.arguments as Chat;
-    /// 进入页面则标记已读
-    chat.value?.unread = 0;
-    DB.dao.saveChat(chat.value!);
+    /// 接收参数
+    final args = Get.arguments as Map<String, dynamic>;
+    sn = args['sn'];
+    type = args['type'];
+    title = args['title'];
+    targetId = args['targetId'];
+
+    /// 设置已读
+    DB.dao.readChat(sn);
     /// 监听数据变化
-    DB.dao.listInfo(chat.value!.sn).listen((data) {
+    DB.dao.listInfo(sn).listen((data) {
       infoList.assignAll(data);
     });
     super.onInit();
@@ -51,13 +66,12 @@ class RoomCtrl extends BaseCtrl {
   /// 发送文字消息
   Future<void> sendText(String message) async {
     textCtrl.clear();
-    final c = chat.value!;
     /// 构造发送信息
     final clientId = UuidUtil.id;
     final messageAt = DateTime.now().millisecondsSinceEpoch;
     /// 先存储到本地库中
     final info = Info(
-      sn: c.sn,
+      sn: sn,
       type: InfoType.text,
       userId: BaseAuth.id!,
       clientId: clientId,
@@ -71,10 +85,10 @@ class RoomCtrl extends BaseCtrl {
     DB.dao.saveInfo(info);
     /// 开始云端发送消息
     final res = await InfoApis.send(
-      chat: chat.value!.type.code,
+      chat: type.code,
       info: InfoType.text.code,
       clientId: clientId,
-      targetId: chat.value!.targetId,
+      targetId: targetId,
       message: message,
       messageAt: messageAt,
     );
@@ -86,6 +100,15 @@ class RoomCtrl extends BaseCtrl {
     }
     /// 保存发送状态
     DB.dao.saveInfo(info);
+  }
+
+  /// 更多信息
+  Future<void> more() async {
+    if (type.code == 0) {
+      Get.toNamed(MainRoute.userInfo, arguments: {'id': targetId});
+    } else {
+      Get.toNamed(MainRoute.teamInfo, arguments: {'id': targetId});
+    }
   }
 
   /// 切换显示/隐藏九宫格菜单

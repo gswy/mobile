@@ -151,6 +151,9 @@ class IconUtil {
   /// 新的朋友
   static const IconData usersFull = IconData(0xf234, fontFamily: _iconFull);
 
+  /// 创建群组
+  static const IconData plusFull = IconData(0xf830, fontFamily: _iconFull);
+
   /// 群组通知
   static const IconData bellsFull = IconData(0xf0f3, fontFamily: _iconFull);
 

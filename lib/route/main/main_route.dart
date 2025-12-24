@@ -16,6 +16,10 @@ class MainRoute {
   /// 搜索页面
   static const String find = '/find';
 
+  /// 创建群组
+  static const String plus = '/plus';
+
+
   /// ------------ 关系绑定 ---------------
   /// 搜索结果
   static const String findInfo = '/find/info';

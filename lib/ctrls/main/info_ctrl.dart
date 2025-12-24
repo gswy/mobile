@@ -1,7 +1,7 @@
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
-import 'package:app/cores/dicts/room_dict.dart';
-import 'package:app/cores/drift/datas/db.dart';
-import 'package:app/model/chat.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
+import 'package:app/cores/utils/chat_util.dart';
 import 'package:app/datas/http/apis/team_apis.dart';
 import 'package:app/datas/http/apis/user_apis.dart';
 import 'package:app/datas/http/resp/team/team_info.dart';
@@ -20,6 +20,7 @@ class InfoCtrl extends BaseCtrl {
   final loading = false.obs;
 
   /// -------------- 用户信息 ----------------
+
   /// 用户信息
   final user = Rxn<UserInfo>();
 
@@ -57,10 +58,17 @@ class InfoCtrl extends BaseCtrl {
 
   /// 跳转聊天
   void handRoom() {
+    final sn = ChatUtil.getSN(BaseAuth.id!, user.value!.id);
     Get.toNamed(
       MainRoute.room,
-      arguments: '',
+      arguments: {
+        'sn': sn,
+        'type': ChatType.mate,
+        'title': user.value!.nickname,
+        'targetId': user.value!.id,
+      },
     );
+
   }
 
   /// 添加好友

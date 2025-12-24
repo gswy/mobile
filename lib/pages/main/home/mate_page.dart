@@ -116,8 +116,8 @@ class MatePage extends BaseView<MateCtrl> {
 
   /// 好友分组
   Widget _mate(BuildContext context) {
-    return Obx(
-      () => Column(
+    return Obx(() {
+      return Column(
         children: controller.mateList
             .map(
               (it) => Column(
@@ -165,7 +165,7 @@ class MatePage extends BaseView<MateCtrl> {
               ),
             )
             .toList(),
-      ),
-    );
+      );
+    });
   }
 }
