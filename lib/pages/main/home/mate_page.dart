@@ -1,5 +1,7 @@
 import 'package:app/cores/bases/base_view.dart';
+import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
+import 'package:app/cores/widgets/avatar.dart';
 import 'package:app/ctrls/main/mate_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 
@@ -120,52 +122,47 @@ class MatePage extends BaseView<MateCtrl> {
     return Obx(() {
       return Column(
         children: controller.mateList
-            .map(
-              (it) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  Text(' ${it.index}'),
-                  Card(
-                    elevation: 0,
-                    clipBehavior: Clip.antiAlias,
-                    margin: EdgeInsets.only(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 14,
-                    ),
-                    child: Column(
-                      children: [
-                        for (var i = 0; i < it.lists.length; i++) ...[
-                          ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 10,
-                            ),
-                            leading: CircleAvatar(
-                              child: Text(
-                                it.lists[i].nickname.characters.first,
-                              ),
-                            ),
-                            title: Text(it.lists[i].nickname),
-                            onTap: () {
-                              Get.toNamed(
-                                MainRoute.userInfo,
-                                arguments: {'id': it.lists[i].id},
-                              );
-                            },
+          .map(
+            (it) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 4,
+              children: [
+                Text(' ${it.index}'),
+                Card(
+                  elevation: 0,
+                  clipBehavior: Clip.antiAlias,
+                  margin: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 14),
+                  child: Column(
+                    children: [
+                      for (var i = 0; i < it.lists.length; i++) ...[
+                        ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 12,
                           ),
-                          if (i != it.lists.length - 1)
-                            Divider(thickness: 0.3, height: 0.3),
-                        ],
+                          leading: Avatar(
+                            size: 34, textSize: 18,
+                            url: it.lists[i].avatar,
+                            name: it.lists[i].nickname,
+                          ),
+                          title: Text(it.lists[i].nickname),
+                          onTap: () {
+                            Get.toNamed(
+                              MainRoute.userInfo,
+                              arguments: {'id': it.lists[i].id},
+                            );
+                          },
+                        ),
+                        if (i != it.lists.length - 1)
+                          Divider(thickness: 0.3, height: 0.3),
                       ],
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            )
-            .toList(),
+                ),
+              ],
+            ),
+          )
+          .toList(),
       );
     });
   }

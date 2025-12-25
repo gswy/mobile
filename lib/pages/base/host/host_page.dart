@@ -1,5 +1,5 @@
 import 'package:app/cores/bases/base_view.dart';
-import 'package:app/cores/widgets/base_button.dart';
+import 'package:app/cores/widgets/button.dart';
 import 'package:app/cores/widgets/base_input.dart';
 import 'package:app/cores/widgets/base_logo.dart';
 import 'package:app/ctrls/base/host_ctrl.dart';
@@ -41,7 +41,7 @@ class HostPage extends BaseView<HostCtrl> {
           ),
         ),
         Obx(
-          () => BaseButton(
+          () => Button(
             name: '连接服务',
             onPressed: controller.loading.value ? null : controller.test,
             loading: controller.loading.value,

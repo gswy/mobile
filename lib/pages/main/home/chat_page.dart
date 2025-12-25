@@ -3,6 +3,7 @@ import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/chat_util.dart';
 import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
+import 'package:app/cores/widgets/avatar.dart';
 import 'package:app/ctrls/main/chat_ctrl.dart';
 import 'package:app/route/comm/comm_route.dart';
 import 'package:app/route/main/main_route.dart';
@@ -107,7 +108,11 @@ class ChatPage extends BaseView<ChatCtrl> {
       return Column(
         children: [
           ListTile(
-            leading: CircleAvatar(child: Text(chat.title.substring(0, 1))),
+            leading: Avatar(
+              size: 44, textSize: 18,
+              url: chat.avatar,
+              name: chat.title,
+            ),
             title: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

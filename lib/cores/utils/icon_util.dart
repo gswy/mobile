@@ -160,4 +160,17 @@ class IconUtil {
   /// 我的群组
   static const IconData teamsFull = IconData(0xf0c0, fontFamily: _iconFull);
 
+
+  /// 拍照片（房间）
+  static const IconData cameraFull = IconData(0xf030, fontFamily: _iconFull);
+
+  /// 录视频（房间）
+  static const IconData recordFull = IconData(0xf03d, fontFamily: _iconFull);
+
+  /// 相册（房间）
+  static const IconData imagesFull = IconData(0xf302, fontFamily: _iconFull);
+
+  /// 视频（房间）
+  static const IconData videosFull = IconData(0xf87c, fontFamily: _iconFull);
+
 }

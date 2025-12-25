@@ -16,13 +16,15 @@ class MinePage extends BaseView<MineCtrl> {
   @override
   Widget build(BuildContext context) {
     final height = Get.height / 6;
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
             expandedHeight: height,
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+            backgroundColor: scheme.primaryContainer.withValues(alpha: 0.36),
             flexibleSpace: FlexibleSpaceBar(
               background: SafeArea(
                 child: Padding(

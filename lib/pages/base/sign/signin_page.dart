@@ -1,6 +1,6 @@
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/widgets/base_button.dart';
+import 'package:app/cores/widgets/button.dart';
 import 'package:app/cores/widgets/base_input.dart';
 import 'package:app/cores/widgets/base_logo.dart';
 import 'package:app/ctrls/base/sign_ctrl.dart';
@@ -66,7 +66,7 @@ class SigninPage extends BaseView<SignCtrl> {
             ),
             SizedBox(height: 48),
             Obx(
-              () => BaseButton(
+              () => Button(
                 name: '登录',
                 onPressed: controller.loading.value ? null : controller.signIn,
                 loading: controller.loading.value,

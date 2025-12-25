@@ -184,16 +184,49 @@ class RoomPage extends BaseView<RoomCtrl> {
   /// 更多菜单
   Widget _moreMenu(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
+        mainAxisSpacing: 28,
+        crossAxisSpacing: 28,
+        childAspectRatio: 0.8,
       ),
       itemCount: RoomUtil.moreList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: _moreMenuItem,
+    );
+  }
+
+  /// 菜单项目
+  Widget _moreMenuItem(BuildContext context, int index) {
+    final menu = RoomUtil.moreList[index];
+    final scheme = Theme.of(context).colorScheme;
+    return GestureDetector(
+      onTap: () {
+        controller.action(index);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 6,
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: scheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              alignment: Alignment.center,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Icon(menu.icon, color: scheme.primary),
+              ),
+            ),
+          ),
+          Text(menu.name),
+        ],
+      ),
     );
   }
 
@@ -215,17 +248,7 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   /// 表情项目
   Widget _faceListItem(BuildContext context, int index) {
-    return Text(RoomUtil.faceList[index], style: TextStyle(fontSize: 28));
-  }
-
-  /// 菜单项目
-  Widget _moreMenuItem(BuildContext context, int index) {
-    final menu = RoomUtil.moreList[index];
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed(menu.path);
-      },
-      child: Column(children: [menu.icon, Text(menu.name)]),
-    );
+    return GestureDetector(onTap: () {
+    }, child: Text(RoomUtil.faceList[index], style: TextStyle(fontSize: 28)));
   }
 }

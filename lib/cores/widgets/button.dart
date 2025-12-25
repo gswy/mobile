@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// 基本按钮
-class BaseButton extends StatelessWidget {
+class Button extends StatelessWidget {
   /// 显示文字
   final String name;
 
@@ -12,7 +12,7 @@ class BaseButton extends StatelessWidget {
   final bool loading;
 
   /// 构造函数
-  const BaseButton({
+  const Button({
     super.key,
     required this.name,
     this.onPressed,

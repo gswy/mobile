@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
@@ -10,6 +12,8 @@ import 'package:app/route/main/main_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// 聊天数据
 class RoomCtrl extends BaseCtrl {
@@ -45,6 +49,10 @@ class RoomCtrl extends BaseCtrl {
   final textNode = FocusNode();
   final textCtrl = TextEditingController();
 
+  /// 媒体选择器
+  final picker = ImagePicker();
+
+  /// 消息
   @override
   void onInit() {
     /// 接收参数
@@ -167,6 +175,15 @@ class RoomCtrl extends BaseCtrl {
       showFaceMode.value = true;
     }
     showMoreMenu.value = false;
+  }
+
+  Future<void> action(int index) async {
+    if (index == 0) {
+      final file = await picker.pickImage(source: ImageSource.camera);
+    }
+    if (index == 1) {
+      final file = await picker.pickImage(source: ImageSource.gallery);
+    }
   }
 
   /// 切换更多

@@ -1,5 +1,5 @@
 import 'package:app/cores/bases/base_view.dart';
-import 'package:app/cores/widgets/base_button.dart';
+import 'package:app/cores/widgets/button.dart';
 import 'package:app/cores/widgets/base_input.dart';
 import 'package:app/cores/widgets/base_logo.dart';
 import 'package:app/ctrls/comm/videos_ctrl.dart';

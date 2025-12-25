@@ -44,6 +44,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
   List<Widget> _auto(BuildContext context, ConfSafe? safe) {
     return [
       Text(' 添加我时验证'),
+      SizedBox(height: 4),
       Card(
         elevation: 0,
         clipBehavior: Clip.antiAlias,
@@ -74,6 +75,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
   List<Widget> _find(BuildContext context, ConfSafe? safe) {
     return [
       Text(' 查找我的方式'),
+      SizedBox(height: 4),
       Card(
         elevation: 0,
         clipBehavior: Clip.antiAlias,
@@ -135,6 +137,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
   List<Widget> _bind(BuildContext context, ConfSafe? safe) {
     return [
       Text(' 添加我的方式'),
+      SizedBox(height: 4),
       Card(
         elevation: 0,
         clipBehavior: Clip.antiAlias,
