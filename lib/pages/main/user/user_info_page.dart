@@ -1,4 +1,5 @@
 
+import 'package:app/cores/widgets/avatar.dart';
 import 'package:app/cores/widgets/load_view.dart';
 import 'package:app/ctrls/main/info_ctrl.dart';
 import 'package:flutter/material.dart';
@@ -50,18 +51,18 @@ class UserInfoPage extends GetView<InfoCtrl> {
           child: Row(
             spacing: 14,
             children: [
-              CircleAvatar(radius: 36),
+              Avatar(url: user!.avatar, name: user.nickname),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 4,
+                  spacing: 6,
                   children: [
                     Text(
-                      '昵称：${user == null ? '' : user.nickname}',
-                      style: TextStyle(fontSize: 16),
+                      user.nickname,
+                      style: TextStyle(fontSize: 18),
                     ),
                     Text(
-                      '账号：${user == null ? '' : user.username}',
+                      '账号：${user.username}',
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
