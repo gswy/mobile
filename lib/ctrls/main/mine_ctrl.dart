@@ -34,7 +34,7 @@ class MineCtrl extends BaseCtrl {
       items: [
         MenuItem(
           icon: IconUtil.confView,
-          title: '主题设置',
+          title: '外观设置',
           onTap: () {
             Get.toNamed(MainRoute.confView);
           },
