@@ -1,6 +1,7 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
+import 'package:app/cores/widgets/avatar.dart';
 import 'package:app/ctrls/main/mine_ctrl.dart';
 import 'package:app/route/comm/comm_route.dart';
 
@@ -27,12 +28,12 @@ class MinePage extends BaseView<MineCtrl> {
                 child: Padding(
                   padding: EdgeInsetsGeometry.symmetric(
                     vertical: 12,
-                    horizontal: 16,
+                    horizontal: 20,
                   ),
                   child: Row(
-                    spacing: 12,
+                    spacing: 18,
                     children: [
-                      CircleAvatar(radius: 36),
+                      Avatar(url: BaseAuth.avatar, name: BaseAuth.nickname!),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,16 +46,22 @@ class MinePage extends BaseView<MineCtrl> {
                                 Text(
                                   '${BaseAuth.nickname}',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text('账号:${BaseAuth.username}', style: TextStyle(fontSize: 16)),
+                                Text(
+                                  '账号:${BaseAuth.username}',
+                                  style: TextStyle(fontSize: 14),
+                                ),
                               ],
                             ),
-                            IconButton(onPressed: () {
-                              Get.toNamed(CommRoute.qrcode);
-                            }, icon: Icon(IconUtil.commQCode))
+                            IconButton(
+                              onPressed: () {
+                                Get.toNamed(CommRoute.qrcode);
+                              },
+                              icon: Icon(IconUtil.commQCode),
+                            ),
                           ],
                         ),
                       ),
@@ -66,7 +73,9 @@ class MinePage extends BaseView<MineCtrl> {
           ),
           SliverList(
             delegate: SliverChildListDelegate(
-              controller.mineMenu.map((it) => _group(it.title, it.items)).toList(),
+              controller.mineMenu
+                  .map((it) => _group(it.title, it.items))
+                  .toList(),
             ),
           ),
         ],

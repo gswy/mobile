@@ -1,11 +1,14 @@
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/sign_util.dart';
 import 'package:app/datas/http/apis/conf_apis.dart';
-import 'package:app/datas/http/resp/conf/conf_safe.dart';
+import 'package:app/datas/http/apis/mine_apis.dart';
+import 'package:app/model/conf.dart';
 import 'package:app/route/base/base_route.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// 公共配置
 class ConfCtrl extends BaseCtrl {
@@ -13,6 +16,25 @@ class ConfCtrl extends BaseCtrl {
   /// 是否加载
   final message = ''.obs;
   final loading = false.obs;
+
+  ///
+  final picker = ImagePicker();
+
+  /// ------------- 我的资料 ---------------
+  Future<void> avatar() async {
+    try {
+      final file = await picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
+      if (file == null) return;
+      final res = await MineApis.setAvatar(file);
+      if (res) {
+        /// 2.1. 获取用户信息
+        final auth = Get.find<BaseAuth>();
+        await auth.init();
+      }
+    } catch (e) {
+      Get.log('选择错误: $e');
+    }
+  }
 
   /// ------------- 通知管理 ---------------
 
@@ -38,12 +60,12 @@ class ConfCtrl extends BaseCtrl {
 
   /// ------------- 设备管理 ---------------
   /// 设备列表
-  final deskList = [].obs;
+  final deskList = <Desk>[].obs;
   /// 加载设备
   Future<void> initDesk() async {
     loading.value = true;
     try {
-      safe.value = await ConfApis.getSafe();
+      deskList.value = await ConfApis.getDeskList();
       message.value = '';
     } catch (e) {
       safe.value = null;
@@ -80,6 +102,12 @@ class ConfCtrl extends BaseCtrl {
   /// ------------- 隐私设置 ---------------
   /// 隐私表单
   final safe = Rxn<ConfSafe>();
+  String get autoName {
+    if (safe.value!.auto == -1) return '禁止添加';
+    if (safe.value!.auto == 0) return '需要审核';
+    if (safe.value!.auto == 1) return '自动添加';
+    return '';
+  }
   /// 加载隐私
   Future<void> initSafe() async {
     loading.value = true;
@@ -95,7 +123,8 @@ class ConfCtrl extends BaseCtrl {
   }
   /// 保存隐私
   Future<void> saveSafe() async {
-
+    final form = safe.value!;
+    await ConfApis.setSafe(form);
   }
 
   /// ------------- 账号管理 ---------------

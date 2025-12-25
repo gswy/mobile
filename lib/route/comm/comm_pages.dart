@@ -1,3 +1,4 @@
+
 import 'package:app/binds/comm/camera_bind.dart';
 import 'package:app/binds/comm/images_bind.dart';
 import 'package:app/binds/comm/qrcode_bind.dart';

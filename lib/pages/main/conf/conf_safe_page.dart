@@ -1,8 +1,7 @@
 
-import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/widgets/load_view.dart';
 import 'package:app/ctrls/main/conf_ctrl.dart';
-import 'package:app/datas/http/resp/conf/conf_safe.dart';
+import 'package:app/model/conf.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,12 +17,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
       },
       builder: (_) => Scaffold(
         appBar: AppBar(
-          title: Text('隐私设置'),
-          actions: [
-            IconButton(onPressed: () {
-              controller.saveSafe();
-            }, icon: Icon(IconUtil.commSave))
-          ],
+          title: Text('隐私设置')
         ),
         body: Obx(() {
           final safe = controller.safe.value;
@@ -56,11 +50,20 @@ class ConfSafePage extends GetView<ConfCtrl> {
         margin: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 14),
         child: ListTile(
           title: Text('验证方式'),
-          trailing: TextButton(
-            onPressed: () async {
-
+          trailing: PopupMenuButton<int>(
+            onSelected: (value) {
+              safe!.auto = value;
+              controller.saveSafe();
             },
-            child: Text('${safe}'),
+            itemBuilder: (context) => const [
+              PopupMenuItem(value: -1, child: Text("禁止添加")),
+              PopupMenuItem(value: 0, child: Text("需要审核")),
+              PopupMenuItem(value: 1, child: Text("自动添加")),
+            ],
+            child: TextButton(
+              onPressed: null,
+              child: Text(controller.autoName),
+            ),
           ),
         ),
       ),
@@ -83,6 +86,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
               onChanged: (value) {
                 safe.find.id = value;
                 controller.safe.refresh();
+                controller.saveSafe();
               },
             ),
             SwitchListTile(
@@ -91,6 +95,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
               onChanged: (value) {
                 safe.find.email = value;
                 controller.safe.refresh();
+                controller.saveSafe();
               },
             ),
             SwitchListTile(
@@ -99,6 +104,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
               onChanged: (value) {
                 safe.find.phone = value;
                 controller.safe.refresh();
+                controller.saveSafe();
               },
             ),
             SwitchListTile(
@@ -107,6 +113,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
               onChanged: (value) {
                 safe.find.username = value;
                 controller.safe.refresh();
+                controller.saveSafe();
               },
             ),
             SwitchListTile(
@@ -115,6 +122,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
               onChanged: (value) {
                 safe.find.nickname = value;
                 controller.safe.refresh();
+                controller.saveSafe();
               },
             ),
           ],
@@ -155,6 +163,7 @@ class ConfSafePage extends GetView<ConfCtrl> {
               onChanged: (value) {
                 safe.bind.team = value;
                 controller.safe.refresh();
+                controller.saveSafe();
               },
             ),
           ],
@@ -162,25 +171,5 @@ class ConfSafePage extends GetView<ConfCtrl> {
       ),
     ];
   }
-
-  // Future<int?> _pickAuto(BuildContext context) async {
-  //   final label = ['禁止添加', '需要审核', '自动通过'];
-  //   final value = [-1, 0, 1];
-  //   await showModalBottomSheet<int>(
-  //     context: context,
-  //     builder: (_) {
-  //       return SafeArea(
-  //         child: Column(
-  //           children: label
-  //               .map((it) => ListTile(title: Center(child: Text(it)), onTap: () {
-  //                 Navigator.pop(context, value[it]);
-  //           },))
-  //               .toList(),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
 
 }

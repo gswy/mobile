@@ -1,4 +1,6 @@
 
+import 'package:app/cores/store/local_store.dart';
+import 'package:app/cores/utils/host_util.dart';
 import 'package:app/model/mine.dart';
 import 'package:app/datas/http/apis/mine_apis.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,11 @@ class BaseAuth extends GetxService {
   static int? get id => mine.value?.id;
 
   /// 用户头像
-  static String? get avatar => mine.value?.avatar;
+  static String? get avatar {
+    final avatar = mine.value?.avatar;
+    if (avatar == null) return null;
+    return HostUtil.getHttp() + avatar;
+  }
 
   /// 用户昵称
   static String? get nickname => mine.value?.nickname;
@@ -23,6 +29,7 @@ class BaseAuth extends GetxService {
   /// 初始获取
   Future<void> init () async {
     mine.value = await MineApis.getMine();
+    mine.refresh();
   }
 
 }

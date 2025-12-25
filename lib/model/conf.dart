@@ -1,4 +1,5 @@
 
+
 /// 隐私设置
 class ConfSafe {
   int auto;
@@ -63,4 +64,23 @@ class SafeBind {
     "code": code,
     "team": team,
   };
+}
+
+
+class Desk {
+  final String id;
+  final String name;
+  final String info;
+  final String createdAt;
+
+  Desk({required this.id, required this.name, required this.info, required this.createdAt});
+
+  /// json转换
+  factory Desk.fromJson(Map<String, dynamic> json) => Desk(
+    id: json["id"],
+    name: json["name"],
+    info: json["info"],
+    createdAt: json["createdAt"],
+  );
+
 }

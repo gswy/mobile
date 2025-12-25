@@ -14,23 +14,30 @@ class ConfDeskPage extends GetView<ConfCtrl> {
         initState: (_) {
           controller.initDesk();
         },
-        builder: (_) => ListView.builder(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 10, vertical: 10),
-          itemBuilder: _item,
-          itemCount: 20,
-        ),
+        builder: (_) => Obx(() {
+          final list = controller.deskList;
+          return ListView.builder(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 10, vertical: 10),
+            itemBuilder: _item,
+            itemCount: list.length,
+          );
+        }),
       ),
     );
   }
 
   Widget _item(BuildContext context, int key) {
-    return Card(
-      elevation: 0,
-      child: ListTile(
-        title: Text('IPhone'),
-        subtitle: Text('李XX的IPhone 16'),
-        trailing: Icon(Icons.chevron_right),
-      ),
-    );
+    return Obx(() {
+      final desk = controller.deskList[key];
+      return Card(
+        elevation: 0,
+        child: ListTile(
+          title: Text(desk.name),
+          subtitle: Text(desk.info),
+          trailing: Icon(Icons.chevron_right),
+        ),
+      );
+    });
+
   }
 }

@@ -102,6 +102,9 @@ dependencies:
   drift: ^2.30.0
   drift_flutter: ^0.2.8
 
+  # 获取相册: https://pub.dev/packages/image_picker/install
+  image_picker: ^1.2.1
+
 # 开发所需
 dev_dependencies:
   flutter_test:

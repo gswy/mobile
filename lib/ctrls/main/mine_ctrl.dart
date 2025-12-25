@@ -39,13 +39,13 @@ class MineCtrl extends BaseCtrl {
             Get.toNamed(MainRoute.confView);
           },
         ),
-        MenuItem(
-          icon: IconUtil.confLang,
-          title: '语言设置',
-          onTap: () {
-            Get.toNamed(MainRoute.confLang);
-          },
-        ),
+        // MenuItem(
+        //   icon: IconUtil.confLang,
+        //   title: '语言设置',
+        //   onTap: () {
+        //     Get.toNamed(MainRoute.confLang);
+        //   },
+        // ),
         MenuItem(
           icon: IconUtil.confNews,
           title: '通知管理',
