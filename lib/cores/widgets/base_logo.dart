@@ -10,7 +10,7 @@ class BaseLogo extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'NextChat',
+          'NovaChat',
           style: TextStyle(
             fontSize: 68,
             fontWeight: FontWeight.w500,
