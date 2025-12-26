@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       child: ToastificationWrapper(
         child: Obx(() {
           return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
             initialRoute: BaseRoute.star,
             themeMode: BaseMain.themeMode.value,
             theme: BaseThem.light,
