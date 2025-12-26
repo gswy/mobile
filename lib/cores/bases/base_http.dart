@@ -193,7 +193,7 @@ class ResponseInterceptors extends InterceptorsWrapper {
     Get.log('响应: $status');
     if (status == 200) {
       SignUtil.setExpire();
-      Get.log('设置效期');
+      // Get.log('设置效期');
     }
     handler.next(response);
   }

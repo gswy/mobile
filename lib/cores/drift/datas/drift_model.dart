@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
@@ -101,9 +100,7 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   /// 监听变化
   Stream<List<Chat>> listChat(int userId) {
     final c = chatsTable;
-    final query = (select(c)
-      ..where((t) => t.sourceId.equals(userId) | t.targetId.equals(userId))
-      ..orderBy([(t) => OrderingTerm.desc(t.messageAt)]));
+    final query = (select(c)..orderBy([(t) => OrderingTerm.desc(t.messageAt)]));
     return query.watch().map((rows) {
       return rows
           .map(

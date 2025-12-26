@@ -35,6 +35,11 @@ class ConfMinePage extends GetView<ConfCtrl> {
                   ),
                   Divider(thickness: 0.2, height: 0.2),
                   ListTile(
+                    title: Text('标识'),
+                    trailing: Text('${BaseAuth.id}'),
+                  ),
+                  Divider(thickness: 0.2, height: 0.2),
+                  ListTile(
                     title: Text('昵称'),
                     trailing: Text('${BaseAuth.nickname}'),
                   ),

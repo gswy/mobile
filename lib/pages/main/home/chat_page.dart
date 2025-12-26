@@ -1,5 +1,6 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
+import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/utils/chat_util.dart';
 import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
@@ -162,16 +163,30 @@ class ChatPage extends BaseView<ChatCtrl> {
               ],
             ),
             onTap: () {
-              final sn = ChatUtil.getSN(BaseAuth.id!, chat.targetId);
-              Get.toNamed(
-                MainRoute.room,
-                arguments: {
-                  'sn': sn,
-                  'type': chat.type,
-                  'title': chat.title,
-                  'targetId': chat.targetId,
-                },
-              );
+              if (chat.type == ChatType.mate) {
+                final sn = ChatUtil.getSN(BaseAuth.id!, chat.targetId);
+                Get.toNamed(
+                  MainRoute.room,
+                  arguments: {
+                    'sn': sn,
+                    'type': chat.type,
+                    'title': chat.title,
+                    'targetId': chat.targetId,
+                  },
+                );
+              }
+              if (chat.type == ChatType.team) {
+                final sn = chat.sn;
+                Get.toNamed(
+                  MainRoute.room,
+                  arguments: {
+                    'sn': sn,
+                    'type': chat.type,
+                    'title': chat.title,
+                    'targetId': chat.targetId,
+                  },
+                );
+              }
             },
             // 可选：让两行更紧凑
             contentPadding: const EdgeInsets.symmetric(

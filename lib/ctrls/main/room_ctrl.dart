@@ -61,14 +61,23 @@ class RoomCtrl extends BaseCtrl {
     type = args['type'];
     title = args['title'];
     targetId = args['targetId'];
-
     /// 设置已读
     DB.dao.readChat(sn);
     /// 监听数据变化
     DB.dao.listInfo(sn).listen((data) {
       infoList.assignAll(data);
     });
+    /// 加载聊天
+    loadInfoList();
     super.onInit();
+  }
+
+  /// 加载聊天数据
+  Future<void> loadInfoList() async {
+    final res = await InfoApis.getInfoList(sn: sn);
+    if (res != null) {
+      DB.dao.saveInfoList(res.data);
+    }
   }
 
   /// 发送文字消息
