@@ -103,6 +103,7 @@ class RoomPage extends BaseView<RoomCtrl> {
         isMe: isMe,
         type: info.type.code,
         name: info.nickname,
+        avatar: info.avatar,
         message: info.message,
         status: info.status,
       );
@@ -235,7 +236,7 @@ class RoomPage extends BaseView<RoomCtrl> {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 8, // 一行 8 个（你可以改成 7、6 等）
+        crossAxisCount: 8,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
       ),

@@ -5,6 +5,7 @@ import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
+import 'package:app/datas/http/apis/chat_apis.dart';
 import 'package:app/model/info.dart';
 import 'package:app/cores/utils/uuid_util.dart';
 import 'package:app/datas/http/apis/info_apis.dart';
@@ -61,8 +62,10 @@ class RoomCtrl extends BaseCtrl {
     type = args['type'];
     title = args['title'];
     targetId = args['targetId'];
-    /// 设置已读
+    /// 设置已读：本地
     DB.dao.readChat(sn);
+    /// 设置已读：远程
+    ChatApis.readChat(sn);
     /// 监听数据变化
     DB.dao.listInfo(sn).listen((data) {
       infoList.assignAll(data);

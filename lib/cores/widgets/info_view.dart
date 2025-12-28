@@ -1,4 +1,5 @@
 
+import 'package:app/cores/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -44,7 +45,7 @@ class InfoView extends GetView {
         spacing: 10,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(child: Text(name.substring(0, 1))),
+          Avatar(url: avatar, name: name, size: 34, textSize: 14),
           Column(
             spacing: 4,
             crossAxisAlignment: meCA,

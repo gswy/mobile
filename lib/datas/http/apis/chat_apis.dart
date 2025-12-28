@@ -16,4 +16,11 @@ class ChatApis extends GetxService {
     } catch (_) {return null;}
   }
 
+  /// 用户已读接口
+  static Future<void> readChat(String sn) async {
+    try {
+      return await _http.post('/chat/$sn/read');
+    } catch (_) {}
+  }
+
 }

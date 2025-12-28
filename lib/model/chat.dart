@@ -50,16 +50,16 @@ class Chat {
 
   /// json转换
   factory Chat.fromJson(Map<String, dynamic> json) => Chat(
-    id: json["id"],
-    sn: json["sn"],
-    type: ChatType.fromCode(json["type"]),
-    targetId: json["targetId"],
-    sourceId: json["sourceId"],
-    title: json["title"],
-    avatar: json["avatar"],
-    unread: 0,
-    message: json["message"],
-    messageAt: json["messageAt"],
+    id: json['id'],
+    sn: json['sn'],
+    type: ChatType.fromCode(json['type']),
+    targetId: json['targetId'],
+    sourceId: json['sourceId'],
+    title: json['title'],
+    avatar: json['avatar'],
+    unread: json['unread'],
+    message: json['message'],
+    messageAt: json['messageAt'],
   );
 }
 

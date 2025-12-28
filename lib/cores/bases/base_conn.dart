@@ -269,6 +269,7 @@ class BaseConn extends GetxService with WidgetsBindingObserver {
         if (chat != null) {
           chat.message = info.message;
           chat.messageAt = info.messageAt;
+          chat.unread ++;
           await DB.dao.saveChat(chat);
         }
       }

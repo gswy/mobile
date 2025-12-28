@@ -149,7 +149,7 @@ class ChatPage extends BaseView<ChatCtrl> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    if (chat.unread > 0)
+                    if (chat.unread > 0)...[
                       Badge(
                         smallSize: 10,
                         largeSize: 10,
@@ -158,6 +158,7 @@ class ChatPage extends BaseView<ChatCtrl> {
                           style: const TextStyle(fontSize: 8.6),
                         ),
                       ),
+                    ]
                   ],
                 ),
               ],

@@ -43,6 +43,7 @@ class ChatCtrl extends BaseCtrl {
     /// 监听变化
     DB.dao.listChat(BaseAuth.id!).listen((data) {
       chatList.assignAll(data);
+      chatList.refresh();
     });
     scroll.addListener(() {
       final pos = scroll.position;

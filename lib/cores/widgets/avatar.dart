@@ -46,7 +46,7 @@ class Avatar extends GetView {
             ? Center(
                 child: Text(
                   name.trim().characters.first,
-                  style: TextStyle(color: scheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: scheme.primary, fontSize: textSize, fontWeight: FontWeight.bold),
                 ),
               )
             : _image(),
