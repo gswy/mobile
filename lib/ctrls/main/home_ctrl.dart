@@ -46,21 +46,20 @@ class HomeCtrl extends BaseCtrl {
     ),
   ].obs;
 
-  /// 选中操作
-  void select(int i) {
-    index.value = i;
-  }
-
   /// 初始化操作
   @override
   void onInit() {
-    /// 测试
-    // DB.test();
     /// 订阅消息未读数量
-    DB.dao.selectChatUnread(BaseAuth.id!).listen((num) {
-      pages[0].num.value = num;
+    DB.dao.selectChatUnread(BaseAuth.id!).listen((int num) {
+      pages[0].num = num;
+      pages.refresh();
     });
     super.onInit();
+  }
+
+  /// 选中操作
+  void select(int i) {
+    index.value = i;
   }
 
   @override
@@ -73,19 +72,19 @@ class HomeCtrl extends BaseCtrl {
 
 /// 底部菜单
 class Menu {
-  final RxInt num;
-  final String name;
-  final IconData line;
-  final IconData full;
-  final Widget page;
+  int num;
+  String name;
+  IconData line;
+  IconData full;
+  Widget page;
 
   Menu({
-    required int num,
+    required this.num,
     required this.name,
     required this.line,
     required this.full,
     required this.page,
-  }) : num = num.obs;
+  });
 }
 
 

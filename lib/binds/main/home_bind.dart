@@ -10,10 +10,10 @@ class HomeBind extends Bindings {
   @override
   void dependencies() {
     /// 子页面
-    Get.put(ChatCtrl());
-    Get.put(MateCtrl());
-    Get.put(MineCtrl());
+    Get.lazyPut(() => ChatCtrl());
+    Get.lazyPut(() => MateCtrl());
+    Get.lazyPut(() => MineCtrl());
     /// 主页面
-    Get.put(HomeCtrl());
+    Get.lazyPut(() => HomeCtrl());
   }
 }

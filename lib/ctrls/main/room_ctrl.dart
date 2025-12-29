@@ -85,6 +85,7 @@ class RoomCtrl extends BaseCtrl {
 
   /// 发送文字消息
   Future<void> sendText(String message) async {
+
     if (message.trim().isEmpty) return;
     textCtrl.clear();
     /// 构造发送信息
@@ -153,7 +154,7 @@ class RoomCtrl extends BaseCtrl {
     hideMoreMenu();
     switch (type) {
       case 'image':
-        // 选择照片
+
         break;
       case 'camera':
         // 拍摄
@@ -189,12 +190,39 @@ class RoomCtrl extends BaseCtrl {
     showMoreMenu.value = false;
   }
 
+  void wireFace(String emoji) {
+    final text = textCtrl.text;
+    final sel = textCtrl.selection;
+    if (!sel.isValid) {
+      textCtrl.text = text + emoji;
+      textCtrl.selection = TextSelection.collapsed(offset: textCtrl.text.length);
+      return;
+    }
+    final start = sel.start;
+    final end = sel.end;
+
+    final newText = text.replaceRange(start, end, emoji);
+    final newOffset = start + emoji.length;
+
+    textCtrl.value = textCtrl.value.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newOffset),
+      composing: TextRange.empty,
+    );
+  }
+
   Future<void> action(int index) async {
     if (index == 0) {
       final file = await picker.pickImage(source: ImageSource.camera);
     }
     if (index == 1) {
+      final file = await picker.pickVideo(source: ImageSource.camera);
+    }
+    if (index == 2) {
       final file = await picker.pickImage(source: ImageSource.gallery);
+    }
+    if (index == 3) {
+      final file = await picker.pickVideo(source: ImageSource.gallery);
     }
   }
 

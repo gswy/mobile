@@ -31,9 +31,11 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
       sourceId: chat.sourceId,
       targetId: chat.targetId,
       title: chat.title,
+      unread: Value(chat.unread),
       message: chat.message,
       messageAt: chat.messageAt,
     );
+    print('更新或者修改会话: $data');
     return await into(chatsTable).insertOnConflictUpdate(data);
   }
 
@@ -92,7 +94,9 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
     final c = chatsTable;
     final sumUnread = c.unread.sum();
     final q = selectOnly(c)..addColumns([sumUnread]);
-    return q.watchSingle().map((row) => row.read(sumUnread) ?? 0);
+    final unread = q.watchSingle().map((row) => row.read(sumUnread) ?? 0);
+    print('数据变化: $unread');
+    return unread;
   }
 
   /// 会话列表：监听变化

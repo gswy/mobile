@@ -168,10 +168,9 @@ class RoomPage extends BaseView<RoomCtrl> {
             ),
           ),
           Obx(
-            () => AnimatedContainer(
+            () => AnimatedSize(
               duration: Duration(milliseconds: 100),
               curve: Curves.easeInOut,
-              height: controller.showMoreMenu.value ? 200 : 0,
               child: controller.showMoreMenu.value
                   ? _moreMenu(context)
                   : const SizedBox.shrink(),
@@ -184,18 +183,25 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   /// 更多菜单
   Widget _moreMenu(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        mainAxisSpacing: 28,
-        crossAxisSpacing: 28,
-        childAspectRatio: 0.8,
-      ),
-      itemCount: RoomUtil.moreList.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: _moreMenuItem,
+    const cols = 4;
+    const rowSpacing = 28.0;
+    const colSpacing = 28.0;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final itemW =
+            ((constraints.maxWidth - 28 * 2) - rowSpacing * (cols - 1)) / cols;
+
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 28),
+          child: Wrap(
+            spacing: rowSpacing,
+            runSpacing: colSpacing,
+            children: List.generate(RoomUtil.moreList.length, (i) {
+              return SizedBox(width: itemW, child: _moreMenuItem(context, i));
+            }),
+          ),
+        );
+      },
     );
   }
 
@@ -211,17 +217,17 @@ class RoomPage extends BaseView<RoomCtrl> {
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 6,
         children: [
-          Expanded(
+          AspectRatio(
+            aspectRatio: 10 / 9,
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
                 color: scheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(14),
               ),
               alignment: Alignment.center,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Icon(menu.icon, color: scheme.primary),
+              child: Center(
+                child: Icon(menu.icon, size: 28, color: scheme.primary),
               ),
             ),
           ),
@@ -233,23 +239,49 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   /// 表情列表
   Widget _faceList(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 8,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-      ),
-      itemCount: RoomUtil.faceList.length,
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      itemBuilder: _faceListItem,
+    return Stack(
+      children: [
+        GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 8,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+          ),
+          itemCount: RoomUtil.faceList.length,
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          itemBuilder: _faceListItem,
+        ),
+
+        /// 发送按钮
+        Positioned(
+          right: 20,
+          bottom: 0,
+          child: SizedBox(
+            width: 88,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: controller.textCtrl.text.isEmpty
+                  ? null
+                  : () {
+                controller.sendText(controller.textCtrl.text);
+              },
+              child: Text('发送'),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   /// 表情项目
   Widget _faceListItem(BuildContext context, int index) {
-    return GestureDetector(onTap: () {
-    }, child: Text(RoomUtil.faceList[index], style: TextStyle(fontSize: 28)));
+    return GestureDetector(
+      onTap: () {
+        controller.wireFace(RoomUtil.faceList[index]);
+      },
+      child: Text(RoomUtil.faceList[index], style: TextStyle(fontSize: 28)),
+    );
   }
 }

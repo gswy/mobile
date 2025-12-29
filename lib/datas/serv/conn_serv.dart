@@ -264,6 +264,7 @@ class ConnServ extends BaseCtrl {
         final info = Info.fromJson(res['payload']);
         DB.dao.saveInfo(info);
         final chat = await DB.dao.findChat(info.sn);
+        Get.log('[WS] 收到消息: 聊天数据ID: ${chat?.id}');
         if (chat != null) {
           chat.message = info.message;
           chat.messageAt = info.messageAt;
