@@ -44,8 +44,7 @@ class RoomPage extends BaseView<RoomCtrl> {
       child: TextField(
         focusNode: controller.textNode,
         controller: controller.textCtrl,
-        minLines: 1,
-        maxLines: 4,
+        minLines: 1, maxLines: 4,
         decoration: InputDecoration(
           filled: true,
           isDense: true,
@@ -214,8 +213,8 @@ class RoomPage extends BaseView<RoomCtrl> {
         controller.media(index);
       },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 6,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AspectRatio(
             aspectRatio: 10 / 9,
@@ -256,11 +255,9 @@ class RoomPage extends BaseView<RoomCtrl> {
 
         /// 发送按钮
         Positioned(
-          right: 20,
-          bottom: 0,
+          right: 20, bottom: 0,
           child: SizedBox(
-            width: 88,
-            height: 48,
+            width: 88, height: 48,
             child: ElevatedButton(
               onPressed: () {
                 controller.sendText(controller.textCtrl.text);
