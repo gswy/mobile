@@ -101,7 +101,7 @@ class RoomPage extends BaseView<RoomCtrl> {
       final isMe = info.userId == BaseAuth.id;
       return InfoView(
         isMe: isMe,
-        type: info.type.code,
+        type: info.type,
         name: info.nickname,
         avatar: info.avatar,
         message: info.message,

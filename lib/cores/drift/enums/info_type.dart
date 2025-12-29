@@ -10,13 +10,13 @@ enum InfoType {
   card(2),
 
   /// 图片消息
-  image(2),
+  image(3),
 
   /// 视频消息
-  video(2),
+  video(4),
 
   /// 音频消息
-  voice(1);
+  voice(5);
 
   /// 代码定义
   final int code;

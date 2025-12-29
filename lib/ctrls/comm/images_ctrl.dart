@@ -12,6 +12,12 @@ class ImagesCtrl extends BaseCtrl {
   /// 是否加载
   final loading = false.obs;
 
+  /// 文件路径
+  final filepath = ''.obs;
 
+  @override void onInit() {
+    super.onInit();
+    filepath.value = Get.arguments as String;
+  }
 
 }

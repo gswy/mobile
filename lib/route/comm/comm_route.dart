@@ -2,9 +2,6 @@
 /// 业务内页
 class CommRoute {
   CommRoute._();
-  
-  /// 拍摄页面（拍摄，录像）
-  static const String camera = '/comm/camera';
 
   /// 二维码页（我的二维码）
   static const String qrcode = '/comm/qrcode';

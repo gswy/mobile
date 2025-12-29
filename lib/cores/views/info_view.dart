@@ -1,5 +1,8 @@
-
+import 'package:app/cores/drift/enums/info_type.dart';
+import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/views/avatar.dart';
+import 'package:app/route/comm/comm_route.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +10,7 @@ import 'package:get/get.dart';
 class InfoView extends GetView {
 
   /// 消息类型
-  final int type;
+  final InfoType type;
 
   /// 是否我的消息
   final bool isMe;
@@ -81,25 +84,64 @@ class InfoView extends GetView {
 
     final reCR = Theme.of(context).colorScheme.error;
 
+    /// 分发信息
+    final child = switch (type) {
+      InfoType.text => _text(context),
+      InfoType.file => Placeholder(),
+      InfoType.card => Placeholder(),
+      InfoType.image => _image(context),
+      InfoType.video => _video(context),
+      InfoType.voice => _voice(context),
+    };
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 6,
       children: [
-        if (status == -1)
+        if (status == -1) ...[
           GestureDetector(
             onTap: () async {
               Get.log('重发');
             },
-            child: SizedBox(height: 24, width: 24, child: Icon(Icons.refresh, color: reCR, size: 16)),
+            child: SizedBox(
+              height: 24,
+              width: 24,
+              child: Icon(Icons.refresh, color: reCR, size: 16),
+            ),
           ),
-        if (status == 0)
-          SizedBox(height: 14, width: 14, child: CircularProgressIndicator(strokeWidth: 1.4)),
+        ],
+        if (status == 0) ...[
+          SizedBox(
+            height: 14,
+            width: 14,
+            child: CircularProgressIndicator(strokeWidth: 1.4),
+          ),
+        ],
+
         /// 主体内容
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-          decoration: BoxDecoration(borderRadius: meRA, color: meBG),
-          constraints: BoxConstraints(maxWidth: Get.width * 0.65),
-          child: GestureDetector(onLongPress: () {}, child: _text(context)),
+        GestureDetector(
+          onTap: () {
+            switch (type) {
+              case InfoType.text:
+                return;
+              case InfoType.file:
+                return;
+              case InfoType.card:
+                return;
+              case InfoType.image:
+                Get.toNamed(CommRoute.images, arguments: message);
+              case InfoType.video:
+                Get.toNamed(CommRoute.videos, arguments: message);
+              case InfoType.voice:
+                return;
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            decoration: BoxDecoration(borderRadius: meRA, color: meBG),
+            constraints: BoxConstraints(maxWidth: Get.width * 0.65),
+            child: GestureDetector(onLongPress: () {}, child: child),
+          ),
         ),
       ],
     );
@@ -112,10 +154,28 @@ class InfoView extends GetView {
 
   /// 图片显示
   Widget _image(BuildContext context) {
-    return CircleAvatar();
+    return ExtendedImage.network(
+      '${HostUtil.getHttp()}$message',
+      fit: BoxFit.cover,
+      cache: true,
+    );
   }
 
+  /// 图片显示
+  Widget _video(BuildContext context) {
+    return ExtendedImage.network(
+      '${HostUtil.getHttp()}$message',
+      fit: BoxFit.cover,
+      cache: true,
+    );
+  }
 
-
-
+  /// 图片显示
+  Widget _voice(BuildContext context) {
+    return ExtendedImage.network(
+      '${HostUtil.getHttp()}$message',
+      fit: BoxFit.cover,
+      cache: true,
+    );
+  }
 }

@@ -17,10 +17,10 @@ class RoomUtil {
 
   /// 更多列表
   static final moreList = [
-    MoreItem(name: '拍照片', icon: IconUtil.cameraFull, path: CommRoute.camera),
-    MoreItem(name: '录视频', icon: IconUtil.recordFull, path: CommRoute.images),
-    MoreItem(name: '图片', icon: IconUtil.imagesFull, path: CommRoute.videos),
-    MoreItem(name: '视频', icon: IconUtil.videosFull, path: CommRoute.videos),
+    MoreItem(name: '拍照片', icon: IconUtil.cameraFull),
+    MoreItem(name: '录视频', icon: IconUtil.recordFull),
+    MoreItem(name: '图片', icon: IconUtil.imagesFull),
+    MoreItem(name: '视频', icon: IconUtil.videosFull),
   ];
 
 }
@@ -29,7 +29,6 @@ class RoomUtil {
 class MoreItem {
   final String name;
   final IconData icon;
-  final String path;
 
-  MoreItem({required this.name, required this.icon, required this.path});
+  MoreItem({required this.name, required this.icon});
 }
