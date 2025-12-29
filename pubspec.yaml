@@ -105,6 +105,9 @@ dependencies:
   # 获取相册: https://pub.dev/packages/image_picker/install
   image_picker: ^1.2.1
 
+  # 视频播放: https://pub.dev/packages/video_player/install
+  video_player: ^2.10.1
+
 # 开发所需
 dev_dependencies:
   flutter_test:

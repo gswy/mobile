@@ -5,6 +5,7 @@ import 'package:app/route/comm/comm_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 /// 消息操作
 class InfoView extends GetView {
@@ -163,11 +164,9 @@ class InfoView extends GetView {
 
   /// 图片显示
   Widget _video(BuildContext context) {
-    return ExtendedImage.network(
-      '${HostUtil.getHttp()}$message',
-      fit: BoxFit.cover,
-      cache: true,
-    );
+    final uri = Uri.parse('${HostUtil.getHttp()}$message');
+    final ctrl = VideoPlayerController.networkUrl(uri);
+    return VideoPlayer(ctrl);
   }
 
   /// 图片显示
