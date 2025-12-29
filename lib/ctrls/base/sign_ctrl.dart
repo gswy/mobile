@@ -1,9 +1,9 @@
 
 import 'package:app/cores/bases/base_auth.dart';
-import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/toast/toast.dart';
 import 'package:app/datas/http/apis/auth_apis.dart';
+import 'package:app/datas/serv/conn_serv.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -12,8 +12,9 @@ import 'package:get/get.dart';
 class SignCtrl extends BaseCtrl {
 
   /// 连接处理
-  final _conn = Get.find<BaseConn>();
+  final _serv = Get.find<ConnServ>();
 
+  ///
   final _auth = Get.find<BaseAuth>();
 
   /// 连接地址
@@ -42,7 +43,7 @@ class SignCtrl extends BaseCtrl {
     final res = await AuthApis.signIn(username.text.trim(), password.text.trim());
     if (res) {
       await _auth.init();
-      await _conn.star();
+      await _serv.star();
       Get.offNamed(MainRoute.home);
     }
   }

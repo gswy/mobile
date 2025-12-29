@@ -84,7 +84,7 @@ abstract class BaseCtrl extends SuperController {
   /// - 刷新关键数据（检查会话是否有新消息等）
   @override
   void onResumed() {
-    //
+
   }
 
   /// 控制器被销毁时调用。
@@ -98,6 +98,6 @@ abstract class BaseCtrl extends SuperController {
   /// - 取消订阅、移除监听器
   @override
   void onClose() {
-    //
+    super.onClose();
   }
 }

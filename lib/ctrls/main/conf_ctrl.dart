@@ -1,10 +1,10 @@
 import 'package:app/cores/bases/base_auth.dart';
-import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/sign_util.dart';
 import 'package:app/datas/http/apis/conf_apis.dart';
 import 'package:app/datas/http/apis/mine_apis.dart';
+import 'package:app/datas/serv/conn_serv.dart';
 import 'package:app/model/conf.dart';
 import 'package:app/route/base/base_route.dart';
 import 'package:get/get.dart';
@@ -132,13 +132,13 @@ class ConfCtrl extends BaseCtrl {
   Future<void> hostExit() async {
     await SignUtil.clean();
     await HostUtil.clean();
-    final conn = Get.find<BaseConn>();
+    final conn = Get.find<ConnServ>();
     await conn.stop();
     Get.offAllNamed(BaseRoute.host);
   }
 
   Future<void> signExit() async {
-    final conn = Get.find<BaseConn>();
+    final conn = Get.find<ConnServ>();
     await conn.stop();
     await SignUtil.clean();
     Get.offAllNamed(BaseRoute.signin);

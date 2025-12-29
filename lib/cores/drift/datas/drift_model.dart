@@ -91,34 +91,31 @@ class DriftModel extends DatabaseAccessor<DriftDatas> with _$DriftModelMixin {
   Stream<int> selectChatUnread(int sourceId) {
     final c = chatsTable;
     final sumUnread = c.unread.sum();
-    final q = selectOnly(c)
-      ..addColumns([sumUnread])
-      ..where(c.sourceId.equals(sourceId) & c.unread.isBiggerThanValue(0));
+    final q = selectOnly(c)..addColumns([sumUnread]);
     return q.watchSingle().map((row) => row.read(sumUnread) ?? 0);
   }
 
-  /// 会话列表：
-  /// 监听变化
+  /// 会话列表：监听变化
   Stream<List<Chat>> listChat(int userId) {
     final c = chatsTable;
     final query = (select(c)..orderBy([(t) => OrderingTerm.desc(t.messageAt)]));
     return query.watch().map((rows) {
       return rows
-          .map(
-            (it) => Chat(
-              id: it.id,
-              sn: it.sn,
-              type: it.type,
-              targetId: it.targetId,
-              sourceId: it.sourceId,
-              title: it.title,
-              avatar: it.avatar,
-              unread: it.unread,
-              message: it.message,
-              messageAt: it.messageAt,
-            ),
-          )
-          .toList();
+        .map(
+          (it) => Chat(
+            id: it.id,
+            sn: it.sn,
+            type: it.type,
+            targetId: it.targetId,
+            sourceId: it.sourceId,
+            title: it.title,
+            avatar: it.avatar,
+            unread: it.unread,
+            message: it.message,
+            messageAt: it.messageAt,
+          ),
+        )
+        .toList();
     });
   }
 

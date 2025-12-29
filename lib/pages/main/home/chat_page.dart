@@ -6,6 +6,7 @@ import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/widgets/avatar.dart';
 import 'package:app/ctrls/main/chat_ctrl.dart';
+import 'package:app/model/chat.dart';
 import 'package:app/route/comm/comm_route.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,20 @@ class ChatPage extends BaseView<ChatCtrl> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('聊天'),
+        title: Obx(() {
+          return Column(
+            spacing: 4,
+            children: [
+              Text('聊天'),
+              if (controller.subtitle.isNotEmpty) ...[
+                Text(
+                  controller.subtitle,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ],
+            ],
+          );
+        }),
         actions: [
           PopupMenuButton(
             icon: Icon(IconUtil.plus),
@@ -50,14 +64,13 @@ class ChatPage extends BaseView<ChatCtrl> {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: _search(context)),
-            Obx(
-              () => SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => _chatItem(context, index),
-                  childCount: controller.chatList.length,
-                ),
-              ),
-            ),
+            Obx(() {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return _chatItem(context, index, controller.chatList[index]);
+                }, childCount: controller.chatList.length),
+              );
+            }),
           ],
         ),
       ),
@@ -102,104 +115,100 @@ class ChatPage extends BaseView<ChatCtrl> {
   }
 
   /// 聊天项目
-  Widget _chatItem(BuildContext context, int index) {
-    final errBG = Theme.of(context).colorScheme.errorContainer;
-    return Obx(() {
-      final chat = controller.chatList[index];
-      return Column(
-        children: [
-          ListTile(
-            leading: Avatar(
-              size: 44, textSize: 18,
-              url: chat.avatar,
-              name: chat.title,
-            ),
-            title: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        chat.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      DateUtil.readTime(chat.messageAt),
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        chat.message,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    if (chat.unread > 0)...[
-                      Badge(
-                        smallSize: 10,
-                        largeSize: 10,
-                        label: Text(
-                          '${chat.unread}',
-                          style: const TextStyle(fontSize: 8.6),
-                        ),
-                      ),
-                    ]
-                  ],
-                ),
-              ],
-            ),
-            onTap: () {
-              if (chat.type == ChatType.mate) {
-                final sn = ChatUtil.getSN(BaseAuth.id!, chat.targetId);
-                Get.toNamed(
-                  MainRoute.room,
-                  arguments: {
-                    'sn': sn,
-                    'type': chat.type,
-                    'title': chat.title,
-                    'targetId': chat.targetId,
-                  },
-                );
-              }
-              if (chat.type == ChatType.team) {
-                final sn = chat.sn;
-                Get.toNamed(
-                  MainRoute.room,
-                  arguments: {
-                    'sn': sn,
-                    'type': chat.type,
-                    'title': chat.title,
-                    'targetId': chat.targetId,
-                  },
-                );
-              }
-            },
-            // 可选：让两行更紧凑
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            titleAlignment: ListTileTitleAlignment.center,
+  Widget _chatItem(BuildContext context, int index, Chat chat) {
+    return Column(
+      children: [
+        ListTile(
+          key: ValueKey(chat.sn),
+          leading: Avatar(
+            size: 44,
+            textSize: 18,
+            url: chat.avatar,
+            name: chat.title,
           ),
-          if (index < controller.chatList.length - 1)
-            Divider(height: 0.1, thickness: 0.1),
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      chat.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    DateUtil.readTime(chat.messageAt),
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      chat.message,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  if (chat.unread > 0) ...[
+                    Badge(
+                      smallSize: 10,
+                      largeSize: 10,
+                      label: Text(
+                        '${chat.unread}',
+                        style: const TextStyle(fontSize: 8.6),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+          onTap: () {
+            if (chat.type == ChatType.mate) {
+              final sn = ChatUtil.getSN(BaseAuth.id!, chat.targetId);
+              Get.toNamed(
+                MainRoute.room,
+                arguments: {
+                  'sn': sn,
+                  'type': chat.type,
+                  'title': chat.title,
+                  'targetId': chat.targetId,
+                },
+              );
+            }
+            if (chat.type == ChatType.team) {
+              final sn = chat.sn;
+              Get.toNamed(
+                MainRoute.room,
+                arguments: {
+                  'sn': sn,
+                  'type': chat.type,
+                  'title': chat.title,
+                  'targetId': chat.targetId,
+                },
+              );
+            }
+          },
+          // 可选：让两行更紧凑
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          titleAlignment: ListTileTitleAlignment.center,
+        ),
+        if (index < controller.chatList.length - 1) ...[
+          Divider(height: 0.2, thickness: 0.2),
         ],
-      );
-    });
+      ],
+    );
   }
 }

@@ -1,11 +1,11 @@
 
 import 'package:app/cores/bases/base_auth.dart';
-import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/bases/base_http.dart';
 import 'package:app/cores/store/local_store.dart';
 import 'package:app/cores/utils/sign_util.dart';
 import 'package:app/cores/value/host_constants.dart';
+import 'package:app/datas/serv/conn_serv.dart';
 import 'package:app/route/base/base_route.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:get/get.dart';
@@ -38,7 +38,7 @@ class StarCtrl extends BaseCtrl {
         await auth.init();
 
         /// 2.2. 启动连接服务
-        final conn = Get.find<BaseConn>();
+        final conn = Get.find<ConnServ>();
         await conn.star();
 
         /// 2.2. 连接成功进入

@@ -1,5 +1,7 @@
 
+import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
+import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/pages/main/home/chat_page.dart';
 import 'package:app/pages/main/home/mate_page.dart';
@@ -54,10 +56,10 @@ class HomeCtrl extends BaseCtrl {
   void onInit() {
     /// 测试
     // DB.test();
-    // /// 订阅消息未读数量
-    // DB.dao.selectChatUnread(100).listen((num) {
-    //   pages[0].num.value = num;
-    // });
+    /// 订阅消息未读数量
+    DB.dao.selectChatUnread(BaseAuth.id!).listen((num) {
+      pages[0].num.value = num;
+    });
     super.onInit();
   }
 
@@ -65,10 +67,6 @@ class HomeCtrl extends BaseCtrl {
   void onClose() {
     super.onClose();
   }
-
-  /// -------------- 聊天页面 ----------------
-
-  /// -------------- 通讯页面 ----------------
 
 
 }

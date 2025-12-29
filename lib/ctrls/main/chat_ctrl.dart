@@ -1,8 +1,8 @@
 
 import 'package:app/cores/bases/base_auth.dart';
-import 'package:app/cores/bases/base_conn.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
+import 'package:app/datas/serv/conn_serv.dart';
 import 'package:app/model/chat.dart';
 import 'package:app/datas/http/apis/chat_apis.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,14 +20,16 @@ class ChatCtrl extends BaseCtrl {
   /// 加载状态
   final loading = false.obs;
 
+  /// 连接信息
+  final _conn = Get.find<ConnServ>();
+
   /// 连接状态
-  final _conn = Get.find<BaseConn>();
-
-  ///
-  final subtitle = ''.obs;
-
-  /// 是否连接
-  RxBool get connect => _conn.connect;
+  String get subtitle {
+    if (loading.value) {
+      return '收取中';
+    }
+    return _conn.message.value;
+  }
 
   /// 开始请求
   final chatList = <Chat>[].obs;
@@ -40,11 +42,12 @@ class ChatCtrl extends BaseCtrl {
 
   /// 加载会话
   @override void onInit() {
-    /// 监听变化
+    /// 监听数据变化
     DB.dao.listChat(BaseAuth.id!).listen((data) {
       chatList.assignAll(data);
       chatList.refresh();
     });
+    /// 监听页面滚动
     scroll.addListener(() {
       final pos = scroll.position;
       if (pos.pixels >= pos.maxScrollExtent - 200) {

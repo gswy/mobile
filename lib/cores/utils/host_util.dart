@@ -24,6 +24,9 @@ class HostUtil {
 
   static String getWS() {
     final host = LocalStore.getString(HostConstants.hostKey);
+    if (host == null) {
+      return '';
+    }
     return 'wss://$host/ws';
   }
 
