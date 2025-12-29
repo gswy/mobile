@@ -1,4 +1,4 @@
-import 'package:app/cores/widgets/load_view.dart';
+import 'package:app/cores/views/load_view.dart';
 import 'package:app/ctrls/main/bind_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';

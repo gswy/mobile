@@ -1,5 +1,5 @@
 
-import 'package:app/cores/widgets/load_view.dart';
+import 'package:app/cores/views/load_view.dart';
 import 'package:app/ctrls/main/info_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

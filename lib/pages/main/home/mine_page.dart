@@ -1,7 +1,7 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/widgets/avatar.dart';
+import 'package:app/cores/views/avatar.dart';
 import 'package:app/ctrls/main/mine_ctrl.dart';
 import 'package:app/route/comm/comm_route.dart';
 

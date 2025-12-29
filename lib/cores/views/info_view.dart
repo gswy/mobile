@@ -1,10 +1,11 @@
 
-import 'package:app/cores/widgets/avatar.dart';
+import 'package:app/cores/views/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 消息操作
 class InfoView extends GetView {
+
   /// 消息类型
   final int type;
 
@@ -113,4 +114,8 @@ class InfoView extends GetView {
   Widget _image(BuildContext context) {
     return CircleAvatar();
   }
+
+
+
+
 }

@@ -4,7 +4,7 @@ import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/utils/chat_util.dart';
 import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/widgets/avatar.dart';
+import 'package:app/cores/views/avatar.dart';
 import 'package:app/ctrls/main/chat_ctrl.dart';
 import 'package:app/model/chat.dart';
 import 'package:app/route/comm/comm_route.dart';

@@ -2,7 +2,7 @@ import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/utils/room_util.dart';
-import 'package:app/cores/widgets/info_view.dart';
+import 'package:app/cores/views/info_view.dart';
 import 'package:app/ctrls/main/room_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 
@@ -211,7 +211,7 @@ class RoomPage extends BaseView<RoomCtrl> {
     final scheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
-        controller.action(index);
+        controller.media(index);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,9 +262,7 @@ class RoomPage extends BaseView<RoomCtrl> {
             width: 88,
             height: 48,
             child: ElevatedButton(
-              onPressed: controller.textCtrl.text.isEmpty
-                  ? null
-                  : () {
+              onPressed: () {
                 controller.sendText(controller.textCtrl.text);
               },
               child: Text('发送'),

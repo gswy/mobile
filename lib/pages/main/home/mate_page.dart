@@ -1,7 +1,7 @@
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/widgets/avatar.dart';
+import 'package:app/cores/views/avatar.dart';
 import 'package:app/ctrls/main/mate_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 

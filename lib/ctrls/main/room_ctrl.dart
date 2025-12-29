@@ -6,6 +6,8 @@ import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:app/datas/http/apis/chat_apis.dart';
+import 'package:app/datas/http/apis/comm_apis.dart';
+import 'package:app/datas/http/apis/file_apis.dart';
 import 'package:app/model/info.dart';
 import 'package:app/cores/utils/uuid_util.dart';
 import 'package:app/datas/http/apis/info_apis.dart';
@@ -85,7 +87,6 @@ class RoomCtrl extends BaseCtrl {
 
   /// 发送文字消息
   Future<void> sendText(String message) async {
-
     if (message.trim().isEmpty) return;
     textCtrl.clear();
     /// 构造发送信息
@@ -149,22 +150,6 @@ class RoomCtrl extends BaseCtrl {
     showMoreMenu.value = false;
   }
 
-  /// 处理菜单项点击
-  void onMenuTap(String type) {
-    hideMoreMenu();
-    switch (type) {
-      case 'image':
-
-        break;
-      case 'camera':
-        // 拍摄
-        break;
-      case 'file':
-        // 选择文件
-        break;
-    }
-  }
-
   /// 切换语音/键盘模式
   void onTextTap() {
     if (showTextMode.value) {
@@ -190,6 +175,7 @@ class RoomCtrl extends BaseCtrl {
     showMoreMenu.value = false;
   }
 
+  /// 写入表情
   void wireFace(String emoji) {
     final text = textCtrl.text;
     final sel = textCtrl.selection;
@@ -211,19 +197,81 @@ class RoomCtrl extends BaseCtrl {
     );
   }
 
-  Future<void> action(int index) async {
+  /// 发送媒体
+  Future<void> media(int index) async {
+    XFile? file;
+    String? path;
+    String message = '';
+    InfoType infoType = InfoType.image;
+
     if (index == 0) {
-      final file = await picker.pickImage(source: ImageSource.camera);
+      infoType = InfoType.image;
+      file = await picker.pickImage(source: ImageSource.camera);
+      if (file != null) {
+        path = await FileApis.uploadImage(file);
+      }
     }
     if (index == 1) {
-      final file = await picker.pickVideo(source: ImageSource.camera);
+      infoType = InfoType.video;
+      file = await picker.pickVideo(source: ImageSource.camera);
+      if (file != null) {
+        path = await FileApis.uploadVideo(file);
+      }
     }
     if (index == 2) {
-      final file = await picker.pickImage(source: ImageSource.gallery);
+      infoType = InfoType.image;
+      file = await picker.pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        path = await FileApis.uploadImage(file);
+      }
     }
     if (index == 3) {
-      final file = await picker.pickVideo(source: ImageSource.gallery);
+      infoType = InfoType.video;
+      file = await picker.pickVideo(source: ImageSource.gallery);
+      if (file != null) {
+        path = await FileApis.uploadVideo(file);
+      }
     }
+
+    if (file == null) return;
+    if (path == null) return;
+
+    /// 构造发送信息
+    final clientId = UuidUtil.id;
+    final messageAt = DateTime.now().millisecondsSinceEpoch;
+
+    /// 先存储到本地库中
+    final info = Info(
+      sn: sn,
+      type: infoType,
+      userId: BaseAuth.id!,
+      clientId: clientId,
+      avatar: BaseAuth.avatar,
+      nickname: BaseAuth.nickname!,
+      unread: true,
+      status: 0,
+      message: path,
+      messageAt: messageAt,
+    );
+    DB.dao.saveInfo(info);
+    /// 开始云端发送消息
+    final res = await InfoApis.send(
+      chat: type.code,
+      info: infoType.code,
+      clientId: clientId,
+      targetId: targetId,
+      message: path,
+      messageAt: messageAt,
+    );
+    if (res != null) {
+      info.id = res.id;
+      info.status = 1;
+    } else {
+      info.status = -1;
+    }
+    /// 保存发送状态
+    DB.dao.saveInfo(info);
+
   }
 
   /// 切换更多

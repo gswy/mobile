@@ -1,7 +1,7 @@
 import 'package:app/cores/bases/base_view.dart';
-import 'package:app/cores/widgets/button.dart';
-import 'package:app/cores/widgets/base_input.dart';
-import 'package:app/cores/widgets/base_logo.dart';
+import 'package:app/cores/views/button.dart';
+import 'package:app/cores/views/base_input.dart';
+import 'package:app/cores/views/base_logo.dart';
 import 'package:app/ctrls/base/host_ctrl.dart';
 
 import 'package:flutter/material.dart';
