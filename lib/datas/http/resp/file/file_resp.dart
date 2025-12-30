@@ -1,10 +1,11 @@
 class FileResp {
-  String filepath;
+  String head;
+  String path;
 
-  FileResp({required this.filepath});
+  FileResp({required this.head, required this.path});
 
   factory FileResp.fromJson(dynamic json) =>
-      FileResp(filepath: json["filepath"]);
+      FileResp(head: json["head"], path: json["path"]);
 
-  Map<String, dynamic> toJson() => {"filepath": filepath};
+  Map<String, dynamic> toJson() => {"head": head, "path": path};
 }

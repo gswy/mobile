@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:app/cores/bases/base_auth.dart';
@@ -5,9 +6,10 @@ import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
+import 'package:app/cores/utils/file_util.dart';
 import 'package:app/datas/http/apis/chat_apis.dart';
-import 'package:app/datas/http/apis/comm_apis.dart';
 import 'package:app/datas/http/apis/file_apis.dart';
+import 'package:app/datas/http/resp/file/file_resp.dart';
 import 'package:app/model/info.dart';
 import 'package:app/cores/utils/uuid_util.dart';
 import 'package:app/datas/http/apis/info_apis.dart';
@@ -16,7 +18,6 @@ import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 /// 聊天数据
 class RoomCtrl extends BaseCtrl {
@@ -200,41 +201,44 @@ class RoomCtrl extends BaseCtrl {
   /// 发送媒体
   Future<void> media(int index) async {
     XFile? file;
-    String? path;
-    String message = '';
+    FileResp? resp;
     InfoType infoType = InfoType.image;
 
     if (index == 0) {
       infoType = InfoType.image;
       file = await picker.pickImage(source: ImageSource.camera);
       if (file != null) {
-        path = await FileApis.uploadImage(file);
+        final head = await FileUtil.image(file);
+        resp = await FileApis.uploadImage(file, head);
       }
     }
     if (index == 1) {
       infoType = InfoType.video;
       file = await picker.pickVideo(source: ImageSource.camera);
       if (file != null) {
-        path = await FileApis.uploadVideo(file);
+        final head = await FileUtil.video(file);
+        resp = await FileApis.uploadVideo(file, head);
       }
     }
     if (index == 2) {
       infoType = InfoType.image;
       file = await picker.pickImage(source: ImageSource.gallery);
       if (file != null) {
-        path = await FileApis.uploadImage(file);
+        final head = await FileUtil.image(file);
+        resp = await FileApis.uploadImage(file, head);
       }
     }
     if (index == 3) {
       infoType = InfoType.video;
       file = await picker.pickVideo(source: ImageSource.gallery);
       if (file != null) {
-        path = await FileApis.uploadVideo(file);
+        final head = await FileUtil.video(file);
+        resp = await FileApis.uploadVideo(file, head);
       }
     }
 
     if (file == null) return;
-    if (path == null) return;
+    if (resp == null) return;
 
     /// 构造发送信息
     final clientId = UuidUtil.id;
@@ -250,7 +254,7 @@ class RoomCtrl extends BaseCtrl {
       nickname: BaseAuth.nickname!,
       unread: true,
       status: 0,
-      message: path,
+      message: jsonEncode(resp),
       messageAt: messageAt,
     );
     DB.dao.saveInfo(info);
@@ -260,7 +264,7 @@ class RoomCtrl extends BaseCtrl {
       info: infoType.code,
       clientId: clientId,
       targetId: targetId,
-      message: path,
+      message: jsonEncode(resp),
       messageAt: messageAt,
     );
     if (res != null) {

@@ -11,39 +11,38 @@ class FileApis {
   static final _http = Get.find<BaseHttp>();
 
   /// 上传图片
-  static Future<String?> uploadImage(XFile file) async {
+  static Future<FileResp?> uploadImage(XFile file, XFile head) async {
     final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: file.name)
+      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'head': await MultipartFile.fromFile(head.path, filename: head.name)
     });
     try {
-      final res = await _http.post<FileResp>('/file/image', data: formData, fromJson: FileResp.fromJson);
-      return res?.filepath;
+      return await _http.post<FileResp>('/file/image', data: formData, fromJson: FileResp.fromJson);
     } catch (_) {
       return null;
     }
   }
 
   /// 上传视频
-  static Future<String?> uploadVideo(XFile file) async {
+  static Future<FileResp?> uploadVideo(XFile file, XFile head) async {
     final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: file.name)
+      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'head': await MultipartFile.fromFile(head.path, filename: head.name)
     });
     try {
-      final res = await _http.post<FileResp>('/file/video', data: formData, fromJson: FileResp.fromJson);
-      return res?.filepath;
+      return await _http.post<FileResp>('/file/video', data: formData, fromJson: FileResp.fromJson);
     } catch (_) {
       return null;
     }
   }
 
   /// 上传音频
-  static Future<String?> uploadVoice(XFile file) async {
+  static Future<FileResp?> uploadVoice(XFile file) async {
     final formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(file.path, filename: file.name)
     });
     try {
-      final res = await _http.post<FileResp>('/file/voice', data: formData, fromJson: FileResp.fromJson);
-      return res?.filepath;
+      return await _http.post<FileResp>('/file/voice', data: formData, fromJson: FileResp.fromJson);
     } catch (_) {
       return null;
     }

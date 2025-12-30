@@ -1,15 +1,17 @@
+import 'dart:convert';
+
 import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:app/cores/utils/host_util.dart';
+import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/views/avatar.dart';
+import 'package:app/datas/http/resp/file/file_resp.dart';
 import 'package:app/route/comm/comm_route.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 
 /// 消息操作
 class InfoView extends GetView {
-
   /// 消息类型
   final InfoType type;
 
@@ -130,9 +132,11 @@ class InfoView extends GetView {
               case InfoType.card:
                 return;
               case InfoType.image:
-                Get.toNamed(CommRoute.images, arguments: message);
+                final file = FileResp.fromJson(jsonDecode(message));
+                Get.toNamed(CommRoute.images, arguments: file.path);
               case InfoType.video:
-                Get.toNamed(CommRoute.videos, arguments: message);
+                final file = FileResp.fromJson(jsonDecode(message));
+                Get.toNamed(CommRoute.videos, arguments: file.path);
               case InfoType.voice:
                 return;
             }
@@ -155,21 +159,35 @@ class InfoView extends GetView {
 
   /// 图片显示
   Widget _image(BuildContext context) {
+    final file = FileResp.fromJson(jsonDecode(message));
     return ExtendedImage.network(
-      '${HostUtil.getHttp()}$message',
+      '${HostUtil.getHttp()}${file.head}',
       fit: BoxFit.cover,
       cache: true,
     );
   }
 
-  /// 图片显示
+  /// 视频显示
   Widget _video(BuildContext context) {
-    final uri = Uri.parse('${HostUtil.getHttp()}$message');
-    final ctrl = VideoPlayerController.networkUrl(uri);
-    return VideoPlayer(ctrl);
+    final file = FileResp.fromJson(jsonDecode(message));
+    return Stack(
+      children: [
+        ExtendedImage.network(
+          '${HostUtil.getHttp()}${file.head}',
+          fit: BoxFit.cover,
+          cache: true,
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: Icon(IconUtil.playFull, size: 50),
+          ),
+        ),
+      ],
+    );
   }
 
-  /// 图片显示
+  /// 音频显示
   Widget _voice(BuildContext context) {
     return ExtendedImage.network(
       '${HostUtil.getHttp()}$message',

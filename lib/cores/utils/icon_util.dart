@@ -160,6 +160,9 @@ class IconUtil {
   /// 我的群组
   static const IconData teamsFull = IconData(0xf0c0, fontFamily: _iconFull);
 
+  /// 播放组件
+  static const IconData playFull = IconData(0xf144, fontFamily: _iconFull);
+
 
   /// 拍照片（房间）
   static const IconData cameraFull = IconData(0xf030, fontFamily: _iconFull);

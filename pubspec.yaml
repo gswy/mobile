@@ -77,9 +77,6 @@ dependencies:
   # 本地存储: https://pub.dev/packages/shared_preferences
   shared_preferences: ^2.5.3
 
-  # 转换拼音: https://pub.dev/packages/pinyin
-  pinyin: ^3.3.0
-
   # 时间操作: https://pub.dev/packages/intl
   intl: ^0.20.2
 
@@ -107,6 +104,15 @@ dependencies:
 
   # 视频播放: https://pub.dev/packages/video_player/install
   video_player: ^2.10.1
+  # 播放插件: https://pub.dev/packages/chewie/install
+  chewie: ^1.13.0
+
+  # 视频处理：https://pub.dev/packages/video_thumbnail/install
+  video_thumbnail: ^0.5.6
+
+  # 图片处理：https://pub.dev/packages/flutter_image_compress/install
+  flutter_image_compress: ^2.4.0
+
 
 # 开发所需
 dev_dependencies:

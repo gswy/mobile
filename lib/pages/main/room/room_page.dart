@@ -4,7 +4,6 @@ import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/utils/room_util.dart';
 import 'package:app/cores/views/info_view.dart';
 import 'package:app/ctrls/main/room_ctrl.dart';
-import 'package:app/route/main/main_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,8 +45,7 @@ class RoomPage extends BaseView<RoomCtrl> {
         controller: controller.textCtrl,
         minLines: 1, maxLines: 4,
         decoration: InputDecoration(
-          filled: true,
-          isDense: true,
+          filled: true, isDense: true,
           fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           border: OutlineInputBorder(

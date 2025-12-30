@@ -10,7 +10,7 @@ class CommRoute {
   static const String images = '/comm/images';
 
   /// 视频页面（选择视频）
-  static const String videos = '/comm/images';
+  static const String videos = '/comm/videos';
 
   /// 音频页面（选择音频）
   static const String voices = '/comm/voices';
