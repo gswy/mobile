@@ -24,6 +24,7 @@ class VideosPage extends BaseView<VideosCtrl> {
       body: Obx(
         () => LoadView(
           loading: controller.loading.value,
+          message: controller.message.value,
           builder: (_) {
             return Chewie(controller: controller.chewie!);
           },

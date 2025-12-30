@@ -25,6 +25,7 @@ class VideosCtrl extends BaseCtrl {
     final path = Get.arguments as String;
     final url = '${HostUtil.getHttp()}$path';
     final uri = Uri.parse(url);
+    Get.log('视频地址: $url');
     video = VideoPlayerController.networkUrl(uri);
     _initVideo();
   }
@@ -32,14 +33,16 @@ class VideosCtrl extends BaseCtrl {
   /// 加载视频
   Future<void> _initVideo() async {
     loading.value = true;
+    Get.log('开始加载视频');
     try {
       await video.initialize();
+      Get.log('视频已加载');
       chewie = ChewieController(
         videoPlayerController: video,
         autoPlay: true,
         looping: true,
       );
-    } catch (_) {
+    } catch (e) {
       message.value = '播放失败';
     } finally {
       loading.value = false;

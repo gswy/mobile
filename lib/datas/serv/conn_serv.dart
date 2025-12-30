@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/dicts/news_dict.dart';
 import 'package:app/cores/drift/datas/db.dart';
+import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:app/cores/utils/desk_util.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/sign_util.dart';
@@ -266,7 +267,15 @@ class ConnServ extends BaseCtrl {
         final chat = await DB.dao.findChat(info.sn);
         Get.log('[WS] 收到消息: 聊天数据ID: ${chat?.id}');
         if (chat != null) {
-          chat.message = info.message;
+          String message = switch(info.type) {
+            InfoType.text => info.message,
+            InfoType.file => '[文件消息]',
+            InfoType.card => '[卡片消息]',
+            InfoType.image => '[图片消息]',
+            InfoType.video => '[视频消息]',
+            InfoType.voice => '[语音消息]',
+          };
+          chat.message = message;
           chat.messageAt = info.messageAt;
           chat.unread = chat.unread + 1;
           await DB.dao.saveChat(chat);
