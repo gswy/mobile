@@ -18,11 +18,11 @@ class InfoView extends GetView {
   /// 是否我的消息
   final bool isMe;
 
-  /// 消息状态
-  final int status;
-
   /// 发送人员
   final String name;
+
+  /// 消息状态
+  final int status;
 
   /// 发送头像
   final String? avatar;
@@ -35,8 +35,8 @@ class InfoView extends GetView {
     super.key,
     required this.type,
     required this.isMe,
-    required this.status,
     required this.name,
+    required this.status,
     this.avatar,
     required this.message,
   });
@@ -45,6 +45,7 @@ class InfoView extends GetView {
   Widget build(BuildContext context) {
     final meDR = isMe ? TextDirection.rtl : TextDirection.ltr;
     final meCA = isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Row(
@@ -97,6 +98,17 @@ class InfoView extends GetView {
       InfoType.voice => _voice(context),
     };
 
+    ///
+    final width = switch (type) {
+      InfoType.text => Get.width * 0.65,
+      InfoType.file => Get.width * 0.65,
+      InfoType.card => Get.width * 0.65,
+      InfoType.image => Get.width * 0.35,
+      InfoType.video => Get.width * 0.35,
+      InfoType.voice => Get.width * 0.20,
+    };
+
+    ///
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 6,
@@ -107,16 +119,14 @@ class InfoView extends GetView {
               Get.log('重发');
             },
             child: SizedBox(
-              height: 24,
-              width: 24,
+              height: 24, width: 24,
               child: Icon(Icons.refresh, color: reCR, size: 16),
             ),
           ),
         ],
         if (status == 0) ...[
           SizedBox(
-            height: 14,
-            width: 14,
+            height: 14, width: 14,
             child: CircularProgressIndicator(strokeWidth: 1.4),
           ),
         ],
@@ -144,7 +154,7 @@ class InfoView extends GetView {
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             decoration: BoxDecoration(borderRadius: meRA, color: meBG),
-            constraints: BoxConstraints(maxWidth: Get.width * 0.65),
+            constraints: BoxConstraints(maxWidth: width),
             child: GestureDetector(onLongPress: () {}, child: child),
           ),
         ),
