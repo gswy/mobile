@@ -128,7 +128,7 @@ class ConfCtrl extends BaseCtrl {
   }
 
   /// ------------- 账号管理 ---------------
-
+  /// 退出服务
   Future<void> hostExit() async {
     await SignUtil.clean();
     await HostUtil.clean();
@@ -137,7 +137,16 @@ class ConfCtrl extends BaseCtrl {
     Get.offAllNamed(BaseRoute.host);
   }
 
+  /// 退出登录
   Future<void> signExit() async {
+    final conn = Get.find<ConnServ>();
+    await conn.stop();
+    await SignUtil.clean();
+    Get.offAllNamed(BaseRoute.signin);
+  }
+
+  /// 注销账号
+  Future<void> userExit() async {
     final conn = Get.find<ConnServ>();
     await conn.stop();
     await SignUtil.clean();
