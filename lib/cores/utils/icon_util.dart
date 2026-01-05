@@ -94,6 +94,12 @@ class IconUtil {
   static const IconData switchCamera = IconData(0xf021, fontFamily: _iconLine);
 
 
+  /// ------------- 房间图标 ----------------
+
+  /// 音频播放
+  static const IconData roomVoice = IconData(0xf8f2, fontFamily: _iconLine);
+
+
   /// ------------- 公共图标 ----------------
 
   /// 右侧箭头

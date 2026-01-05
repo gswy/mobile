@@ -61,17 +61,48 @@ class RoomPage extends BaseView<RoomCtrl> {
 
   /// 语音输入
   Widget _talkEdit(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return SizedBox(
       height: 40,
-      child: ElevatedButton(
-        onPressed: () {},
-        onLongPress: () {},
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        ),
-        child: Text('按住 说话'),
+      child: Builder(
+        builder: (btnContext) {
+          return GestureDetector(
+            onLongPressStart: (_) => controller.voiceStar(),
+            onLongPressMoveUpdate: (details) {
+              final box = btnContext.findRenderObject() as RenderBox?;
+              if (box == null) return;
+              final rect = box.localToGlobal(Offset.zero) & box.size;
+              final inside = rect.contains(details.globalPosition);
+              controller.cancelOnRelease.value = !inside; // 滑出=取消
+            },
+            onLongPressEnd: (_) async {
+              // 松开：根据 cancelOnRelease 决定发/丢
+              final send = !controller.cancelOnRelease.value;
+              await controller.voiceStop(send: send);
+            },
+            onLongPressCancel: () => controller.voiceStop(send: false),
+            child: Obx(() {
+              final rec = controller.recording.value;
+              final cancel = controller.cancelOnRelease.value;
+              final s = controller.seconds.value;
+
+              return Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: rec
+                      ? (cancel ? Colors.grey.shade400 : scheme.errorContainer)
+                      : scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  rec
+                      ? (cancel ? '松开取消 ${s}s' : '录音中… ${s}s（上滑取消）')
+                      : '按住 说话',
+                ),
+              );
+            }),
+          );
+        },
       ),
     );
   }
@@ -111,9 +142,8 @@ class RoomPage extends BaseView<RoomCtrl> {
   Widget _menuList(BuildContext context) {
     final bottomSafe = MediaQuery.of(context).padding.bottom;
     final borderColor = Theme.of(context).colorScheme.surfaceContainerHighest;
-
     return Container(
-      padding: EdgeInsets.only(bottom: bottomSafe + 8, top: 8),
+      padding: EdgeInsets.only(bottom: bottomSafe, top: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
         border: Border(top: BorderSide(color: borderColor, width: 0.2)),

@@ -6,6 +6,7 @@ import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/views/avatar.dart';
 import 'package:app/datas/http/resp/file/file_resp.dart';
 import 'package:app/route/comm/comm_route.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -199,10 +200,20 @@ class InfoView extends GetView {
 
   /// 音频显示
   Widget _voice(BuildContext context) {
-    return ExtendedImage.network(
-      '${HostUtil.getHttp()}$message',
-      fit: BoxFit.cover,
-      cache: true,
+    final info = jsonDecode(message);
+    final player = AudioPlayer();
+    final url = '${HostUtil.getHttp()}${info['path']}';
+    return GestureDetector(
+      onTap: () {
+        /// 播放网络音频
+        player.play(UrlSource(url));
+      },
+      child: Row(
+        children: [
+          Text('${info['duration']}'),
+          Icon(IconUtil.roomVoice),
+        ],
+      ),
     );
   }
 }

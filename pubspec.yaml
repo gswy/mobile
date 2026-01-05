@@ -113,6 +113,12 @@ dependencies:
   # 图片处理：https://pub.dev/packages/flutter_image_compress/install
   flutter_image_compress: ^2.4.0
 
+  # 音频录制: https://pub.dev/packages/record/install
+  record: ^6.1.2
+
+  # 音频播放: https://pub.dev/packages/audioplayers/install
+  audioplayers: ^6.5.1
+
 
 # 开发所需
 dev_dependencies:

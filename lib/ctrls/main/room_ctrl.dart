@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:app/cores/bases/base_auth.dart';
@@ -6,6 +8,7 @@ import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/datas/db.dart';
 import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/drift/enums/info_type.dart';
+import 'package:app/cores/toast/toast.dart';
 import 'package:app/cores/utils/file_util.dart';
 import 'package:app/datas/http/apis/chat_apis.dart';
 import 'package:app/datas/http/apis/file_apis.dart';
@@ -18,6 +21,9 @@ import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:record/record.dart';
 
 /// 聊天数据
 class RoomCtrl extends BaseCtrl {
@@ -55,6 +61,29 @@ class RoomCtrl extends BaseCtrl {
 
   /// 媒体选择器
   final picker = ImagePicker();
+
+  /// 录音相关
+  final _voice = AudioRecorder();
+  final recording = false.obs;
+  final seconds = 0.obs;
+
+  /// 是否松开取消（上滑/滑出）
+  final cancelOnRelease = false.obs;
+
+  /// 可选：最短录音秒数（太短就丢弃）
+  final int minSeconds = 1;
+
+  /// 可选：最长录音秒数（到点自动结束）
+  final int maxSeconds = 60;
+
+  Timer? _timer;
+  String? _path;
+
+  /// 录音起始时间戳（用于更准确算时长）
+  int _startAtMs = 0;
+
+  /// 保护：防止重复 stop
+  bool _stopping = false;
 
   /// 消息
   @override
@@ -152,17 +181,55 @@ class RoomCtrl extends BaseCtrl {
   }
 
   /// 切换语音/键盘模式
-  void onTextTap() {
+  Future<void> onTextTap() async {
     if (showTextMode.value) {
+      // 现在是键盘 -> 准备切语音
       FocusScope.of(Get.context!).unfocus();
-      showTextMode.value = false;
+      final ok = await _ensureMicPermission();
+      if (ok) {
+        showTextMode.value = false;
+      }
     } else {
+      // 现在是语音 -> 切回键盘
       showTextMode.value = true;
       textNode.requestFocus();
     }
+
     showFaceMode.value = false;
     showMoreMenu.value = false;
   }
+
+
+  Future<bool> _ensureMicPermission() async {
+    var s = await Permission.microphone.status;
+    debugPrint('mic status(before) = $s');
+
+    if (s.isGranted) return true;
+
+    if (s.isPermanentlyDenied) {
+      Toast.error('麦克风权限被永久拒绝，请到系统设置开启');
+      await openAppSettings();
+      return false;
+    }
+
+    if (s.isRestricted) {
+      Toast.error('麦克风权限受系统限制(家长控制/企业策略)');
+      return false;
+    }
+
+    // 发起请求（会弹框，除非系统不再允许弹）
+    s = await Permission.microphone.request();
+    debugPrint('mic status(after request) = $s');
+
+    if (!s.isGranted) {
+      Toast.error('未获得麦克风权限：$s');
+      return false;
+    }
+
+    return true;
+  }
+
+
 
   /// 切换表情
   void onFaceTap() {
@@ -276,6 +343,192 @@ class RoomCtrl extends BaseCtrl {
     /// 保存发送状态
     DB.dao.saveInfo(info);
 
+  }
+
+  /// 录音
+  Future<void> voiceStar() async {
+    if (recording.value) return;
+
+    // 保险：防止用户没开权限但强行进入语音模式
+    final status = await Permission.microphone.status;
+    if (!status.isGranted) {
+      Toast.error('请先开启麦克风权限');
+      return;
+    }
+
+    final can = await _voice.hasPermission();
+    if (!can) {
+      Toast.error('录音组件权限校验失败');
+      return;
+    }
+
+    _path = await _buildPath();
+    await _voice.start(
+      const RecordConfig(
+        encoder: AudioEncoder.aacLc,
+        bitRate: 128000,
+        sampleRate: 44100,
+      ),
+      path: _path!,
+    );
+
+    _startAtMs = DateTime.now().millisecondsSinceEpoch;
+
+    recording.value = true;
+    seconds.value = 0;
+    cancelOnRelease.value = false;
+    _stopping = false;
+
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      seconds.value++;
+    });
+  }
+
+  /// 结束录音
+  Future<void> voiceStop({bool send = true}) async {
+    if (!recording.value) return;
+    if (_stopping) return;
+    _stopping = true;
+
+    _timer?.cancel();
+    _timer = null;
+
+    String? path;
+    try {
+      path = await _voice.stop();
+    } catch (_) {
+      // stop 失败也要把状态复位
+      path = null;
+    }
+
+    recording.value = false;
+
+    final duration = Duration(
+      milliseconds: DateTime.now().millisecondsSinceEpoch - _startAtMs,
+    ).inSeconds;
+
+    // 录音太短：直接丢弃
+    if (duration < minSeconds) {
+      await _deleteFile(path ?? _path);
+      seconds.value = 0;
+      cancelOnRelease.value = false;
+      _path = null;
+      _stopping = false;
+      Toast.error('录音时间太短');
+      return;
+    }
+
+    // 取消：丢弃
+    if (!send) {
+      await _deleteFile(path ?? _path);
+      seconds.value = 0;
+      cancelOnRelease.value = false;
+      _path = null;
+      _stopping = false;
+      return;
+    }
+
+    final finalPath = path ?? _path;
+    if (finalPath == null) {
+      Toast.error('录音失败');
+      seconds.value = 0;
+      cancelOnRelease.value = false;
+      _stopping = false;
+      return;
+    }
+
+    // 文件存在性检查
+    final f = File(finalPath);
+    if (!await f.exists() || await f.length() == 0) {
+      await _deleteFile(finalPath);
+      Toast.error('录音文件无效');
+      seconds.value = 0;
+      cancelOnRelease.value = false;
+      _path = null;
+      _stopping = false;
+      return;
+    }
+
+    await _sendVoice(finalPath, duration);
+
+    // reset
+    seconds.value = 0;
+    cancelOnRelease.value = false;
+    _path = null;
+    _stopping = false;
+  }
+
+  Future<String> _buildPath() async {
+    final dir = await getTemporaryDirectory();
+    return '${dir.path}/rec_${DateTime.now().millisecondsSinceEpoch}.m4a';
+  }
+
+  Future<void> _deleteFile(String? path) async {
+    if (path == null) return;
+    try {
+      final f = File(path);
+      if (await f.exists()) await f.delete();
+    } catch (_) {}
+  }
+
+  Future<void> _sendVoice(String localPath, int duration) async {
+    // 1) 上传文件（你需要根据实际接口替换）
+    FileResp? resp;
+
+    try {
+      resp = await FileApis.uploadVoice(XFile(localPath));
+    } catch (e) {
+      Toast.error('语音上传失败');
+      return;
+    }
+
+    if (resp == null) {
+      Toast.error('语音上传失败');
+      return;
+    }
+
+    // 2) 构造消息体：建议包含 url + duration（服务端/客户端解析方便）
+    final payload = {
+      'path': resp.path,          // 如果 resp 可 jsonEncode
+      'duration': duration,
+    };
+
+    final clientId = UuidUtil.id;
+    final messageAt = DateTime.now().millisecondsSinceEpoch;
+
+    final info = Info(
+      sn: sn,
+      type: InfoType.voice,
+      userId: BaseAuth.id!,
+      clientId: clientId,
+      avatar: BaseAuth.avatar,
+      nickname: BaseAuth.nickname!,
+      unread: true,
+      status: 0,
+      message: jsonEncode(payload),
+      messageAt: messageAt,
+    );
+
+    DB.dao.saveInfo(info);
+
+    final res = await InfoApis.send(
+      chat: type.code,
+      info: InfoType.voice.code,
+      clientId: clientId,
+      targetId: targetId,
+      message: jsonEncode(payload),
+      messageAt: messageAt,
+    );
+
+    if (res != null) {
+      info.id = res.id;
+      info.status = 1;
+    } else {
+      info.status = -1;
+    }
+
+    DB.dao.saveInfo(info);
   }
 
   /// 切换更多
