@@ -54,27 +54,35 @@ post_install do |installer|
         '$(inherited)',
 
         ## dart: PermissionGroup.calendar
-        'PERMISSION_EVENTS=1',
+        ## 日历事件（Calendar Events）权限：允许 App 访问用户的日历事件（非完整访问）。
+        # 'PERMISSION_EVENTS=1',
 
         ## dart: PermissionGroup.calendarFullAccess
-        'PERMISSION_EVENTS_FULL_ACCESS=1',
+        ## 日历完整访问（Calendar Full Access）权限：允许 App 读写用户所有日历，包括共享、创建、修改、删除事件。
+        # 'PERMISSION_EVENTS_FULL_ACCESS=1',
 
         ## dart: PermissionGroup.reminders
-        'PERMISSION_REMINDERS=1',
+        ## 提醒事项（Reminders）权限：允许 App 访问系统的提醒事项。
+        # 'PERMISSION_REMINDERS=1',
 
         ## dart: PermissionGroup.contacts
-        'PERMISSION_CONTACTS=1',
+        ## 通讯录（Contacts）权限：允许读取和修改用户的通讯录。
+        # 'PERMISSION_CONTACTS=1',
 
         ## dart: PermissionGroup.camera
+        ## 相机（Camera）权限：允许使用摄像头。
         'PERMISSION_CAMERA=1',
 
         ## dart: PermissionGroup.microphone
+        ## 麦克风（Microphone）权限：允许录音、音视频聊天等使用麦克风。
         'PERMISSION_MICROPHONE=1',
 
         ## dart: PermissionGroup.speech
-        'PERMISSION_SPEECH_RECOGNIZER=1',
+        ## 语音识别（Speech Recognition）权限：允许使用 iOS 语音识别服务（将语音转文字）。
+        # 'PERMISSION_SPEECH_RECOGNIZER=1',
 
         ## dart: PermissionGroup.photos
+        ## 照片库（Photos）权限：允许 App 访问相册（读写取决于你的 info.plist 配置）。
         'PERMISSION_PHOTOS=1',
 
         ## The 'PERMISSION_LOCATION' macro enables the `locationWhenInUse` and `locationAlways` permission. If
@@ -82,29 +90,39 @@ post_install do |installer|
         ## macro.
         ##
         ## dart: [PermissionGroup.location, PermissionGroup.locationAlways, PermissionGroup.locationWhenInUse]
-        'PERMISSION_LOCATION=1',
-        'PERMISSION_LOCATION_WHENINUSE=0',
+        ## 定位权限（Location Always + WhenInUse）。
+        ## App 后台定位（Always）
+        # 'PERMISSION_LOCATION=1',
+        ## 仅前台定位（Location When In Use）权限
+        # 'PERMISSION_LOCATION_WHENINUSE=0',
 
         ## dart: PermissionGroup.notification
+        ## 通知（Push Notifications）权限：允许 App 请求推送通知权限（弹“是否允许通知”弹窗）。
         'PERMISSION_NOTIFICATIONS=1',
 
         ## dart: PermissionGroup.mediaLibrary
-        'PERMISSION_MEDIA_LIBRARY=1',
+        ## 媒体资料库（Media Library）权限：用于访问 Apple Music 媒体库（例如播放歌曲）。
+        # 'PERMISSION_MEDIA_LIBRARY=1',
 
         ## dart: PermissionGroup.sensors
-        'PERMISSION_SENSORS=1',
+        ## 传感器（Sensors）权限：包含例如：陀螺仪、加速度计、运动数据
+        # 'PERMISSION_SENSORS=1',
 
         ## dart: PermissionGroup.bluetooth
-        'PERMISSION_BLUETOOTH=1',
+        ## 蓝牙权限（Bluetooth）：用于蓝牙扫描、连接外设。
+        # 'PERMISSION_BLUETOOTH=1',
 
         ## dart: PermissionGroup.appTrackingTransparency
-        'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
+        ## App Tracking Transparency（ATT）权限：App 请求“是否允许跟踪跨 App 行为”的弹窗，就是 iOS 14+ 的那个“跟踪透明度”权限。
+        # 'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
 
         ## dart: PermissionGroup.criticalAlerts
-        'PERMISSION_CRITICAL_ALERTS=1',
+        ## 紧急警报（Critical Alerts）权限：可发送不受静音和勿扰模式影响的警报。
+        # 'PERMISSION_CRITICAL_ALERTS=1',
 
         ## dart: PermissionGroup.assistant
-        'PERMISSION_ASSISTANT=1',
+        ## Siri（Assistant）权限：允许 App 与 Siri 集成，例如语音命令调用。
+        # 'PERMISSION_ASSISTANT=1',
       ]
 
     end
