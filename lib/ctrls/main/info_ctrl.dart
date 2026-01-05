@@ -8,6 +8,7 @@ import 'package:app/datas/http/resp/team/team_info.dart';
 import 'package:app/datas/http/resp/user/user_info.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// 详细信息
 class InfoCtrl extends BaseCtrl {
@@ -18,6 +19,9 @@ class InfoCtrl extends BaseCtrl {
 
   /// 是否加载
   final loading = false.obs;
+
+  ///
+  final picker = ImagePicker();
 
   /// -------------- 用户信息 ----------------
 
@@ -38,8 +42,6 @@ class InfoCtrl extends BaseCtrl {
     }
   }
 
-
-
   /// -------------- 群组信息 ----------------
   /// 用户信息
   final team = Rxn<TeamInfo>();
@@ -51,10 +53,44 @@ class InfoCtrl extends BaseCtrl {
     final id = args['id'] as int;
     try {
       team.value = await TeamApis.getTeamInfo(id);
-    } catch (_) {
+    } catch (e) {
       message.value = '信息获取失败';
     } finally {
       loading.value = false;
+    }
+  }
+
+  /// 处理禁言
+  Future<void> handMute() async {
+    try {
+      final args = Get.arguments as Map;
+      final id = args['id'] as int;
+      await TeamApis.handMute(id);
+      team.value = await TeamApis.getTeamInfo(id);
+    } catch (_) {}
+  }
+
+  /// 修改群名
+  Future<void> handName(String name) async {
+    try {
+      final args = Get.arguments as Map;
+      final id = args['id'] as int;
+      await TeamApis.handName(id, name);
+      team.value = await TeamApis.getTeamInfo(id);
+    } catch (_) {}
+  }
+
+  /// 修改头像
+  Future<void> handLogo() async {
+    try {
+      final args = Get.arguments as Map;
+      final id = args['id'] as int;
+      final file = await picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
+      if (file == null) return;
+      await TeamApis.handLogo(id, file);
+      team.value = await TeamApis.getTeamInfo(id);
+    } catch (e) {
+      Get.log('选择错误: $e');
     }
   }
 

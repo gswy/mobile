@@ -1,7 +1,10 @@
 import 'package:app/cores/bases/base_http.dart';
 import 'package:app/model/team.dart';
 import 'package:app/datas/http/resp/team/team_info.dart';
-import 'package:get/get.dart';
+import 'package:camera/camera.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
+import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 
 /// 群组接口
 class TeamApis {
@@ -37,4 +40,23 @@ class TeamApis {
   static Future<TeamInfo?> getTeamInfo(int id) async {
     return await _http.get<TeamInfo>('/team/$id', fromJson: TeamInfo.fromJson);
   }
+
+  /// 处理禁言
+  static Future<void> handMute(int id) async {
+    return await _http.post('/team/$id/mute');
+  }
+
+  /// 修改群名
+  static Future<void> handName(int id, String name) async {
+    return await _http.post('/team/$id/name', data: {'name': name});
+  }
+
+  /// 修改头像
+  static Future<void> handLogo(int id, XFile file) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(file.path, filename: file.name)
+    });
+    await _http.post('/team/$id/logo', data: formData);
+  }
+
 }
