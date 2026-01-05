@@ -201,28 +201,20 @@ class RoomCtrl extends BaseCtrl {
 
 
   Future<bool> _ensureMicPermission() async {
-    var s = await Permission.microphone.status;
-    debugPrint('mic status(before) = $s');
+    var status = await Permission.microphone.status;
+    if (status.isGranted) return true;
 
-    if (s.isGranted) return true;
-
-    if (s.isPermanentlyDenied) {
+    if (status.isPermanentlyDenied) {
       Toast.error('麦克风权限被永久拒绝，请到系统设置开启');
       await openAppSettings();
       return false;
     }
 
-    if (s.isRestricted) {
-      Toast.error('麦克风权限受系统限制(家长控制/企业策略)');
-      return false;
-    }
-
     // 发起请求（会弹框，除非系统不再允许弹）
-    s = await Permission.microphone.request();
-    debugPrint('mic status(after request) = $s');
+    status = await Permission.microphone.request();
 
-    if (!s.isGranted) {
-      Toast.error('未获得麦克风权限：$s');
+    if (!status.isGranted) {
+      Toast.error('未获得麦克风权限');
       return false;
     }
 

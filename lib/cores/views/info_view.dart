@@ -31,6 +31,8 @@ class InfoView extends GetView {
   /// 消息内容
   final String message;
 
+  static final AudioPlayer _player = AudioPlayer();
+
   /// 构造信息
   const InfoView({
     super.key,
@@ -149,6 +151,8 @@ class InfoView extends GetView {
                 final file = FileResp.fromJson(jsonDecode(message));
                 Get.toNamed(CommRoute.videos, arguments: file.path);
               case InfoType.voice:
+                final info = jsonDecode(message);
+                _player.play(UrlSource('${HostUtil.getHttp()}${info['path']}'));
                 return;
             }
           },
@@ -201,19 +205,13 @@ class InfoView extends GetView {
   /// 音频显示
   Widget _voice(BuildContext context) {
     final info = jsonDecode(message);
-    final player = AudioPlayer();
-    final url = '${HostUtil.getHttp()}${info['path']}';
-    return GestureDetector(
-      onTap: () {
-        /// 播放网络音频
-        player.play(UrlSource(url));
-      },
-      child: Row(
-        children: [
-          Text('${info['duration']}'),
-          Icon(IconUtil.roomVoice),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 10,
+      children: [
+        Text('${info['duration']}'),
+        Icon(IconUtil.roomVoice),
+      ],
     );
   }
 }
