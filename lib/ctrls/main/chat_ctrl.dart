@@ -55,7 +55,7 @@ class ChatCtrl extends BaseCtrl {
         loadChatPage(page: _chatCurr.value + 1);
       }
     });
-    // loadChatPage();
+    loadChatPage();
   }
 
   /// 刷新用户

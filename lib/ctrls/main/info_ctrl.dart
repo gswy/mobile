@@ -38,6 +38,8 @@ class InfoCtrl extends BaseCtrl {
     }
   }
 
+
+
   /// -------------- 群组信息 ----------------
   /// 用户信息
   final team = Rxn<TeamInfo>();

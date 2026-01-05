@@ -31,6 +31,7 @@ class InfoView extends GetView {
   /// 消息内容
   final String message;
 
+  /// 播放组件
   static final AudioPlayer _player = AudioPlayer();
 
   /// 构造信息
@@ -156,11 +157,15 @@ class InfoView extends GetView {
                 return;
             }
           },
+          behavior: HitTestBehavior.opaque,
+          // onLongPressStart: (d) {
+          //   _showMenu(context, d.globalPosition);
+          // },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             decoration: BoxDecoration(borderRadius: meRA, color: meBG),
             constraints: BoxConstraints(maxWidth: width),
-            child: GestureDetector(onLongPress: () {}, child: child),
+            child: child,
           ),
         ),
       ],
@@ -212,6 +217,168 @@ class InfoView extends GetView {
         Text('${info['duration']}'),
         Icon(IconUtil.roomVoice),
       ],
+    );
+  }
+
+
+  Future<void> _showMenu(BuildContext context, Offset globalPos) async {
+    final overlay = Overlay.of(context, rootOverlay: true).context.findRenderObject() as RenderBox;
+    final size = overlay.size;
+
+    // 构建菜单项
+    final actions = <_MsgAction>[];
+
+    if (type == InfoType.text) {
+      actions.add(_MsgAction('复制', 'copy'));
+    }
+    if (type == InfoType.voice) {
+      actions.add(_MsgAction('播放', 'play'));
+    }
+    actions.add(_MsgAction('转发', 'forward'));
+    actions.add(_MsgAction('删除', 'delete'));
+
+    if (actions.isEmpty) return;
+
+    // 菜单尺寸估算：每个 item 约 64 宽，padding 若干
+    const itemW = 64.0;
+    const menuH = 44.0;
+    final menuW = actions.length * itemW;
+
+    // 计算菜单左上角位置：默认在手指上方一点
+    double left = globalPos.dx - menuW / 2;
+    double top = globalPos.dy - menuH - 12;
+
+    // 边界修正（别出屏幕）
+    left = left.clamp(8.0, size.width - menuW - 8.0);
+    top = top.clamp(8.0, size.height - menuH - 8.0);
+
+    final result = await showGeneralDialog<String>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'msg_menu',
+      barrierColor: Colors.transparent, // 不要全屏变暗（更像微信）
+      transitionDuration: const Duration(milliseconds: 120),
+      pageBuilder: (_, _, _) {
+        return Stack(
+          children: [
+            // 透明点击层：点空白关闭
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => Get.back(result: null),
+                child: const SizedBox.shrink(),
+              ),
+            ),
+
+            // 菜单本体
+            Positioned(
+              left: left,
+              top: top,
+              child: _HorizontalMenu(
+                actions: actions,
+                width: menuW,
+                height: menuH,
+                onSelected: (v) => Get.back(result: v),
+              ),
+            ),
+          ],
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        final a = CurvedAnimation(parent: anim, curve: Curves.easeOut);
+        return FadeTransition(
+          opacity: a,
+          child: ScaleTransition(scale: Tween(begin: 0.95, end: 1.0).animate(a), child: child),
+        );
+      },
+    );
+
+    if (result == null) return;
+
+    switch (result) {
+      case 'copy':
+      // Clipboard.setData(ClipboardData(text: message));
+      //   Toast.success('已复制');
+        break;
+      case 'play':
+        if (type == InfoType.voice) {
+          final info = jsonDecode(message);
+          await _player.stop();
+          await _player.play(UrlSource('${HostUtil.getHttp()}${info['path']}'));
+        }
+        break;
+      case 'forward':
+        // Toast.success('转发');
+        break;
+      case 'delete':
+        // Toast.success('删除');
+        break;
+    }
+  }
+
+
+
+
+}
+
+class _MsgAction {
+  final String label;
+  final String value;
+  _MsgAction(this.label, this.value);
+}
+
+class _HorizontalMenu extends StatelessWidget {
+  final List<_MsgAction> actions;
+  final double width;
+  final double height;
+  final ValueChanged<String> onSelected;
+
+  const _HorizontalMenu({
+    required this.actions,
+    required this.width,
+    required this.height,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.72), // ✅ 半透明
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: List.generate(actions.length * 2 - 1, (i) {
+            // 奇数位置放分割线
+            if (i.isOdd) {
+              return Container(
+                width: 1,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                color: Colors.white.withOpacity(0.25), // ✅ 分割线
+              );
+            }
+
+            final action = actions[i ~/ 2];
+            return Expanded(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () => onSelected(action.value),
+                child: Center(
+                  child: Text(
+                    action.label,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 }

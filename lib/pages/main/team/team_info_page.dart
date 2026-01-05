@@ -18,6 +18,7 @@ class TeamInfoPage extends GetView<InfoCtrl> {
       builder: (_) => Scaffold(
         appBar: AppBar(
           title: Text('群组详情'),
+
         ),
         body: Obx(() {
           return LoadView(

@@ -1,4 +1,4 @@
-import 'package:app/ctrls/main/plus_ctrl.dart';
+import 'package:app/cores/views/avatar.dart';
 import 'package:app/ctrls/main/team_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +44,13 @@ class TeamPage extends GetView<TeamCtrl> {
       final team = controller.teamList[index];
       return ListTile(
         contentPadding: EdgeInsets.all(0),
-        leading: CircleAvatar(),
+        leading: Avatar(
+          size: 42,
+          textSize: 16,
+          url: team.avatar,
+          name: team.name,
+        ),
         title: Text(team.name),
-        trailing: Text(''),
         onTap: () {
           Get.toNamed(MainRoute.teamInfo, arguments: {'id': team.id});
         },
