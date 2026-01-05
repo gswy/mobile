@@ -16,6 +16,8 @@ class ConfAuthPage extends GetView<ConfCtrl> {
           ElevatedButton(onPressed: controller.signExit, child: Text('退出登录')),
           SizedBox(height: 14),
           ElevatedButton(onPressed: controller.hostExit, child: Text('切换服务')),
+          SizedBox(height: 200),
+          ElevatedButton(onPressed: controller.userExit, child: Text('注销账号'))
         ],
       ),
     );

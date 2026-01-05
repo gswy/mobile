@@ -24,3 +24,8 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ```shell
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
+
+打包IOS
+```shell
+flutter build ipa --release
+```
