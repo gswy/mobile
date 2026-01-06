@@ -56,6 +56,9 @@ class MainRoute {
   /// 群组详情
   static const String teamInfo = '/team/info';
 
+  /// 群组用户
+  static const String teamUser = '/team/user';
+
   /// ------------ 我的设置 ---------------
 
   /// 设置-账户设置

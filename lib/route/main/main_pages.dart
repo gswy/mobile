@@ -1,6 +1,7 @@
 import 'package:app/binds/main/conf_bind.dart';
 import 'package:app/binds/main/info_bind.dart';
 import 'package:app/binds/main/plus_bind.dart';
+import 'package:app/binds/main/team/team_user_bind.dart';
 import 'package:app/binds/main/team_bind.dart';
 import 'package:app/pages/main/bind/team/team_form_page.dart';
 import 'package:app/binds/main/find_bind.dart';
@@ -27,6 +28,7 @@ import 'package:app/pages/main/team/team_info_page.dart';
 import 'package:app/pages/main/room/room_page.dart';
 import 'package:app/pages/main/conf/conf_mine_page.dart';
 import 'package:app/pages/main/plus/plus_page.dart';
+import 'package:app/pages/main/team/team_user_page.dart';
 import 'package:app/pages/main/user/user_info_page.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:get/get.dart';
@@ -130,6 +132,13 @@ class MainPages {
       name: MainRoute.teamInfo,
       page: () => TeamInfoPage(),
       binding: InfoBind(),
+    ),
+
+    /// 群组详情
+    GetPage(
+      name: MainRoute.teamInfo,
+      page: () => TeamUserPage(),
+      binding: TeamUserBind(),
     ),
 
     /// --------- 设置相关 ---------

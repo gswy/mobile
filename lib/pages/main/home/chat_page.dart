@@ -37,27 +37,6 @@ class ChatPage extends BaseView<ChatCtrl> {
             ],
           );
         }),
-        // actions: [
-        //   PopupMenuButton(
-        //     icon: Icon(IconUtil.plus),
-        //     onSelected: (route) {
-        //       Get.toNamed(route);
-        //     },
-        //     itemBuilder: (context) => [
-        //       PopupMenuItem(
-        //         value: CommRoute.scan,
-        //         child: Row(
-        //           children: [
-        //             Icon(IconUtil.scanCode, size: 14),
-        //             SizedBox(width: 10),
-        //             Text("扫码识别"),
-        //           ],
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ],
-
       ),
       body: RefreshIndicator(
         onRefresh: () async {

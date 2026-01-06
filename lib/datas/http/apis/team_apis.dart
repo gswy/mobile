@@ -1,6 +1,7 @@
 import 'package:app/cores/bases/base_http.dart';
 import 'package:app/model/team.dart';
 import 'package:app/datas/http/resp/team/team_info.dart';
+import 'package:app/model/user.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:dio/dio.dart';
@@ -20,6 +21,19 @@ class TeamApis {
         '/teams',
         query: {'page': page},
         fromJson: Team.fromJson,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// 获取群组列表
+  static Future<Page<User>?> getUserPage(int id, {int page = 1}) async {
+    try {
+      return await _http.getPage<User>(
+        '/team/$id/users',
+        query: {'page': page},
+        fromJson: User.fromJson,
       );
     } catch (e) {
       return null;
