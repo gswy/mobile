@@ -1,5 +1,5 @@
 import 'package:app/cores/bases/base_auth.dart';
-import 'package:app/cores/views/avatar.dart';
+import 'package:app/cores/views/user_logo.dart';
 import 'package:app/ctrls/main/conf_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +24,7 @@ class ConfMinePage extends GetView<ConfCtrl> {
                 children: [
                   ListTile(
                     title: Text('头像'),
-                    trailing: Avatar(
+                    trailing: UserLogo(
                       size: 36,
                       url: BaseAuth.avatar,
                       name: BaseAuth.nickname!,

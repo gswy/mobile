@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:app/cores/drift/enums/info_type.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/views/avatar.dart';
+import 'package:app/cores/views/user_logo.dart';
 import 'package:app/datas/http/resp/file/file_resp.dart';
 import 'package:app/route/comm/comm_route.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -57,7 +57,7 @@ class InfoView extends GetView {
         spacing: 10,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Avatar(url: avatar, name: name, size: 34, textSize: 14),
+          UserLogo(url: avatar, name: name, size: 34, textSize: 14),
           Column(
             spacing: 4,
             crossAxisAlignment: meCA,

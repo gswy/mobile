@@ -1,5 +1,5 @@
 
-import 'package:app/cores/views/avatar.dart';
+import 'package:app/cores/views/user_logo.dart';
 import 'package:app/cores/views/load_view.dart';
 import 'package:app/ctrls/main/info_ctrl.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class UserInfoPage extends GetView<InfoCtrl> {
           child: Row(
             spacing: 14,
             children: [
-              Avatar(url: user!.avatar, name: user.nickname),
+              UserLogo(url: user!.avatar, name: user.nickname),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

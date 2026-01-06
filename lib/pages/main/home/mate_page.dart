@@ -1,7 +1,7 @@
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/views/avatar.dart';
+import 'package:app/cores/views/user_logo.dart';
 import 'package:app/ctrls/main/mate_ctrl.dart';
 import 'package:app/route/main/main_route.dart';
 
@@ -140,7 +140,7 @@ class MatePage extends BaseView<MateCtrl> {
                             vertical: 0,
                             horizontal: 12,
                           ),
-                          leading: Avatar(
+                          leading: UserLogo(
                             size: 34, textSize: 18,
                             url: it.lists[i].avatar,
                             name: it.lists[i].nickname,

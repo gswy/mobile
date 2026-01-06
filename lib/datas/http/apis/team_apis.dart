@@ -59,4 +59,9 @@ class TeamApis {
     await _http.post('/team/$id/logo', data: formData);
   }
 
+  /// 添加群员
+  static Future<void> addTeamUser(int id, List<int> ids) async {
+    await _http.post('/team/$id/user', data: {'ids': ids});
+  }
+
 }

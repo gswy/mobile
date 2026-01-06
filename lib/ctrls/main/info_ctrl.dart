@@ -1,12 +1,16 @@
 import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/drift/enums/chat_type.dart';
+import 'package:app/cores/toast/toast.dart';
 import 'package:app/cores/utils/chat_util.dart';
+import 'package:app/datas/http/apis/mate_apis.dart';
 import 'package:app/datas/http/apis/team_apis.dart';
 import 'package:app/datas/http/apis/user_apis.dart';
 import 'package:app/datas/http/resp/team/team_info.dart';
 import 'package:app/datas/http/resp/user/user_info.dart';
+import 'package:app/model/mate.dart';
 import 'package:app/route/main/main_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,7 +24,7 @@ class InfoCtrl extends BaseCtrl {
   /// 是否加载
   final loading = false.obs;
 
-  ///
+  /// 选择头像
   final picker = ImagePicker();
 
   /// -------------- 用户信息 ----------------
@@ -45,6 +49,26 @@ class InfoCtrl extends BaseCtrl {
   /// -------------- 群组信息 ----------------
   /// 用户信息
   final team = Rxn<TeamInfo>();
+
+  /// 我的好友列表
+  final users = <MateList>[].obs;
+
+  /// 好友滚动列表
+  final usersScroll = ScrollController();
+
+  /// 加载好友
+  Future<void> loadUsers({int page = 1}) async {
+    final res = await MateApis.getMatePage(page: page);
+    if (res == null) {
+      Toast.error('加载失败');
+      return;
+    }
+    if (page == 1) {
+      users.value = res.data;
+    } else {
+      users.addAll(res.data);
+    }
+  }
 
   /// 请求用户
   Future<void> initInfoTeam() async {
@@ -89,10 +113,20 @@ class InfoCtrl extends BaseCtrl {
       if (file == null) return;
       await TeamApis.handLogo(id, file);
       team.value = await TeamApis.getTeamInfo(id);
-    } catch (e) {
-      Get.log('选择错误: $e');
-    }
+    } catch (_) { }
   }
+
+  /// 添加群友
+  Future<void> addTeamUser(List<int> ids) async {
+    try {
+      final args = Get.arguments as Map;
+      final id = args['id'] as int;
+      await TeamApis.addTeamUser(id, ids);
+      team.value = await TeamApis.getTeamInfo(id);
+    } catch (_) { }
+  }
+
+  /// -------------- 公共跳转 ----------------
 
   /// 跳转聊天
   void handRoom() {

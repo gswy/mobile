@@ -3,7 +3,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Avatar extends GetView {
+class UserLogo extends GetView {
   final String? url;
 
   final String name;
@@ -18,7 +18,7 @@ class Avatar extends GetView {
 
   final Function()? onTap;
 
-  const Avatar({
+  const UserLogo({
     super.key,
     required this.url,
     required this.name,

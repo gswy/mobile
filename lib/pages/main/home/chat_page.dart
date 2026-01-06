@@ -4,7 +4,7 @@ import 'package:app/cores/drift/enums/chat_type.dart';
 import 'package:app/cores/utils/chat_util.dart';
 import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
-import 'package:app/cores/views/avatar.dart';
+import 'package:app/cores/views/user_logo.dart';
 import 'package:app/ctrls/main/chat_ctrl.dart';
 import 'package:app/model/chat.dart';
 import 'package:app/route/comm/comm_route.dart';
@@ -18,8 +18,10 @@ class ChatPage extends BaseView<ChatCtrl> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
+        elevation: 4,
         centerTitle: true,
         title: Obx(() {
           return Column(
@@ -29,33 +31,33 @@ class ChatPage extends BaseView<ChatCtrl> {
               if (controller.subtitle.isNotEmpty) ...[
                 Text(
                   controller.subtitle,
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style: TextStyle(fontSize: 14, color: scheme.secondary),
                 ),
               ],
             ],
           );
         }),
-        actions: [
-          PopupMenuButton(
-            icon: Icon(IconUtil.plus),
-            onSelected: (route) {
-              Get.toNamed(route);
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: CommRoute.scan,
-                child: Row(
-                  children: [
-                    Icon(IconUtil.scanCode, size: 14),
-                    SizedBox(width: 10),
-                    Text("扫码识别"),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-        elevation: 4,
+        // actions: [
+        //   PopupMenuButton(
+        //     icon: Icon(IconUtil.plus),
+        //     onSelected: (route) {
+        //       Get.toNamed(route);
+        //     },
+        //     itemBuilder: (context) => [
+        //       PopupMenuItem(
+        //         value: CommRoute.scan,
+        //         child: Row(
+        //           children: [
+        //             Icon(IconUtil.scanCode, size: 14),
+        //             SizedBox(width: 10),
+        //             Text("扫码识别"),
+        //           ],
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ],
+
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -120,7 +122,7 @@ class ChatPage extends BaseView<ChatCtrl> {
       children: [
         ListTile(
           key: ValueKey(chat.sn),
-          leading: Avatar(
+          leading: UserLogo(
             size: 44,
             textSize: 18,
             url: chat.avatar,
