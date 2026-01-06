@@ -26,10 +26,10 @@ class ConfMinePage extends GetView<ConfCtrl> {
                     title: Text('头像'),
                     trailing: UserLogo(
                       size: 36,
-                      url: BaseAuth.avatar,
+                      url: BaseAuth.logo,
                       name: BaseAuth.nickname!,
                       onTap: () {
-                        controller.avatar();
+                        controller.logo();
                       },
                     ),
                   ),

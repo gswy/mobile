@@ -131,7 +131,7 @@ class RoomPage extends BaseView<RoomCtrl> {
         isMe: isMe,
         type: info.type,
         name: info.nickname,
-        avatar: info.avatar,
+        logo: info.logo,
         message: info.message,
         status: info.status,
       );

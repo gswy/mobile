@@ -26,7 +26,7 @@ class InfoView extends GetView {
   final int status;
 
   /// 发送头像
-  final String? avatar;
+  final String? logo;
 
   /// 消息内容
   final String message;
@@ -41,7 +41,7 @@ class InfoView extends GetView {
     required this.isMe,
     required this.name,
     required this.status,
-    this.avatar,
+    this.logo,
     required this.message,
   });
 
@@ -57,7 +57,7 @@ class InfoView extends GetView {
         spacing: 10,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UserLogo(url: avatar, name: name, size: 34, textSize: 14),
+          UserLogo(url: logo, name: name, size: 34, textSize: 14),
           Column(
             spacing: 4,
             crossAxisAlignment: meCA,
@@ -180,22 +180,28 @@ class InfoView extends GetView {
   /// 图片显示
   Widget _image(BuildContext context) {
     final file = FileResp.fromJson(jsonDecode(message));
+    final cache = '${HostUtil.getHttp()}${file.head}';
+    final cacheKey = keyToMd5(cache);
     return ExtendedImage.network(
-      '${HostUtil.getHttp()}${file.head}',
+      cache,
       fit: BoxFit.cover,
       cache: true,
+      cacheKey: cacheKey,
     );
   }
 
   /// 视频显示
   Widget _video(BuildContext context) {
     final file = FileResp.fromJson(jsonDecode(message));
+    final cache = '${HostUtil.getHttp()}${file.head}';
+    final cacheKey = keyToMd5(cache);
     return Stack(
       children: [
         ExtendedImage.network(
-          '${HostUtil.getHttp()}${file.head}',
+          cache,
           fit: BoxFit.cover,
           cache: true,
+          cacheKey: cacheKey,
         ),
         Positioned.fill(
           child: Align(

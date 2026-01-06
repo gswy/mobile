@@ -35,7 +35,7 @@ class MinePage extends BaseView<MineCtrl> {
                   child: Row(
                     spacing: 18,
                     children: [
-                      UserLogo(url: BaseAuth.avatar, name: BaseAuth.nickname!),
+                      UserLogo(url: BaseAuth.logo, name: BaseAuth.nickname!),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

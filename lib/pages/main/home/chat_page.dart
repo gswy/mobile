@@ -125,7 +125,7 @@ class ChatPage extends BaseView<ChatCtrl> {
           leading: UserLogo(
             size: 44,
             textSize: 18,
-            url: chat.avatar,
+            url: chat.logo,
             name: chat.title,
           ),
           title: Column(

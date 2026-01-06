@@ -47,7 +47,7 @@ class TeamPage extends GetView<TeamCtrl> {
         leading: UserLogo(
           size: 42,
           textSize: 16,
-          url: team.avatar,
+          url: team.logo,
           name: team.name,
         ),
         title: Text(team.name),

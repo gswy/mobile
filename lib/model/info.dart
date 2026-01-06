@@ -18,7 +18,7 @@ class Info {
   int userId;
 
   /// 发送头像
-  String? avatar;
+  String? logo;
 
   /// 发送昵称
   String nickname;
@@ -42,7 +42,7 @@ class Info {
     required this.clientId,
     required this.type,
     required this.userId,
-    required this.avatar,
+    required this.logo,
     required this.nickname,
     required this.unread,
     required this.status,
@@ -57,7 +57,7 @@ class Info {
     clientId: json['clientId'],
     type: InfoType.fromCode(json["type"]),
     userId: json["userId"],
-    avatar: json["avatar"],
+    logo: json["logo"],
     nickname: json["nickname"],
     unread: true,
     status: 1,

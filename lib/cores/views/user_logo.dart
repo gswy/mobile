@@ -46,7 +46,11 @@ class UserLogo extends GetView {
             ? Center(
                 child: Text(
                   name.trim().characters.first,
-                  style: TextStyle(color: scheme.primary, fontSize: textSize, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: scheme.primary,
+                    fontSize: textSize,
+                    fontWeight: fontWeight,
+                  ),
                 ),
               )
             : _image(),
@@ -55,6 +59,13 @@ class UserLogo extends GetView {
   }
 
   Widget _image() {
-    return ExtendedImage.network('${HostUtil.getHttp()}$url', fit: BoxFit.cover, cache: true);
+    final cache = '${HostUtil.getHttp()}$url';
+    final cacheKey = keyToMd5(cache);
+    return ExtendedImage.network(
+      cache,
+      fit: BoxFit.cover,
+      cache: true,
+      cacheKey: cacheKey,
+    );
   }
 }

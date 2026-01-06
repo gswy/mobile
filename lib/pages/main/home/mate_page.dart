@@ -142,7 +142,7 @@ class MatePage extends BaseView<MateCtrl> {
                           ),
                           leading: UserLogo(
                             size: 34, textSize: 18,
-                            url: it.lists[i].avatar,
+                            url: it.lists[i].logo,
                             name: it.lists[i].nickname,
                           ),
                           title: Text(it.lists[i].nickname),

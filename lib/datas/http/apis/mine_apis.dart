@@ -27,7 +27,7 @@ class MineApis {
       'file': await MultipartFile.fromFile(file.path, filename: file.name)
     });
     try {
-      await _http.post('/mine/avatar', data: formData);
+      await _http.post('/mine/logo', data: formData);
       return true;
     } catch (e) {
       return false;

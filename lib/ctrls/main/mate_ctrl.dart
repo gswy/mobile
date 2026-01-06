@@ -112,7 +112,7 @@ class MateCtrl extends BaseCtrl {
       (map[key] ??= <MateItem>[]).add(
         MateItem(
           id: m.id,
-          avatar: m.avatar,
+          logo: m.logo,
           nickname: m.nickname,
         ),
       );
@@ -151,10 +151,10 @@ class MateList {
 /// 单个选项
 class MateItem {
   final int id;
-  final String? avatar;
+  final String? logo;
   final String nickname;
 
-  MateItem({required this.id, this.avatar, required this.nickname});
+  MateItem({required this.id, this.logo, required this.nickname});
 }
 
 /// 通讯菜单

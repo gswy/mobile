@@ -51,7 +51,7 @@ class UserInfoPage extends GetView<InfoCtrl> {
           child: Row(
             spacing: 14,
             children: [
-              UserLogo(url: user!.avatar, name: user.nickname),
+              UserLogo(url: user!.logo, name: user.nickname),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

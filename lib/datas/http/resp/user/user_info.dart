@@ -1,14 +1,14 @@
 
 class UserInfo {
   final int id;
-  final String? avatar;
+  final String? logo;
   final String nickname;
   final String username;
   final bool isFriend;
 
   UserInfo({
     required this.id,
-    required this.avatar,
+    required this.logo,
     required this.nickname,
     required this.username,
     required this.isFriend,
@@ -16,7 +16,7 @@ class UserInfo {
 
   factory UserInfo.fromJson(dynamic json) => UserInfo(
     id: json["id"],
-    avatar: json["avatar"],
+    logo: json["logo"],
     nickname: json["nickname"],
     username: json["username"],
     isFriend: json["isFriend"],
@@ -24,7 +24,7 @@ class UserInfo {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "avatar": avatar,
+    "logo": logo,
     "nickname": nickname,
     "username": username,
     "isFriend": isFriend,

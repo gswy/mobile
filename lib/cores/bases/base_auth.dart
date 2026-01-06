@@ -14,7 +14,7 @@ class BaseAuth extends GetxService {
   static int? get id => mine.value?.id;
 
   /// 用户头像
-  static String? get avatar => mine.value?.avatar;
+  static String? get logo => mine.value?.logo;
 
   /// 用户昵称
   static String? get nickname => mine.value?.nickname;

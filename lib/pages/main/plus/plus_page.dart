@@ -1,3 +1,4 @@
+import 'package:app/cores/views/user_logo.dart';
 import 'package:app/ctrls/main/plus_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -74,9 +75,9 @@ class PlusPage extends GetView<PlusCtrl> {
         controlAffinity: ListTileControlAffinity.trailing,
         title: Row(
           children: [
-            const CircleAvatar(radius: 18),
+            UserLogo(url: mate.logo, name: mate.nickname, size: 36, fontWeight: FontWeight.w400),
             const SizedBox(width: 12),
-            Expanded(child: Text(mate.nickname)),
+            Expanded(child: Text(mate.nickname, style: TextStyle(fontSize: 14),)),
           ],
         ),
         dense: true,

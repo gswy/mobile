@@ -4,7 +4,7 @@ class TeamInfo {
   final bool join;
   final bool mute;
   final String name;
-  final String? avatar;
+  final String? logo;
   final List<TeamUserInfo> users;
 
   TeamInfo({
@@ -13,7 +13,7 @@ class TeamInfo {
     required this.role,
     required this.join,
     required this.mute,
-    required this.avatar,
+    required this.logo,
     required this.users,
   });
 
@@ -26,7 +26,7 @@ class TeamInfo {
     return TeamInfo(
       id: json["id"],
       name: json["name"],
-      avatar: json["avatar"],
+      logo: json["logo"],
       role: json["role"],
       join: json["join"],
       mute: json["mute"],
@@ -37,7 +37,7 @@ class TeamInfo {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    "avatar": avatar,
+    "logo": logo,
     "role": role,
     "join": join,
     "users": users,
@@ -46,19 +46,19 @@ class TeamInfo {
 
 class TeamUserInfo {
   final int id;
-  final String? avatar;
+  final String? logo;
   final String nickname;
 
   TeamUserInfo({
     required this.id,
-    required this.avatar,
+    required this.logo,
     required this.nickname,
   });
 
   factory TeamUserInfo.fromJson(dynamic json) {
     return TeamUserInfo(
       id: json["id"],
-      avatar: json["avatar"],
+      logo: json["logo"],
       nickname: json["nickname"],
     );
   }

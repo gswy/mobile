@@ -2,7 +2,7 @@
 class BindUser {
 
   int id;
-  String? avatar;
+  String? logo;
   String nickname;
   String username;
   String remark;
@@ -10,7 +10,7 @@ class BindUser {
 
   BindUser({
     required this.id,
-    this.avatar,
+    this.logo,
     required this.nickname,
     required this.username,
     required this.remark,
@@ -19,7 +19,7 @@ class BindUser {
 
   factory BindUser.fromJson(dynamic json) => BindUser(
     id: json["id"],
-    avatar: json["avatar"],
+    logo: json["logo"],
     nickname: json["nickname"],
     username: json["username"],
     remark: json["remark"],
@@ -28,7 +28,7 @@ class BindUser {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "avatar": avatar,
+    "logo": logo,
     "nickname": nickname,
     "username": username,
     "remark": remark,

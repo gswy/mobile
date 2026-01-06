@@ -67,10 +67,10 @@ class $ChatsTableTable extends ChatsTable
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _avatarMeta = const VerificationMeta('avatar');
+  static const VerificationMeta _logoMeta = const VerificationMeta('logo');
   @override
-  late final GeneratedColumn<String> avatar = GeneratedColumn<String>(
-    'avatar',
+  late final GeneratedColumn<String> logo = GeneratedColumn<String>(
+    'logo',
     aliasedName,
     true,
     type: DriftSqlType.string,
@@ -116,7 +116,7 @@ class $ChatsTableTable extends ChatsTable
     sourceId,
     targetId,
     title,
-    avatar,
+    logo,
     unread,
     message,
     messageAt,
@@ -165,10 +165,10 @@ class $ChatsTableTable extends ChatsTable
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (data.containsKey('avatar')) {
+    if (data.containsKey('logo')) {
       context.handle(
-        _avatarMeta,
-        avatar.isAcceptableOrUnknown(data['avatar']!, _avatarMeta),
+        _logoMeta,
+        logo.isAcceptableOrUnknown(data['logo']!, _logoMeta),
       );
     }
     if (data.containsKey('unread')) {
@@ -228,9 +228,9 @@ class $ChatsTableTable extends ChatsTable
         DriftSqlType.string,
         data['${effectivePrefix}title'],
       )!,
-      avatar: attachedDatabase.typeMapping.read(
+      logo: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}avatar'],
+        data['${effectivePrefix}logo'],
       ),
       unread: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
@@ -276,7 +276,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
   final String title;
 
   /// 对方头像: 可为空头像
-  final String? avatar;
+  final String? logo;
 
   /// 会话未读
   final int unread;
@@ -293,7 +293,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
     required this.sourceId,
     required this.targetId,
     required this.title,
-    this.avatar,
+    this.logo,
     required this.unread,
     required this.message,
     required this.messageAt,
@@ -311,8 +311,8 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
     map['source_id'] = Variable<int>(sourceId);
     map['target_id'] = Variable<int>(targetId);
     map['title'] = Variable<String>(title);
-    if (!nullToAbsent || avatar != null) {
-      map['avatar'] = Variable<String>(avatar);
+    if (!nullToAbsent || logo != null) {
+      map['logo'] = Variable<String>(logo);
     }
     map['unread'] = Variable<int>(unread);
     map['message'] = Variable<String>(message);
@@ -328,9 +328,9 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
       sourceId: Value(sourceId),
       targetId: Value(targetId),
       title: Value(title),
-      avatar: avatar == null && nullToAbsent
+      logo: logo == null && nullToAbsent
           ? const Value.absent()
-          : Value(avatar),
+          : Value(logo),
       unread: Value(unread),
       message: Value(message),
       messageAt: Value(messageAt),
@@ -351,7 +351,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
       sourceId: serializer.fromJson<int>(json['sourceId']),
       targetId: serializer.fromJson<int>(json['targetId']),
       title: serializer.fromJson<String>(json['title']),
-      avatar: serializer.fromJson<String?>(json['avatar']),
+      logo: serializer.fromJson<String?>(json['logo']),
       unread: serializer.fromJson<int>(json['unread']),
       message: serializer.fromJson<String>(json['message']),
       messageAt: serializer.fromJson<int>(json['messageAt']),
@@ -369,7 +369,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
       'sourceId': serializer.toJson<int>(sourceId),
       'targetId': serializer.toJson<int>(targetId),
       'title': serializer.toJson<String>(title),
-      'avatar': serializer.toJson<String?>(avatar),
+      'logo': serializer.toJson<String?>(logo),
       'unread': serializer.toJson<int>(unread),
       'message': serializer.toJson<String>(message),
       'messageAt': serializer.toJson<int>(messageAt),
@@ -383,7 +383,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
     int? sourceId,
     int? targetId,
     String? title,
-    Value<String?> avatar = const Value.absent(),
+    Value<String?> logo = const Value.absent(),
     int? unread,
     String? message,
     int? messageAt,
@@ -394,7 +394,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
     sourceId: sourceId ?? this.sourceId,
     targetId: targetId ?? this.targetId,
     title: title ?? this.title,
-    avatar: avatar.present ? avatar.value : this.avatar,
+    logo: logo.present ? logo.value : this.logo,
     unread: unread ?? this.unread,
     message: message ?? this.message,
     messageAt: messageAt ?? this.messageAt,
@@ -407,7 +407,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
       sourceId: data.sourceId.present ? data.sourceId.value : this.sourceId,
       targetId: data.targetId.present ? data.targetId.value : this.targetId,
       title: data.title.present ? data.title.value : this.title,
-      avatar: data.avatar.present ? data.avatar.value : this.avatar,
+      logo: data.logo.present ? data.logo.value : this.logo,
       unread: data.unread.present ? data.unread.value : this.unread,
       message: data.message.present ? data.message.value : this.message,
       messageAt: data.messageAt.present ? data.messageAt.value : this.messageAt,
@@ -423,7 +423,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
           ..write('sourceId: $sourceId, ')
           ..write('targetId: $targetId, ')
           ..write('title: $title, ')
-          ..write('avatar: $avatar, ')
+          ..write('logo: $logo, ')
           ..write('unread: $unread, ')
           ..write('message: $message, ')
           ..write('messageAt: $messageAt')
@@ -439,7 +439,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
     sourceId,
     targetId,
     title,
-    avatar,
+    logo,
     unread,
     message,
     messageAt,
@@ -454,7 +454,7 @@ class ChatsTableData extends DataClass implements Insertable<ChatsTableData> {
           other.sourceId == this.sourceId &&
           other.targetId == this.targetId &&
           other.title == this.title &&
-          other.avatar == this.avatar &&
+          other.logo == this.logo &&
           other.unread == this.unread &&
           other.message == this.message &&
           other.messageAt == this.messageAt);
@@ -467,7 +467,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
   final Value<int> sourceId;
   final Value<int> targetId;
   final Value<String> title;
-  final Value<String?> avatar;
+  final Value<String?> logo;
   final Value<int> unread;
   final Value<String> message;
   final Value<int> messageAt;
@@ -479,7 +479,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     this.sourceId = const Value.absent(),
     this.targetId = const Value.absent(),
     this.title = const Value.absent(),
-    this.avatar = const Value.absent(),
+    this.logo = const Value.absent(),
     this.unread = const Value.absent(),
     this.message = const Value.absent(),
     this.messageAt = const Value.absent(),
@@ -492,7 +492,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     required int sourceId,
     required int targetId,
     required String title,
-    this.avatar = const Value.absent(),
+    this.logo = const Value.absent(),
     this.unread = const Value.absent(),
     required String message,
     required int messageAt,
@@ -511,7 +511,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     Expression<int>? sourceId,
     Expression<int>? targetId,
     Expression<String>? title,
-    Expression<String>? avatar,
+    Expression<String>? logo,
     Expression<int>? unread,
     Expression<String>? message,
     Expression<int>? messageAt,
@@ -524,7 +524,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
       if (sourceId != null) 'source_id': sourceId,
       if (targetId != null) 'target_id': targetId,
       if (title != null) 'title': title,
-      if (avatar != null) 'avatar': avatar,
+      if (logo != null) 'logo': logo,
       if (unread != null) 'unread': unread,
       if (message != null) 'message': message,
       if (messageAt != null) 'message_at': messageAt,
@@ -539,7 +539,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     Value<int>? sourceId,
     Value<int>? targetId,
     Value<String>? title,
-    Value<String?>? avatar,
+    Value<String?>? logo,
     Value<int>? unread,
     Value<String>? message,
     Value<int>? messageAt,
@@ -552,7 +552,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
       sourceId: sourceId ?? this.sourceId,
       targetId: targetId ?? this.targetId,
       title: title ?? this.title,
-      avatar: avatar ?? this.avatar,
+      logo: logo ?? this.logo,
       unread: unread ?? this.unread,
       message: message ?? this.message,
       messageAt: messageAt ?? this.messageAt,
@@ -583,8 +583,8 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
-    if (avatar.present) {
-      map['avatar'] = Variable<String>(avatar.value);
+    if (logo.present) {
+      map['logo'] = Variable<String>(logo.value);
     }
     if (unread.present) {
       map['unread'] = Variable<int>(unread.value);
@@ -610,7 +610,7 @@ class ChatsTableCompanion extends UpdateCompanion<ChatsTableData> {
           ..write('sourceId: $sourceId, ')
           ..write('targetId: $targetId, ')
           ..write('title: $title, ')
-          ..write('avatar: $avatar, ')
+          ..write('logo: $logo, ')
           ..write('unread: $unread, ')
           ..write('message: $message, ')
           ..write('messageAt: $messageAt, ')
@@ -673,10 +673,10 @@ class $InfosTableTable extends InfosTable
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _avatarMeta = const VerificationMeta('avatar');
+  static const VerificationMeta _logoMeta = const VerificationMeta('logo');
   @override
-  late final GeneratedColumn<String> avatar = GeneratedColumn<String>(
-    'avatar',
+  late final GeneratedColumn<String> logo = GeneratedColumn<String>(
+    'logo',
     aliasedName,
     true,
     type: DriftSqlType.string,
@@ -743,7 +743,7 @@ class $InfosTableTable extends InfosTable
     clientId,
     type,
     userId,
-    avatar,
+    logo,
     nickname,
     unread,
     status,
@@ -786,10 +786,10 @@ class $InfosTableTable extends InfosTable
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
-    if (data.containsKey('avatar')) {
+    if (data.containsKey('logo')) {
       context.handle(
-        _avatarMeta,
-        avatar.isAcceptableOrUnknown(data['avatar']!, _avatarMeta),
+        _logoMeta,
+        logo.isAcceptableOrUnknown(data['logo']!, _logoMeta),
       );
     }
     if (data.containsKey('nickname')) {
@@ -863,9 +863,9 @@ class $InfosTableTable extends InfosTable
         DriftSqlType.int,
         data['${effectivePrefix}user_id'],
       )!,
-      avatar: attachedDatabase.typeMapping.read(
+      logo: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}avatar'],
+        data['${effectivePrefix}logo'],
       ),
       nickname: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -916,7 +916,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
   final int userId;
 
   /// 发送头像
-  final String? avatar;
+  final String? logo;
 
   /// 发送昵称
   final String nickname;
@@ -938,7 +938,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     required this.clientId,
     required this.type,
     required this.userId,
-    this.avatar,
+    this.logo,
     required this.nickname,
     required this.unread,
     required this.status,
@@ -957,8 +957,8 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
       map['type'] = Variable<int>($InfosTableTable.$convertertype.toSql(type));
     }
     map['user_id'] = Variable<int>(userId);
-    if (!nullToAbsent || avatar != null) {
-      map['avatar'] = Variable<String>(avatar);
+    if (!nullToAbsent || logo != null) {
+      map['logo'] = Variable<String>(logo);
     }
     map['nickname'] = Variable<String>(nickname);
     map['unread'] = Variable<bool>(unread);
@@ -975,9 +975,9 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
       clientId: Value(clientId),
       type: Value(type),
       userId: Value(userId),
-      avatar: avatar == null && nullToAbsent
+      logo: logo == null && nullToAbsent
           ? const Value.absent()
-          : Value(avatar),
+          : Value(logo),
       nickname: Value(nickname),
       unread: Value(unread),
       status: Value(status),
@@ -999,7 +999,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
         serializer.fromJson<int>(json['type']),
       ),
       userId: serializer.fromJson<int>(json['userId']),
-      avatar: serializer.fromJson<String?>(json['avatar']),
+      logo: serializer.fromJson<String?>(json['logo']),
       nickname: serializer.fromJson<String>(json['nickname']),
       unread: serializer.fromJson<bool>(json['unread']),
       status: serializer.fromJson<int>(json['status']),
@@ -1018,7 +1018,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
         $InfosTableTable.$convertertype.toJson(type),
       ),
       'userId': serializer.toJson<int>(userId),
-      'avatar': serializer.toJson<String?>(avatar),
+      'logo': serializer.toJson<String?>(logo),
       'nickname': serializer.toJson<String>(nickname),
       'unread': serializer.toJson<bool>(unread),
       'status': serializer.toJson<int>(status),
@@ -1033,7 +1033,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     String? clientId,
     InfoType? type,
     int? userId,
-    Value<String?> avatar = const Value.absent(),
+    Value<String?> logo = const Value.absent(),
     String? nickname,
     bool? unread,
     int? status,
@@ -1045,7 +1045,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     clientId: clientId ?? this.clientId,
     type: type ?? this.type,
     userId: userId ?? this.userId,
-    avatar: avatar.present ? avatar.value : this.avatar,
+    logo: logo.present ? logo.value : this.logo,
     nickname: nickname ?? this.nickname,
     unread: unread ?? this.unread,
     status: status ?? this.status,
@@ -1059,7 +1059,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
       clientId: data.clientId.present ? data.clientId.value : this.clientId,
       type: data.type.present ? data.type.value : this.type,
       userId: data.userId.present ? data.userId.value : this.userId,
-      avatar: data.avatar.present ? data.avatar.value : this.avatar,
+      logo: data.logo.present ? data.logo.value : this.logo,
       nickname: data.nickname.present ? data.nickname.value : this.nickname,
       unread: data.unread.present ? data.unread.value : this.unread,
       status: data.status.present ? data.status.value : this.status,
@@ -1076,7 +1076,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
           ..write('clientId: $clientId, ')
           ..write('type: $type, ')
           ..write('userId: $userId, ')
-          ..write('avatar: $avatar, ')
+          ..write('logo: $logo, ')
           ..write('nickname: $nickname, ')
           ..write('unread: $unread, ')
           ..write('status: $status, ')
@@ -1093,7 +1093,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
     clientId,
     type,
     userId,
-    avatar,
+    logo,
     nickname,
     unread,
     status,
@@ -1109,7 +1109,7 @@ class InfosTableData extends DataClass implements Insertable<InfosTableData> {
           other.clientId == this.clientId &&
           other.type == this.type &&
           other.userId == this.userId &&
-          other.avatar == this.avatar &&
+          other.logo == this.logo &&
           other.nickname == this.nickname &&
           other.unread == this.unread &&
           other.status == this.status &&
@@ -1123,7 +1123,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
   final Value<String> clientId;
   final Value<InfoType> type;
   final Value<int> userId;
-  final Value<String?> avatar;
+  final Value<String?> logo;
   final Value<String> nickname;
   final Value<bool> unread;
   final Value<int> status;
@@ -1136,7 +1136,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     this.clientId = const Value.absent(),
     this.type = const Value.absent(),
     this.userId = const Value.absent(),
-    this.avatar = const Value.absent(),
+    this.logo = const Value.absent(),
     this.nickname = const Value.absent(),
     this.unread = const Value.absent(),
     this.status = const Value.absent(),
@@ -1150,7 +1150,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     required String clientId,
     required InfoType type,
     required int userId,
-    this.avatar = const Value.absent(),
+    this.logo = const Value.absent(),
     required String nickname,
     required bool unread,
     required int status,
@@ -1172,7 +1172,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     Expression<String>? clientId,
     Expression<int>? type,
     Expression<int>? userId,
-    Expression<String>? avatar,
+    Expression<String>? logo,
     Expression<String>? nickname,
     Expression<bool>? unread,
     Expression<int>? status,
@@ -1186,7 +1186,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
       if (clientId != null) 'client_id': clientId,
       if (type != null) 'type': type,
       if (userId != null) 'user_id': userId,
-      if (avatar != null) 'avatar': avatar,
+      if (logo != null) 'logo': logo,
       if (nickname != null) 'nickname': nickname,
       if (unread != null) 'unread': unread,
       if (status != null) 'status': status,
@@ -1202,7 +1202,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     Value<String>? clientId,
     Value<InfoType>? type,
     Value<int>? userId,
-    Value<String?>? avatar,
+    Value<String?>? logo,
     Value<String>? nickname,
     Value<bool>? unread,
     Value<int>? status,
@@ -1216,7 +1216,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
       clientId: clientId ?? this.clientId,
       type: type ?? this.type,
       userId: userId ?? this.userId,
-      avatar: avatar ?? this.avatar,
+      logo: logo ?? this.logo,
       nickname: nickname ?? this.nickname,
       unread: unread ?? this.unread,
       status: status ?? this.status,
@@ -1246,8 +1246,8 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
     if (userId.present) {
       map['user_id'] = Variable<int>(userId.value);
     }
-    if (avatar.present) {
-      map['avatar'] = Variable<String>(avatar.value);
+    if (logo.present) {
+      map['logo'] = Variable<String>(logo.value);
     }
     if (nickname.present) {
       map['nickname'] = Variable<String>(nickname.value);
@@ -1278,7 +1278,7 @@ class InfosTableCompanion extends UpdateCompanion<InfosTableData> {
           ..write('clientId: $clientId, ')
           ..write('type: $type, ')
           ..write('userId: $userId, ')
-          ..write('avatar: $avatar, ')
+          ..write('logo: $logo, ')
           ..write('nickname: $nickname, ')
           ..write('unread: $unread, ')
           ..write('status: $status, ')
@@ -1311,7 +1311,7 @@ typedef $$ChatsTableTableCreateCompanionBuilder =
       required int sourceId,
       required int targetId,
       required String title,
-      Value<String?> avatar,
+      Value<String?> logo,
       Value<int> unread,
       required String message,
       required int messageAt,
@@ -1325,7 +1325,7 @@ typedef $$ChatsTableTableUpdateCompanionBuilder =
       Value<int> sourceId,
       Value<int> targetId,
       Value<String> title,
-      Value<String?> avatar,
+      Value<String?> logo,
       Value<int> unread,
       Value<String> message,
       Value<int> messageAt,
@@ -1372,8 +1372,8 @@ class $$ChatsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get avatar => $composableBuilder(
-    column: $table.avatar,
+  ColumnFilters<String> get logo => $composableBuilder(
+    column: $table.logo,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1432,8 +1432,8 @@ class $$ChatsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get avatar => $composableBuilder(
-    column: $table.avatar,
+  ColumnOrderings<String> get logo => $composableBuilder(
+    column: $table.logo,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1480,8 +1480,8 @@ class $$ChatsTableTableAnnotationComposer
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
 
-  GeneratedColumn<String> get avatar =>
-      $composableBuilder(column: $table.avatar, builder: (column) => column);
+  GeneratedColumn<String> get logo =>
+      $composableBuilder(column: $table.logo, builder: (column) => column);
 
   GeneratedColumn<int> get unread =>
       $composableBuilder(column: $table.unread, builder: (column) => column);
@@ -1530,7 +1530,7 @@ class $$ChatsTableTableTableManager
                 Value<int> sourceId = const Value.absent(),
                 Value<int> targetId = const Value.absent(),
                 Value<String> title = const Value.absent(),
-                Value<String?> avatar = const Value.absent(),
+                Value<String?> logo = const Value.absent(),
                 Value<int> unread = const Value.absent(),
                 Value<String> message = const Value.absent(),
                 Value<int> messageAt = const Value.absent(),
@@ -1542,7 +1542,7 @@ class $$ChatsTableTableTableManager
                 sourceId: sourceId,
                 targetId: targetId,
                 title: title,
-                avatar: avatar,
+                logo: logo,
                 unread: unread,
                 message: message,
                 messageAt: messageAt,
@@ -1556,7 +1556,7 @@ class $$ChatsTableTableTableManager
                 required int sourceId,
                 required int targetId,
                 required String title,
-                Value<String?> avatar = const Value.absent(),
+                Value<String?> logo = const Value.absent(),
                 Value<int> unread = const Value.absent(),
                 required String message,
                 required int messageAt,
@@ -1568,7 +1568,7 @@ class $$ChatsTableTableTableManager
                 sourceId: sourceId,
                 targetId: targetId,
                 title: title,
-                avatar: avatar,
+                logo: logo,
                 unread: unread,
                 message: message,
                 messageAt: messageAt,
@@ -1606,7 +1606,7 @@ typedef $$InfosTableTableCreateCompanionBuilder =
       required String clientId,
       required InfoType type,
       required int userId,
-      Value<String?> avatar,
+      Value<String?> logo,
       required String nickname,
       required bool unread,
       required int status,
@@ -1621,7 +1621,7 @@ typedef $$InfosTableTableUpdateCompanionBuilder =
       Value<String> clientId,
       Value<InfoType> type,
       Value<int> userId,
-      Value<String?> avatar,
+      Value<String?> logo,
       Value<String> nickname,
       Value<bool> unread,
       Value<int> status,
@@ -1665,8 +1665,8 @@ class $$InfosTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get avatar => $composableBuilder(
-    column: $table.avatar,
+  ColumnFilters<String> get logo => $composableBuilder(
+    column: $table.logo,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1730,8 +1730,8 @@ class $$InfosTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get avatar => $composableBuilder(
-    column: $table.avatar,
+  ColumnOrderings<String> get logo => $composableBuilder(
+    column: $table.logo,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1785,8 +1785,8 @@ class $$InfosTableTableAnnotationComposer
   GeneratedColumn<int> get userId =>
       $composableBuilder(column: $table.userId, builder: (column) => column);
 
-  GeneratedColumn<String> get avatar =>
-      $composableBuilder(column: $table.avatar, builder: (column) => column);
+  GeneratedColumn<String> get logo =>
+      $composableBuilder(column: $table.logo, builder: (column) => column);
 
   GeneratedColumn<String> get nickname =>
       $composableBuilder(column: $table.nickname, builder: (column) => column);
@@ -1840,7 +1840,7 @@ class $$InfosTableTableTableManager
                 Value<String> clientId = const Value.absent(),
                 Value<InfoType> type = const Value.absent(),
                 Value<int> userId = const Value.absent(),
-                Value<String?> avatar = const Value.absent(),
+                Value<String?> logo = const Value.absent(),
                 Value<String> nickname = const Value.absent(),
                 Value<bool> unread = const Value.absent(),
                 Value<int> status = const Value.absent(),
@@ -1853,7 +1853,7 @@ class $$InfosTableTableTableManager
                 clientId: clientId,
                 type: type,
                 userId: userId,
-                avatar: avatar,
+                logo: logo,
                 nickname: nickname,
                 unread: unread,
                 status: status,
@@ -1868,7 +1868,7 @@ class $$InfosTableTableTableManager
                 required String clientId,
                 required InfoType type,
                 required int userId,
-                Value<String?> avatar = const Value.absent(),
+                Value<String?> logo = const Value.absent(),
                 required String nickname,
                 required bool unread,
                 required int status,
@@ -1881,7 +1881,7 @@ class $$InfosTableTableTableManager
                 clientId: clientId,
                 type: type,
                 userId: userId,
-                avatar: avatar,
+                logo: logo,
                 nickname: nickname,
                 unread: unread,
                 status: status,

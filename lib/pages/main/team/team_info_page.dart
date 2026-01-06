@@ -79,7 +79,7 @@ class TeamInfoPage extends GetView<InfoCtrl> {
             spacing: 14,
             children: [
               UserLogo(
-                url: team!.avatar,
+                url: team!.logo,
                 name: team.name,
                 onTap: () {
                   if (team.join && (team.role == 0 || team.role == 1)) {
@@ -205,7 +205,7 @@ class TeamInfoPage extends GetView<InfoCtrl> {
                             AspectRatio(
                               aspectRatio: 1,
                               child: UserLogo(
-                                url: user.avatar,
+                                url: user.logo,
                                 name: user.nickname,
                                 radio: 8,
                               ),

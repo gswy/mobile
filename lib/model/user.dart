@@ -3,7 +3,7 @@ class User {
   final int id;
 
   /// 用户头像
-  final String avatar;
+  final String logo;
 
   /// 用户昵称
   final String nickname;
@@ -22,7 +22,7 @@ class User {
 
   User({
     required this.id,
-    required this.avatar,
+    required this.logo,
     required this.nickname,
     required this.username,
     required this.phone,
@@ -33,7 +33,7 @@ class User {
   /// json转换
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
-    avatar: json["avatar"],
+    logo: json["logo"],
     nickname: json["nickname"],
     username: json["username"],
     phone: json["phone"],

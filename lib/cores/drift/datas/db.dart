@@ -14,8 +14,4 @@ class DB {
 
   static final dao = DriftModel(_db);
 
-  static void test() {
-
-  }
-
 }

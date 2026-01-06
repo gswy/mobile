@@ -5,7 +5,7 @@ class Mate {
   final int id;
 
   /// 好友头像
-  final String avatar;
+  final String logo;
 
   /// 好友昵称
   final String nickname;
@@ -19,7 +19,7 @@ class Mate {
   /// 好友列表
   Mate({
     required this.id,
-    required this.avatar,
+    required this.logo,
     required this.nickname,
     required this.username,
     required this.createdAt,
@@ -35,7 +35,7 @@ class MateList {
   final String index;
 
   /// 我的标识
-  final String? avatar;
+  final String? logo;
 
   /// 好友昵称
   final String nickname;
@@ -43,7 +43,7 @@ class MateList {
   MateList({
     required this.id,
     required this.index,
-    required this.avatar,
+    required this.logo,
     required this.nickname,
   });
 
@@ -51,7 +51,7 @@ class MateList {
   factory MateList.fromJson(Map<String, dynamic> json) => MateList(
     id: json["id"],
     index: json["index"],
-    avatar: json["avatar"],
+    logo: json["logo"],
     nickname: json["nickname"],
   );
 }

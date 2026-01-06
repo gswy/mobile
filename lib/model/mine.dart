@@ -3,14 +3,14 @@ class Mine {
   final int id;
   final String nickname;
   final String username;
-  final String? avatar;
+  final String? logo;
   final String createdAt;
 
   Mine({
     required this.id,
     required this.nickname,
     required this.username,
-    this.avatar,
+    this.logo,
     required this.createdAt,
   });
 
@@ -19,7 +19,7 @@ class Mine {
     id: json["id"],
     nickname: json["nickname"],
     username: json["username"],
-    avatar: json["avatar"],
+    logo: json["logo"],
     createdAt: json["createdAt"],
   );
 

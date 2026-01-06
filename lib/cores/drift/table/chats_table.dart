@@ -27,7 +27,7 @@ class ChatsTable extends Table {
   TextColumn get title => text()();
 
   /// 对方头像: 可为空头像
-  TextColumn get avatar => text().nullable()();
+  TextColumn get logo => text().nullable()();
 
   /// 会话未读
   IntColumn get unread => integer().withDefault(const Constant(0))();

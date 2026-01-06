@@ -3,10 +3,13 @@ import 'package:app/cores/bases/base_ctrl.dart';
 import 'package:app/cores/utils/host_util.dart';
 import 'package:app/cores/utils/sign_util.dart';
 import 'package:app/datas/http/apis/conf_apis.dart';
+import 'package:app/datas/http/apis/like_apis.dart';
 import 'package:app/datas/http/apis/mine_apis.dart';
 import 'package:app/datas/serv/conn_serv.dart';
 import 'package:app/model/conf.dart';
+import 'package:app/model/like.dart';
 import 'package:app/route/base/base_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,7 +24,7 @@ class ConfCtrl extends BaseCtrl {
   final picker = ImagePicker();
 
   /// ------------- 我的资料 ---------------
-  Future<void> avatar() async {
+  Future<void> logo() async {
     try {
       final file = await picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
       if (file == null) return;
@@ -40,22 +43,20 @@ class ConfCtrl extends BaseCtrl {
 
 
   /// ------------- 收藏管理 ---------------
-  final likeList = <LikeItem>[].obs;
+  final likeList = <LikeList>[].obs;
+  final likePage = 1.obs;
+  final likeScroll = ScrollController();
   Future<void> initLike() async {
     loading.value = true;
-    Future.delayed(const Duration(seconds: 2), () {
-      likeList.value = [
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定约定您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-        LikeItem(title: '测试收藏', value: '您好，您是倪福胜在【宜享花】办理业务预留的紧急联系人，现在没有按照约定处理且本人失联，后续可能安排调查人员核实情况，烦请转告，谢谢！'),
-      ];
+    try {
+      final res = await LikeApis.getLikePage();
+      likeList.value = res.data;
+      message.value = '';
+    } catch (_) {
+      message.value = '加载失败';
+    } finally {
       loading.value = false;
-    });
+    }
   }
 
   /// ------------- 设备管理 ---------------

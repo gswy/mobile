@@ -23,7 +23,7 @@ class Chat {
   String title;
 
   /// 会话头像
-  String? avatar;
+  String? logo;
 
   /// 未读数量
   int unread;
@@ -41,7 +41,7 @@ class Chat {
     required this.targetId,
     required this.sourceId,
     required this.title,
-    required this.avatar,
+    required this.logo,
     required this.unread,
     required this.message,
     required this.messageAt,
@@ -56,7 +56,7 @@ class Chat {
     targetId: json['targetId'],
     sourceId: json['sourceId'],
     title: json['title'],
-    avatar: json['avatar'],
+    logo: json['logo'],
     unread: json['unread'],
     message: json['message'],
     messageAt: json['messageAt'],

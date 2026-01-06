@@ -25,7 +25,7 @@ class InfosTable extends Table {
   IntColumn get userId => integer()();
 
   /// 发送头像
-  TextColumn get avatar => text().nullable()();
+  TextColumn get logo => text().nullable()();
 
   /// 发送昵称
   TextColumn get nickname => text()();

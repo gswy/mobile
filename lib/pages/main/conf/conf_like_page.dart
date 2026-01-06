@@ -21,6 +21,7 @@ class ConfLikePage extends GetView<ConfCtrl> {
             message: controller.message.value,
             builder: (_) {
               return ListView.builder(
+                controller: controller.likeScroll,
                 padding: EdgeInsets.all(14),
                 itemBuilder: _list,
                 itemCount: controller.likeList.length,
@@ -44,11 +45,11 @@ class ConfLikePage extends GetView<ConfCtrl> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(controller.likeList[index].title),
+              Text(controller.likeList[index].name),
               Text('2025-12-16 17:49:23', style: TextStyle(fontSize: 12)),
             ],
           ),
-          subtitle: Text(controller.likeList[index].value),
+          subtitle: Text(controller.likeList[index].body),
         ),
       ),
     );
