@@ -5,7 +5,7 @@ import 'package:app/cores/utils/chat_util.dart';
 import 'package:app/cores/utils/date_util.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/views/user_logo.dart';
-import 'package:app/ctrls/main/chat_ctrl.dart';
+import 'package:app/ctrls/main/home/chat_ctrl.dart';
 import 'package:app/model/chat.dart';
 import 'package:app/route/main/main_route.dart';
 import 'package:flutter/material.dart';

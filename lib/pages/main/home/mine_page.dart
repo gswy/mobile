@@ -2,7 +2,7 @@ import 'package:app/cores/bases/base_auth.dart';
 import 'package:app/cores/bases/base_view.dart';
 import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/cores/views/user_logo.dart';
-import 'package:app/ctrls/main/mine_ctrl.dart';
+import 'package:app/ctrls/main/home/mine_ctrl.dart';
 import 'package:app/route/comm/comm_route.dart';
 
 import 'package:flutter/material.dart';

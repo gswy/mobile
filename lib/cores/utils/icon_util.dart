@@ -33,6 +33,9 @@ class IconUtil {
   /// 密码（隐藏）
   static const IconData passHide = IconData(0xf070, fontFamily: _iconLine);
 
+  /// 企业
+  static const IconData work = IconData(0xe61e, fontFamily: _iconLine);
+
   /// 聊天
   static const IconData chat = IconData(0xf086, fontFamily: _iconLine);
 
@@ -144,6 +147,9 @@ class IconUtil {
   static const IconData confAuth = IconData(0xf08b, fontFamily: _iconLine);
 
   /// ------------- 实心图标 ----------------
+
+  /// 企业
+  static const IconData workFull = IconData(0xe61e, fontFamily: _iconFull);
 
   /// 聊天
   static const IconData chatFull = IconData(0xf086, fontFamily: _iconFull);

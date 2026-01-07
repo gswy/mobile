@@ -6,6 +6,7 @@ import 'package:app/cores/utils/icon_util.dart';
 import 'package:app/pages/main/home/chat_page.dart';
 import 'package:app/pages/main/home/mate_page.dart';
 import 'package:app/pages/main/home/mine_page.dart';
+import 'package:app/pages/main/home/work_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,13 @@ class HomeCtrl extends BaseCtrl {
 
   /// 导航列表
   final pages = [
+    Menu(
+      num: 0,
+      name: '企业',
+      line: IconUtil.work,
+      full: IconUtil.workFull,
+      page: WorkPage(),
+    ),
     Menu(
       num: 0,
       name: '聊天',
