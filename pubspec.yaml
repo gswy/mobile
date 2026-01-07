@@ -132,7 +132,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
-  # Hive生成: https://pub.dev/packages/build_runner/install
+  # 生成: https://pub.dev/packages/build_runner/install
   build_runner: ^2.10.4
 
   # drift 开发支持: https://pub.dev/packages/drift_dev
