@@ -139,12 +139,12 @@ class WorkPage extends GetView<WorkCtrl> {
   /// 宫格菜单
   Widget _menu(BuildContext context) {
     final List<Map<String, dynamic>> menu = [
-      {'name': '公告', 'icon': IconUtil.workBellFull},
-      {'name': '任务', 'icon': IconUtil.workTaskFull},
-      {'name': '文件', 'icon': IconUtil.workFileFull},
-      {'name': '审批', 'icon': IconUtil.workExamFull},
-      {'name': '上报', 'icon': IconUtil.workExamFull},
-      {'name': '签到', 'icon': IconUtil.workSignFull},
+      {'name': '公告', 'icon': IconUtil.workBellFull, 'route': ''},
+      {'name': '任务', 'icon': IconUtil.workTaskFull, 'route': ''},
+      {'name': '文件', 'icon': IconUtil.workFileFull, 'route': ''},
+      {'name': '审批', 'icon': IconUtil.workExamFull, 'route': ''},
+      {'name': '上报', 'icon': IconUtil.workExamFull, 'route': ''},
+      {'name': '签到', 'icon': IconUtil.workSignFull, 'route': ''},
     ];
 
     return LayoutBuilder(
@@ -164,7 +164,7 @@ class WorkPage extends GetView<WorkCtrl> {
               runSpacing: spacing,
               children: menu
                   .map(
-                    (it) => _menuItem(context, width, it['name'], it['icon']),
+                    (it) => _menuItem(context, width, it['name'], it['icon'], it['route']),
                   )
                   .toList(),
             ),
@@ -180,32 +180,38 @@ class WorkPage extends GetView<WorkCtrl> {
     double width,
     String name,
     IconData icon,
+    String route,
   ) {
     final scheme = Theme.of(context).colorScheme;
-    return SizedBox(
-      width: width,
-      child: Column(
-        spacing: 4,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: width * 0.6,
-            height: width * 0.5,
-            decoration: BoxDecoration(
-              color: scheme.primaryContainer,
-              borderRadius: BorderRadius.circular(8),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(route);
+      },
+      child: SizedBox(
+        width: width,
+        child: Column(
+          spacing: 4,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: width * 0.6,
+              height: width * 0.5,
+              decoration: BoxDecoration(
+                color: scheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, size: 22, color: scheme.onPrimaryContainer),
             ),
-            child: Icon(icon, size: 22, color: scheme.onPrimaryContainer),
-          ),
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: scheme.secondary,
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: scheme.secondary,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
