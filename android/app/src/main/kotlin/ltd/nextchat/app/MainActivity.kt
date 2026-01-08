@@ -1,4 +1,4 @@
-package ltd.nextchat.app
+package ltd.nextwork.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -15,6 +15,7 @@ class HomePage extends BaseView<HomeCtrl> {
       return Scaffold(
         body: controller.page,
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: controller.index.value,
           onTap: controller.select,
           elevation: 8,

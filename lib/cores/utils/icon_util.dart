@@ -188,4 +188,29 @@ class IconUtil {
   /// 视频（房间）
   static const IconData videosFull = IconData(0xf87c, fontFamily: _iconFull);
 
+
+
+
+
+
+  /// 任务
+  static const IconData workTaskFull = IconData(0xf87c, fontFamily: _iconFull);
+
+  /// 公告
+  static const IconData workBellFull = IconData(0xf0f3, fontFamily: _iconFull);
+
+  /// 文件
+  static const IconData workFileFull = IconData(0xf0c2, fontFamily: _iconFull);
+
+  /// 审批
+  static const IconData workExamFull = IconData(0xf044, fontFamily: _iconFull);
+
+  /// 上报
+  static const IconData workPostFull = IconData(0xf5fd, fontFamily: _iconFull);
+
+  /// 签到
+  static const IconData workSignFull = IconData(0xf274, fontFamily: _iconFull);
+
+  /// 工单
+
 }

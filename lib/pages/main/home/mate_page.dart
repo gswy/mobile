@@ -16,7 +16,7 @@ class MatePage extends BaseView<MateCtrl> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("通讯录"),
+        title: const Text("通讯"),
         actions: [
           IconButton(
             onPressed: () {

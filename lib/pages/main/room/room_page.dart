@@ -73,7 +73,7 @@ class RoomPage extends BaseView<RoomCtrl> {
               if (box == null) return;
               final rect = box.localToGlobal(Offset.zero) & box.size;
               final inside = rect.contains(details.globalPosition);
-              controller.cancelOnRelease.value = !inside; // 滑出=取消
+              controller.cancelOnRelease.value = !inside;
             },
             onLongPressEnd: (_) async {
               // 松开：根据 cancelOnRelease 决定发/丢

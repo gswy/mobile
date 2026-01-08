@@ -10,7 +10,7 @@ class BaseLogo extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'NovaChat',
+          'NextWork',
           style: TextStyle(
             fontSize: 68,
             fontWeight: FontWeight.w500,
@@ -20,7 +20,7 @@ class BaseLogo extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
-          '保持联系，随时实地',
+          '让工作更高效，让协作更简单',
           style: TextStyle(
             fontSize: 16,
             color: Theme.of(context).colorScheme.secondary,

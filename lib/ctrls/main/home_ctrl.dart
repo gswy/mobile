@@ -26,7 +26,7 @@ class HomeCtrl extends BaseCtrl {
   final pages = [
     Menu(
       num: 0,
-      name: '企业',
+      name: '工作',
       line: IconUtil.work,
       full: IconUtil.workFull,
       page: WorkPage(),
@@ -40,7 +40,7 @@ class HomeCtrl extends BaseCtrl {
     ),
     Menu(
       num: 0,
-      name: '通讯录',
+      name: '通讯',
       line: IconUtil.mate,
       full: IconUtil.mateFull,
       page: MatePage(),
